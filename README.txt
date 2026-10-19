@@ -8,10 +8,10 @@ Each page is sealed: its content is encrypted and opens only with its own word.
 The words above are TEMPORARY. Change them before sending to guests.
 
 Links to send (the word rides in the link, so guests just tap):
-  https://<user>.github.io/<repo>/w/#k=nikah2026
-  https://<user>.github.io/<repo>/5lkjfr/#k=haldi2026
-  https://<user>.github.io/<repo>/72m3dw/#k=mehndi2026
-After the Cloudflare domain is connected, replace "<user>.github.io/<repo>" with the domain.
+  https://alishaadil.com/w/#k=nikah2026
+  https://alishaadil.com/5lkjfr/#k=haldi2026
+  https://alishaadil.com/72m3dw/#k=mehndi2026
+Domain: alishaadil.com (CNAME file in this repo). Until DNS is live, the same paths work under https://acifer.github.io/alishaadil-marriage-card/
 
 Publish: repo Settings -> Pages -> Deploy from a branch -> main / (root).
 Custom domain later: Settings -> Pages -> Custom domain (this adds a CNAME file), then the DNS records at Cloudflare.
