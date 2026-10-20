@@ -11,9 +11,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <title>Alisha &amp; Aadil</title>
 <link rel="stylesheet" href="a/f-latin.42c892a840de.css">
-<link rel="stylesheet" href="a/f-urdu.da052cdb3586.css">
 <style>
-
 :root{--ground:#1B2F6E;--gold:#CFAE72;--c:#CFAE72;--ivory:#F2E9D6;--quiet:#C3BBA6;--line:rgba(207,174,114,.3);--ink:cubic-bezier(.45,0,.2,1)}
 *{box-sizing:border-box}[hidden]{display:none!important}
 html,body{margin:0;background:var(--ground);transition:background-color 2.4s var(--ink)}
@@ -45,15 +43,26 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
   font:italic 400 19px 'Cormorant Garamond',Georgia,serif;color:var(--ivory);text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:1px;text-underline-offset:5px}
 .links .lsep{width:7px;height:7px;opacity:.7}.links .lsep path{fill:var(--gold)}
 /* the way in */
-.door{display:flex;flex-direction:column;align-items:center;margin:34px auto 0;padding:8px 18px 6px;text-decoration:none;color:inherit;cursor:pointer;border-radius:4px}
-.door .ur{font:400 30px/1.9 'Gulzar Door',serif;color:var(--gold);direction:rtl}
-.door .en{margin-top:-2px;font:italic 400 18px 'Cormorant Garamond',Georgia,serif;color:var(--quiet)}
-.door .dot{width:32px;height:32px;margin-top:16px;overflow:visible}
+/* the one thing to tap: the words, underlined by a pen stroke that thickens from nothing and ends in the nuqta.
+   On arrival the stroke is drawn once and the nuqta set at its end; later a faint ring breathes from the nuqta. */
+.door{position:relative;display:flex;flex-direction:column;align-items:center;width:max-content;max-width:100%;margin:40px auto 0;padding:12px 8px 10px;
+  text-decoration:none;color:var(--ivory);cursor:pointer;border-radius:4px}
+.door .t{font:italic 400 32px/1.15 'Cormorant Garamond',Georgia,serif;letter-spacing:.005em;color:var(--ivory);transition:color .3s}
+.door .rule{display:flex;align-items:center;align-self:stretch;margin-top:10px}
+.door .rule i{flex:1;height:1.5px;border-radius:1px;background:linear-gradient(90deg,transparent,var(--gold) 45%);transform-origin:0 50%;
+  animation:draw 1.1s var(--ink) .5s both}
+.door .dot{width:22px;height:22px;margin-left:5px;flex:none;overflow:visible;animation:place .5s cubic-bezier(.2,.7,.3,1) 1.5s both}
+@keyframes draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes place{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:none}}
 .door .dot path{fill:var(--gold);transition:fill .3s}
+.door:hover .t,.door:focus-visible .t{color:#fff}
+.door:active .dot{transform:scale(.88)}
+@media (min-width:700px){.door .t{font-size:36px}}
 .door .dot .halo{fill:none;stroke:var(--gold);stroke-width:.7;opacity:0;transform-origin:0 0}
 @keyframes halo{0%{opacity:0;transform:scale(1)}15%{opacity:.55}100%{opacity:0;transform:scale(2.6)}}
 .door.hint .halo{animation:halo 2.6s cubic-bezier(.2,.6,.3,1) infinite}
 .door:hover .dot path:not(.halo){fill:#E2C891}
+.logo{cursor:pointer}
 .rs{margin-top:24px;text-align:center}.rs .links{margin-top:0}
 .reply{margin:-6px 0 0;font-size:13.5px;color:var(--quiet);opacity:.85}
 #ink{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9;display:none}
@@ -113,7 +122,7 @@ textarea{min-height:92px;resize:vertical}
 </form></div>
 <script>
 (function(){
-var SALT="VdJPI9IJv8M+BeMLk8gGWA==",ITER=300000,SLOT="aa-inv-home",PIECES=[{"z": "p/b863875bb148.z.bin", "u": "p/a31cce2931e2.bin", "ivz": "NfiFDj8qb8R2RaAW", "ivu": "Qqvk2p/p+jMIpDxp"}, {"z": "p/7793ef9a26ff.z.bin", "u": "p/7975125a0e3c.bin", "ivz": "xyoDwr0/iMiCieu1", "ivu": "CBMphezGiStosFJW"}, {"z": "p/56227b41ab6d.z.bin", "u": "p/c847b4456303.bin", "ivz": "iEaPUfxWH5NUQ+EK", "ivu": "rcc388xlrBh4ChtC"}],SW="sw.js|./";
+var SALT="f2jUMBLpofxiA4iTVOE7JA==",ITER=300000,SLOT="aa-inv-home",PIECES=[{"z": "p/eec6bab42ae9.z.bin", "u": "p/3e2f73ed5988.bin", "ivz": "8P7LVQ8UA/A1Svop", "ivu": "zpfhS60OlUXHdRzf"}, {"z": "p/b42a43407581.z.bin", "u": "p/ab620999b352.bin", "ivz": "eKNWdAu7voNwtd/H", "ivu": "A4YCYt924R7Ik37S"}, {"z": "p/d05d9a26ac86.z.bin", "u": "p/2dcf17544b16.bin", "ivz": "KynahWoHORposvXt", "ivu": "hiHAZLT4WclA9fmF"}],SW="sw.js|./";
 var g=document.getElementById('aagate'),f=document.getElementById('aagf'),p=document.getElementById('gp'),e=document.getElementById('ge'),bt=document.getElementById('gb');
 function b(s){var x=atob(s),a=new Uint8Array(x.length);for(var i=0;i<x.length;i++)a[i]=x.charCodeAt(i);return a}
 var Z=typeof DecompressionStream!=='undefined';
