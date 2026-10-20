@@ -25,28 +25,27 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
 #story{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center}
 .logo{width:min(52vw,210px);margin:0 auto}.logo svg{display:block;width:100%;height:auto}
 .kashida{display:block;width:168px;height:auto;margin:18px auto 0;fill:var(--gold);opacity:.8;overflow:visible}
-.ev{margin:34px 0 0;text-align:center}
+.ev{margin:40px 0 0;text-align:center}
 .kick{margin:0 0 6px;font:italic 400 20px 'Cormorant Garamond',Georgia,serif;color:var(--gold)}
-.ev h2{margin:0;font:400 36px/1.15 'Cormorant Garamond',Georgia,serif;text-wrap:balance}
-.ev h2.long{font-size:32px}
+.ev h2{margin:0;font:400 30px/1.2 'Cormorant Garamond',Georgia,serif;text-wrap:balance}
+.ev h2.long{font-size:28px}
+.count{margin:0;font:500 15px/1.6 Jost,sans-serif;letter-spacing:.08em;white-space:nowrap;color:var(--gold)}
+.count b{font-weight:500;color:var(--ivory);font-variant-numeric:tabular-nums}
+.count .sep{width:5px;height:5px;margin:0 .55em;vertical-align:.15em}.count .sep path{fill:var(--c)}
+.until{margin:2px 0 0;font:italic 400 20px/1.4 'Cormorant Garamond',Georgia,serif;color:var(--ivory)}
+@media (max-width:380px){.count{font-size:14px;letter-spacing:.04em}}
 .sub{margin:8px 0 0;font-size:15px;color:var(--quiet)}
 .sub.now{font:italic 400 20px 'Cormorant Garamond',Georgia,serif;color:var(--c);margin-top:4px}
-.live{display:inline-flex;align-items:center;gap:8px;margin:14px 0 0;font-size:15px;letter-spacing:.04em}
+.live{display:inline-flex;align-items:center;gap:8px;margin:0 0 6px;font-size:15px;letter-spacing:.04em}
 .live i{width:9px;height:9px;border-radius:50%;background:#D2553A;box-shadow:0 0 0 4px rgba(210,85,58,.25)}
-.timer{display:flex;justify-content:center;align-items:flex-start;gap:10px;margin:22px 0 0}
-.u{display:flex;flex-direction:column;align-items:center;min-width:58px}
-.u b{font:400 46px/1 'Cormorant Garamond',Georgia,serif;font-variant-numeric:lining-nums tabular-nums}
-.u span{margin-top:8px;font-size:12.5px;letter-spacing:.06em;color:var(--quiet)}
-.u.s b{color:var(--quiet)}
-.u.gone,.u.gone+.sep{display:none}
-.timer .sep{width:7px;height:7px;margin-top:20px;flex:none}.timer .sep path{fill:var(--c)}
+.u.gone{display:none}
 .yt{position:relative;width:100%;aspect-ratio:16/9;background:#000;margin:22px auto 0;box-shadow:0 18px 40px rgba(0,0,0,.28)}.yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .links{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:10px;flex-wrap:wrap}
 .links a,.links button{display:inline-flex;align-items:center;min-height:44px;padding:0;background:none;border:0;cursor:pointer;
   font:italic 400 19px 'Cormorant Garamond',Georgia,serif;color:var(--ivory);text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:1px;text-underline-offset:5px}
 .links .lsep{width:7px;height:7px;opacity:.7}.links .lsep path{fill:var(--gold)}
 /* the way in */
-.door{display:flex;flex-direction:column;align-items:center;margin:38px auto 0;padding:8px 18px 6px;text-decoration:none;color:inherit;cursor:pointer;border-radius:4px}
+.door{display:flex;flex-direction:column;align-items:center;margin:34px auto 0;padding:8px 18px 6px;text-decoration:none;color:inherit;cursor:pointer;border-radius:4px}
 .door .ur{font:400 30px/1.9 'Gulzar Door',serif;color:var(--gold);direction:rtl}
 .door .en{margin-top:-2px;font:italic 400 18px 'Cormorant Garamond',Georgia,serif;color:var(--quiet)}
 .door .dot{width:32px;height:32px;margin-top:16px;overflow:visible}
@@ -114,7 +113,7 @@ textarea{min-height:92px;resize:vertical}
 </form></div>
 <script>
 (function(){
-var SALT="5WJNlyFI1MtoMwjThI9geQ==",ITER=300000,SLOT="aa-inv-home",PIECES=[{"z": "p/711c58708ad1.z.bin", "u": "p/a984e9d9d1d4.bin", "ivz": "Wqrk42Ji/qP/gVmH", "ivu": "OeucJ2bpDVp//gua"}, {"z": "p/a7e356e5e13d.z.bin", "u": "p/671ec50c04ea.bin", "ivz": "NAn0XIIj5S7lvHcw", "ivu": "FjSc06xLKWqGPXmN"}, {"z": "p/5cc43acbbedc.z.bin", "u": "p/f9a66aa9181f.bin", "ivz": "xMCL8jcjmgHWGwT3", "ivu": "h38yCMGNhObdsv39"}],SW="sw.js|./";
+var SALT="VdJPI9IJv8M+BeMLk8gGWA==",ITER=300000,SLOT="aa-inv-home",PIECES=[{"z": "p/b863875bb148.z.bin", "u": "p/a31cce2931e2.bin", "ivz": "NfiFDj8qb8R2RaAW", "ivu": "Qqvk2p/p+jMIpDxp"}, {"z": "p/7793ef9a26ff.z.bin", "u": "p/7975125a0e3c.bin", "ivz": "xyoDwr0/iMiCieu1", "ivu": "CBMphezGiStosFJW"}, {"z": "p/56227b41ab6d.z.bin", "u": "p/c847b4456303.bin", "ivz": "iEaPUfxWH5NUQ+EK", "ivu": "rcc388xlrBh4ChtC"}],SW="sw.js|./";
 var g=document.getElementById('aagate'),f=document.getElementById('aagf'),p=document.getElementById('gp'),e=document.getElementById('ge'),bt=document.getElementById('gb');
 function b(s){var x=atob(s),a=new Uint8Array(x.length);for(var i=0;i<x.length;i++)a[i]=x.charCodeAt(i);return a}
 var Z=typeof DecompressionStream!=='undefined';
