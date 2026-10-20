@@ -30,7 +30,7 @@ code{font:500 15px Jost,monospace;background:#F4ECDC;padding:1px 6px}
 .b.ghost{background:transparent;color:#1B2F6E;border:1.5px solid rgba(27,47,110,.5)}
 .b:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 figure{margin:0;text-align:center}.qr{width:150px;height:150px;display:block}figcaption{font:500 12px Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
-.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0}.row input{font:500 17px Jost,sans-serif;padding:10px 12px;border:1.5px solid rgba(27,47,110,.4);min-height:46px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0}.row input,.row select{font:500 17px Jost,sans-serif;padding:10px 12px;border:1.5px solid rgba(27,47,110,.4);min-height:46px;background:#fff;color:#1B2F6E}
 .set{grid-template-columns:200px 1fr}
 .tbl{overflow-x:auto}table{border-collapse:collapse;font:15px/1.4 Jost,sans-serif;min-width:640px;background:#fff}th,td{border:1px solid rgba(176,140,87,.35);padding:6px 8px;text-align:left;vertical-align:top}th{background:#F4ECDC;font-weight:500}
 .res{min-width:0;width:100%}.res th{width:34%}.res tr.bad td{background:#FBE3C9}
@@ -52,16 +52,18 @@ figure{margin:0;text-align:center}.qr{width:150px;height:150px;display:block}fig
 </form></div>
 <script>
 (function(){
-var SALT="yWLOw6QV2Rv+Z10a6rE/yg==",IVZ="s2XuDKzFjzqhQMBd",IVU="5yeXDEscX2PxZcHR",ITER=300000,SLOT="aa-admin",FZ="../p/6d79a08e69cb.z.bin",FU="../p/d16065b85085.bin",SW="../sw.js|../";
+var SALT="AVRgjZ84DlU3LiDSp9kyhQ==",ITER=300000,SLOT="aa-admin",PIECES=[{"z": "../p/b6d0e7892ca1.z.bin", "u": "../p/bbb29b7e9a25.bin", "ivz": "T9rFqyCJX5pf7Z8H", "ivu": "HYbVoDT/TmFQEITu"}],SW="../sw.js|../";
 var g=document.getElementById('aagate'),f=document.getElementById('aagf'),p=document.getElementById('gp'),e=document.getElementById('ge'),bt=document.getElementById('gb');
 function b(s){var x=atob(s),a=new Uint8Array(x.length);for(var i=0;i<x.length;i++)a[i]=x.charCodeAt(i);return a}
 var Z=typeof DecompressionStream!=='undefined';
-var data=fetch(Z?FZ:FU).then(function(r){if(!r.ok)throw new Error('piece '+r.status);return r.arrayBuffer()});
+/* one piece per guest version; all are fetched at once (small), the word decides which one opens */
+var data=Promise.all(PIECES.map(function(P){return fetch(Z?P.z:P.u).then(function(r){if(!r.ok)throw new Error('piece '+r.status);return r.arrayBuffer()})}));
 data.catch(function(){});
 var ID=SLOT+':'+SALT;
 function db(){return new Promise(function(res,rej){var r=indexedDB.open('aa-keys',1);r.onupgradeneeded=function(){r.result.createObjectStore('k')};r.onsuccess=function(){res(r.result)};r.onerror=function(){rej(r.error)}})}
 function getKey(){return db().then(function(d){return new Promise(function(res){var q=d.transaction('k').objectStore('k').get(ID);q.onsuccess=function(){res(q.result||null)};q.onerror=function(){res(null)}})}).catch(function(){return null})}
-function putKey(k){db().then(function(d){d.transaction('k','readwrite').objectStore('k').put(k,ID)}).catch(function(){})}
+function putKey(k){db().then(function(d){var s=d.transaction('k','readwrite').objectStore('k');s.put(k,ID);
+  var c=s.openCursor();c.onsuccess=function(){var x=c.result;if(!x)return;if(String(x.key).indexOf(SLOT+':')===0&&x.key!==ID)x.delete();x.continue()}}).catch(function(){})}
 function store(w){try{localStorage.setItem(SLOT,w)}catch(_){}}
 function stored(){try{return localStorage.getItem(SLOT)||''}catch(_){return ''}}
 function derive(w){
@@ -73,11 +75,15 @@ function show(html){
   document.body.innerHTML=html;
   Array.prototype.forEach.call(document.body.querySelectorAll('script'),function(o){var n=document.createElement('script');n.textContent=o.textContent;o.parentNode.replaceChild(n,o)});
 }
+function tryAll(k,bufs,i){
+  if(i>=bufs.length) return Promise.reject(new Error('no piece opens with this key'));
+  return crypto.subtle.decrypt({name:'AES-GCM',iv:b(Z?PIECES[i].ivz:PIECES[i].ivu)},k,bufs[i]).catch(function(){return tryAll(k,bufs,i+1)});
+}
 function openWith(k,w){
-  return data.then(function(buf){return crypto.subtle.decrypt({name:'AES-GCM',iv:b(Z?IVZ:IVU)},k,buf)}).then(function(pt){
+  return data.then(function(bufs){return tryAll(k,bufs,0)}).then(function(pt){
     if(!Z) return new TextDecoder().decode(pt);
     return new Response(new Blob([pt]).stream().pipeThrough(new DecompressionStream('deflate'))).text();
-  }).then(function(html){ if(w){store(String(w).trim().toLowerCase()); window.__AA_WORD=String(w).trim().toLowerCase();} else window.__AA_WORD=stored(); putKey(k); show(html); });
+  }).then(function(html){ if(w){store(String(w).trim().toLowerCase()); window.__AA_WORD=String(w).trim().toLowerCase();} else window.__AA_WORD=stored(); putKey(k); window.__AA_KEY=k; window.__AA_SALT=SALT; show(html); });
 }
 function open(w){
   if(!window.crypto||!crypto.subtle){e.textContent='This browser cannot open the invitation. Please use a current browser.';return Promise.reject()}

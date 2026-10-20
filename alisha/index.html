@@ -235,35 +235,36 @@ svg.cs,#env svg{font-variant-numeric:lining-nums}
 #cur.down .ring{width:28px;height:28px;margin:-14px}
 #noscript{position:fixed;inset:0;display:grid;place-items:center;color:#F4ECDC;background:#1B2F6E;z-index:99;padding:30px;text-align:center}
 
-/* round 1: hints, buttons, arrows, count, zoom */
-#hint{font:500 15px/1.35 Jost,sans-serif!important;letter-spacing:.04em!important;text-transform:none!important;color:var(--fg)!important}
-#hint b{margin:0 12px 2px!important}
-#skip{font:500 13px/1 Jost,sans-serif!important;letter-spacing:.16em!important;padding:14px 16px!important;min-height:44px}
-#acts{gap:10px!important;font:500 13px/1 Jost,sans-serif!important;letter-spacing:.06em!important;text-transform:none!important;margin-top:16px!important}
-#acts .act{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:10px 16px!important;border:1px solid rgba(201,168,111,.6);border:1px solid color-mix(in srgb,var(--ac) 55%,transparent);border-radius:999px;opacity:1!important;color:var(--fg)}
-#acts .act:hover,#acts .act:focus-visible{border-color:var(--ac);outline:none;background:color-mix(in srgb,var(--ac) 12%,transparent)}
-#acts .act svg{width:19px;height:19px;flex:none;color:var(--ac)}
-#count{margin-top:12px;min-height:1.3em;text-align:center;font:500 13px/1.3 Jost,sans-serif;letter-spacing:.14em;color:var(--fg2)}
-#count.tip{font:italic 17px/1.3 'Cormorant Garamond',Georgia,serif;letter-spacing:.01em;color:var(--fg)}
-#acts.solo #aZoom{display:inline-flex!important}
-.card.peek{pointer-events:none}
-.card.peek .face{cursor:default}
-#zoom{position:fixed;inset:0;z-index:20;background:rgba(9,12,28,.94);display:flex;flex-direction:column}
-#zoom[hidden]{display:none}
-#zoom .zbar{display:flex;justify-content:center;gap:10px;padding:max(12px,env(safe-area-inset-top)) 12px 10px}
-#zoom .zbar button{min-width:52px;min-height:48px;padding:0 18px;border:1px solid #C9A86F;border-radius:999px;background:transparent;color:#F4ECDC;font:500 20px/1 Jost,sans-serif;cursor:pointer}
-#zoom .zbar #zClose{font-size:15px;letter-spacing:.08em}
-#zoom .zbar button:disabled{opacity:.35}
-#zoom .zsc{flex:1;overflow:auto;touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch;padding:12px 16px max(16px,env(safe-area-inset-bottom));text-align:center}
-#zoom svg{display:inline-block;height:auto;background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+/* round 2: the original calligraphic chrome, a little larger where it must be read, with generous invisible tap areas */
+#hint{font:500 13px/1.4 Jost,sans-serif!important;letter-spacing:.24em!important}
+#skip{font:500 12px/1 Jost,sans-serif!important;letter-spacing:.26em!important;padding:16px 14px!important;min-height:48px}
+#acts{font-size:11.5px!important}
+#acts>button,#acts>a{min-height:44px}
+#acts>button::before,#acts>a::before{content:"";position:absolute;inset:-6px -8px}
+#acts.solo>#aZoom,#acts.solo>i.zi{display:inline-block!important}
+.nav{min-width:48px;min-height:48px}
+#dots button{width:28px!important;height:32px!important}
+#aFlip.teach::after{animation:kashida 2s var(--ink) 2}
+@keyframes kashida{0%{transform:scaleX(0);transform-origin:100% 50%}40%{transform:scaleX(1);transform-origin:100% 50%}62%{transform:scaleX(1);transform-origin:0 50%}100%{transform:scaleX(0);transform-origin:0 50%}}
+.nav.cue svg rect{filter:drop-shadow(0 0 4px var(--ac))}
+.nav.cue svg path{transform:scaleX(1.3)}
 @media (max-width:980px),(max-aspect-ratio:1/1){
-  #prev,#next{width:52px;height:52px;padding:0!important;justify-content:center;border:1px solid rgba(201,168,111,.6);border:1px solid color-mix(in srgb,var(--ac) 60%,transparent);border-radius:50%;bottom:calc(env(safe-area-inset-bottom) + 10px)!important}
-  #prev{left:12px}#next{right:12px}
-  #prev svg,#next svg{width:24px!important}
-  #prev svg path,#next svg path{stroke-width:1.6}
+  #next.say .lb{display:flex!important;position:absolute;right:8px;bottom:100%;margin-bottom:2px;align-items:flex-end;text-align:right;animation:sayin .6s var(--ink)}
+  #next.say .lb small{display:block}
 }
-@media (max-width:520px){#acts{gap:7px!important}#acts .act{padding:9px 11px!important;gap:6px;font-size:12.5px}#aZoom span{display:none}#aZoom{padding:9px 12px!important}}
-@media (max-width:360px){#acts .act span{font-size:12px}#acts .act{padding:8px 9px!important}}
+@keyframes sayin{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+#zoom{position:fixed;inset:0;z-index:20;background:rgba(9,12,28,.95);display:flex;flex-direction:column}
+#zoom[hidden]{display:none}
+#zoom .zbar{display:flex;justify-content:center;align-items:center;gap:6px 18px;padding:max(10px,env(safe-area-inset-top)) 12px 6px}
+#zoom .zbar i{width:3px;height:3px;background:#C9A86F;transform:rotate(45deg)}
+#zoom .zb{position:relative;min-height:48px;padding:0 4px;background:none;border:0;color:#F4ECDC;font:500 12px/1 Jost,sans-serif;letter-spacing:.24em;text-transform:uppercase;cursor:pointer}
+#zoom .zb::after{content:"";position:absolute;left:0;right:0;bottom:13px;height:1px;background:#C9A86F;transform:scaleX(0);transform-origin:100% 50%;transition:transform .9s var(--ink)}
+#zoom .zb:hover::after,#zoom .zb:focus-visible::after{transform:scaleX(1);transform-origin:0 50%}
+#zoom .zb:focus-visible{outline:none}
+#zoom .zb:disabled{opacity:.35}
+#zoom .zsc{flex:1;overflow:auto;touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch;padding:10px 16px max(16px,env(safe-area-inset-bottom));text-align:center}
+#zoom svg{display:inline-block;height:auto;background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+@media (prefers-reduced-motion:reduce){#aFlip.teach::after{animation:none;transform:scaleX(1)}}
 </style>
 </head>
 <body data-scene="intro">
@@ -281,16 +282,18 @@ svg.cs,#env svg{font-variant-numeric:lining-nums}
 </form></div>
 <script>
 (function(){
-var SALT="z9iNj7K7zV5li+tXyZjeWg==",IVZ="qH1kgXajwc7ls7O3",IVU="EH1gH6WYwYVPG8gK",ITER=300000,SLOT="aa-inv-alisha",FZ="../p/afc69affc0ef.z.bin",FU="../p/46f447595508.bin",SW="../sw.js|../";
+var SALT="5WJNlyFI1MtoMwjThI9geQ==",ITER=300000,SLOT="aa-inv-alisha",PIECES=[{"z": "../p/d6fbcb540b07.z.bin", "u": "../p/4505d1056640.bin", "ivz": "j3B+j5F8Om8bJ3Xq", "ivu": "hKptc14PXRHWgPUN"}],SW="../sw.js|../";
 var g=document.getElementById('aagate'),f=document.getElementById('aagf'),p=document.getElementById('gp'),e=document.getElementById('ge'),bt=document.getElementById('gb');
 function b(s){var x=atob(s),a=new Uint8Array(x.length);for(var i=0;i<x.length;i++)a[i]=x.charCodeAt(i);return a}
 var Z=typeof DecompressionStream!=='undefined';
-var data=fetch(Z?FZ:FU).then(function(r){if(!r.ok)throw new Error('piece '+r.status);return r.arrayBuffer()});
+/* one piece per guest version; all are fetched at once (small), the word decides which one opens */
+var data=Promise.all(PIECES.map(function(P){return fetch(Z?P.z:P.u).then(function(r){if(!r.ok)throw new Error('piece '+r.status);return r.arrayBuffer()})}));
 data.catch(function(){});
 var ID=SLOT+':'+SALT;
 function db(){return new Promise(function(res,rej){var r=indexedDB.open('aa-keys',1);r.onupgradeneeded=function(){r.result.createObjectStore('k')};r.onsuccess=function(){res(r.result)};r.onerror=function(){rej(r.error)}})}
 function getKey(){return db().then(function(d){return new Promise(function(res){var q=d.transaction('k').objectStore('k').get(ID);q.onsuccess=function(){res(q.result||null)};q.onerror=function(){res(null)}})}).catch(function(){return null})}
-function putKey(k){db().then(function(d){d.transaction('k','readwrite').objectStore('k').put(k,ID)}).catch(function(){})}
+function putKey(k){db().then(function(d){var s=d.transaction('k','readwrite').objectStore('k');s.put(k,ID);
+  var c=s.openCursor();c.onsuccess=function(){var x=c.result;if(!x)return;if(String(x.key).indexOf(SLOT+':')===0&&x.key!==ID)x.delete();x.continue()}}).catch(function(){})}
 function store(w){try{localStorage.setItem(SLOT,w)}catch(_){}}
 function stored(){try{return localStorage.getItem(SLOT)||''}catch(_){return ''}}
 function derive(w){
@@ -302,11 +305,15 @@ function show(html){
   document.body.innerHTML=html;
   Array.prototype.forEach.call(document.body.querySelectorAll('script'),function(o){var n=document.createElement('script');n.textContent=o.textContent;o.parentNode.replaceChild(n,o)});
 }
+function tryAll(k,bufs,i){
+  if(i>=bufs.length) return Promise.reject(new Error('no piece opens with this key'));
+  return crypto.subtle.decrypt({name:'AES-GCM',iv:b(Z?PIECES[i].ivz:PIECES[i].ivu)},k,bufs[i]).catch(function(){return tryAll(k,bufs,i+1)});
+}
 function openWith(k,w){
-  return data.then(function(buf){return crypto.subtle.decrypt({name:'AES-GCM',iv:b(Z?IVZ:IVU)},k,buf)}).then(function(pt){
+  return data.then(function(bufs){return tryAll(k,bufs,0)}).then(function(pt){
     if(!Z) return new TextDecoder().decode(pt);
     return new Response(new Blob([pt]).stream().pipeThrough(new DecompressionStream('deflate'))).text();
-  }).then(function(html){ if(w){store(String(w).trim().toLowerCase()); window.__AA_WORD=String(w).trim().toLowerCase();} else window.__AA_WORD=stored(); putKey(k); show(html); });
+  }).then(function(html){ if(w){store(String(w).trim().toLowerCase()); window.__AA_WORD=String(w).trim().toLowerCase();} else window.__AA_WORD=stored(); putKey(k); window.__AA_KEY=k; window.__AA_SALT=SALT; show(html); });
 }
 function open(w){
   if(!window.crypto||!crypto.subtle){e.textContent='This browser cannot open the invitation. Please use a current browser.';return Promise.reject()}
