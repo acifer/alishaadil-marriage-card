@@ -279,8 +279,11 @@ body{transition:none}
 #hint{transition:opacity 1.2s var(--ink),color 1.6s var(--ink)}
 #deck>#chap,#deck>footer{transition:opacity .55s var(--ink),color 1.6s var(--ink),background-color .3s,box-shadow .3s}
 #deck>.nav{transition:opacity .55s var(--ink),color 1.6s var(--ink)}
-body.pz #chap{background:rgba(224,210,185,.94);box-shadow:0 0 22px 18px rgba(224,210,185,.94)}
-body.pz #deck>footer{background:rgba(212,198,170,.95);box-shadow:0 0 22px 18px rgba(212,198,170,.95)}
+/* while a card is enlarged, two bands of paper keep the title and the words readable above it, fading into the card */
+.pzb{position:fixed;left:0;right:0;z-index:2;pointer-events:none;display:none}
+body.pz .pzb{display:block}
+.pzb.t{top:0;background:linear-gradient(to bottom,rgb(224,210,185) calc(100% - 26px),rgba(224,210,185,0))}
+.pzb.b{bottom:0;background:linear-gradient(to top,rgb(212,198,170) calc(100% - 26px),rgba(212,198,170,0))}
 </style>
 </head>
 <body data-scene="intro">
@@ -299,7 +302,7 @@ body.pz #deck>footer{background:rgba(212,198,170,.95);box-shadow:0 0 22px 18px r
 </form></main>
 <script>
 (function(){
-var SALT="0qL9N5+DBxP0uBXD9MWl9Q==",ITER=300000,SLOT="aa-inv-aadil",PIECES=[{"z": "../p/68a02c84b3c5.z.bin", "u": "../p/4dbe47fc305c.bin", "ivz": "UJg0AX8iAjBeq09+", "ivu": "aOspSBsNhL79zr0l"}],SW="../sw.js|../";
+var SALT="lUz8Jh3tzt3yewYWVYIadA==",ITER=300000,SLOT="aa-inv-aadil",PIECES=[{"z": "../p/a4b7a41f9eea.z.bin", "u": "../p/2cb530b84f4c.bin", "ivz": "VbJWt+FX/b7ZOava", "ivu": "vzOD80RWRFpfuqT/"}],SW="../sw.js|../";
 var g=document.getElementById('aagate'),f=document.getElementById('aagf'),p=document.getElementById('gp'),e=document.getElementById('ge'),bt=document.getElementById('gb');
 function b(s){var x=atob(s),a=new Uint8Array(x.length);for(var i=0;i<x.length;i++)a[i]=x.charCodeAt(i);return a}
 var Z=typeof DecompressionStream!=='undefined';
