@@ -265,6 +265,22 @@ svg.cs,#env svg{font-variant-numeric:lining-nums}
 #zoom .zsc{flex:1;overflow:auto;touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch;padding:10px 16px max(16px,env(safe-area-inset-bottom));text-align:center}
 #zoom svg{display:inline-block;height:auto;background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.5)}
 @media (prefers-reduced-motion:reduce){#aFlip.teach::after{animation:none;transform:scaleX(1)}}
+#cards{transform-origin:0 0}
+#chap,#deck>footer{position:relative;z-index:3}
+/* colour changes with each scene, but only on the few text elements that show it: a fade on the page body is inherited by
+   ~1,900 elements and recalculated on every frame (it froze the envelope's zoom for 1.6 s) */
+body{transition:none}
+#deck.cv{content-visibility:hidden}
+/* the lattice patterns and card copies are drawn in fixed inks; giving them fixed scene colours stops a scene change
+   at their edge, instead of restyling their ~30,000 cloned elements on every switch */
+#env .wrap,#cards,#fan,#zoom{color:#1B2F6E;--fg:#1B2F6E;--ac:#8B6D3F;--fg2:rgba(27,47,110,.78)}
+#env .body{will-change:transform}   /* the envelope is a ready layer from the first frame, so its zoom never waits for a redraw */
+#skip{transition:opacity 1s,color 1.6s var(--ink)}
+#hint{transition:opacity 1.2s var(--ink),color 1.6s var(--ink)}
+#deck>#chap,#deck>footer{transition:opacity .55s var(--ink),color 1.6s var(--ink),background-color .3s,box-shadow .3s}
+#deck>.nav{transition:opacity .55s var(--ink),color 1.6s var(--ink)}
+body.pz #chap{background:rgba(224,210,185,.94);box-shadow:0 0 22px 18px rgba(224,210,185,.94)}
+body.pz #deck>footer{background:rgba(212,198,170,.95);box-shadow:0 0 22px 18px rgba(212,198,170,.95)}
 </style>
 </head>
 <body data-scene="intro">
@@ -283,7 +299,7 @@ svg.cs,#env svg{font-variant-numeric:lining-nums}
 </form></main>
 <script>
 (function(){
-var SALT="aDKo1Cs97nu3q35gCQpjkQ==",ITER=300000,SLOT="aa-inv-wedding",PIECES=[{"z": "../p/8576c969c603.z.bin", "u": "../p/ccab6f0ba445.bin", "ivz": "mlrwOH38ilEBk3OD", "ivu": "xD2U00kHJa9HTVWJ"}],SW="../sw.js|../";
+var SALT="0qL9N5+DBxP0uBXD9MWl9Q==",ITER=300000,SLOT="aa-inv-wedding",PIECES=[{"z": "../p/b50ac59072f1.z.bin", "u": "../p/a0c1e3f6d85f.bin", "ivz": "V5IEA7ZWvqX4U3Ym", "ivu": "cxm1HcwbrwDzbe5n"}],SW="../sw.js|../";
 var g=document.getElementById('aagate'),f=document.getElementById('aagf'),p=document.getElementById('gp'),e=document.getElementById('ge'),bt=document.getElementById('gb');
 function b(s){var x=atob(s),a=new Uint8Array(x.length);for(var i=0;i<x.length;i++)a[i]=x.charCodeAt(i);return a}
 var Z=typeof DecompressionStream!=='undefined';
