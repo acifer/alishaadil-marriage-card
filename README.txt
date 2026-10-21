@@ -1,18 +1,22 @@
 Alisha & Aadil — alishaadil.com (GitHub Pages, custom domain via CNAME)
 
-  /                   Front page — Countdown · Wedding card · Live stream        word: nikah2026
-  /wedding/           Common invitation — Guide, Nikah, Reception, Rukhsati      word: nikah2026
-  /alisha/            Alisha's guests — + Alisha's Haldi (ladies only)           word: haldi2026
-  /aadil/             Aadil's guests — + Aadil's Haldi & Mehndi                  word: mehndi2026
+  /            Front page: the guest's next celebration, "Your invitation" (opens it in the same page),
+               RSVP, and the countdown. It shows the face that matches the word in the link.
+  /wedding/    Common invitation: Guide, Nikah, Reception, Rukhsati             word: nikah2026
+  /alisha/     Alisha's guests: + Alisha's Haldi (ladies only)                  word: haldi2026
+  /aadil/      Aadil's guests: + Aadil's Haldi & Mehndi                         word: mehndi2026
+  /admin/      For the two of you: links to send, settings, health report       word: dulha-dulhan
 
 Every page is sealed: content is encrypted and opens only with its word. The words are TEMPORARY.
 
-Links to send (the word rides in the link):
-  https://alishaadil.com/#k=nikah2026
-  https://alishaadil.com/wedding/#k=nikah2026
-  https://alishaadil.com/alisha/#k=haldi2026
-  https://alishaadil.com/aadil/#k=mehndi2026
-Live-stream tab / QR:  https://alishaadil.com/#live&k=nikah2026
-Mock any moment:       https://alishaadil.com/?at=2026-11-28T16:10#live   (Patna time)
+Links to send (the word rides in the link; the front page with a guest's word opens their own invitation):
+  https://alishaadil.com/#k=nikah2026      common guests
+  https://alishaadil.com/#k=haldi2026      Alisha's guests
+  https://alishaadil.com/#k=mehndi2026     Aadil's guests
+  Straight to a card deck: https://alishaadil.com/wedding/#k=nikah2026 (and /alisha/, /aadil/)
+Admin: https://alishaadil.com/admin/#k=dulha-dulhan
+Mock any moment: add ?at=2026-11-28T16:10 to the front page address (Patna time).
 
+RSVP: the link stays hidden from guests until replies are emailed somewhere (RSVP_URL at build time).
 Old addresses /w/, /5lkjfr/, /72m3dw/ forward to the new ones.
+Built from the round-2 sources (build_r2.py); branches round-1 and round-2 keep the earlier versions.
