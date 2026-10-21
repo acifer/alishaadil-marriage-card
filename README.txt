@@ -17,6 +17,6 @@ Links to send (the word rides in the link; the front page with a guest's word op
 Admin: https://alishaadil.com/admin/#k=dulha-dulhan
 Mock any moment: add ?at=2026-11-28T16:10 to the front page address (Patna time).
 
-RSVP: the link stays hidden from guests until replies are emailed somewhere (RSVP_URL at build time).
+RSVP: replies are emailed to we@alishaadil.com through Web3Forms (form key RSVP_KEY at build time; it is public by design).
 Old addresses /w/, /5lkjfr/, /72m3dw/ forward to the new ones.
 Built from the round-2 sources (build_r2.py); branches round-1 and round-2 keep the earlier versions.
