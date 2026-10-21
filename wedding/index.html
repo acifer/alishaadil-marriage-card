@@ -240,6 +240,14 @@ svg.cs,#env svg{font-variant-numeric:lining-nums}
 #skip{font:500 12px/1 Jost,sans-serif!important;letter-spacing:.26em!important;padding:16px 14px!important;min-height:48px}
 #acts{font-size:11.5px!important}
 #acts>button,#acts>a{min-height:44px}
+/* the words in the bar line up whatever they are (buttons centre their text, links did not): one rule for both */
+#acts>button,#acts>a{display:inline-flex;align-items:center;justify-content:center;padding:0 2px;line-height:1;vertical-align:middle}
+/* on a phone the four words take two deliberate rows: Turn over · Zoom, then Directions · Add to calendar.
+   The diamond between Zoom and Directions becomes the line break, so no row ends on a stray diamond. */
+@media (max-width:600px){
+  #acts{row-gap:0}
+  #acts>#aZoom+i{flex-basis:100%;width:100%;height:0;margin:0;padding:0;opacity:0;transform:none}
+}
 #acts>button::before,#acts>a::before{content:"";position:absolute;inset:-6px -8px}
 #acts.solo>#aZoom,#acts.solo>i.zi{display:inline-block!important}
 .nav{min-width:48px;min-height:48px}
@@ -302,7 +310,7 @@ body.pz .pzb{display:block}
 </form></main>
 <script>
 (function(){
-var SALT="lUz8Jh3tzt3yewYWVYIadA==",ITER=300000,SLOT="aa-inv-wedding",PIECES=[{"z": "../p/97339ef31f4c.z.bin", "u": "../p/9c9aae68e346.bin", "ivz": "jRZV4CzAnJn0iAvq", "ivu": "kx0PW4Te22OKXE6m"}],SW="../sw.js|../";
+var SALT="nKJIk5o44j44RHIJRFnemQ==",ITER=300000,SLOT="aa-inv-wedding",PIECES=[{"z": "../p/44e81bd42af7.z.bin", "u": "../p/861d98746c05.bin", "ivz": "GxkpK+tXQaQICF4C", "ivu": "ZV3Dj6z9uZQblKIq"}],SW="../sw.js|../";
 var g=document.getElementById('aagate'),f=document.getElementById('aagf'),p=document.getElementById('gp'),e=document.getElementById('ge'),bt=document.getElementById('gb');
 function b(s){var x=atob(s),a=new Uint8Array(x.length);for(var i=0;i<x.length;i++)a[i]=x.charCodeAt(i);return a}
 var Z=typeof DecompressionStream!=='undefined';
