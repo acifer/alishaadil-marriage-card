@@ -300,6 +300,8 @@ body.pz .pzb{display:block}
    (the moment the logo is complete, and every card change) from restyling all of them: ~130 ms on a phone, now ~5 ms.
    Nothing in it takes the scene colours: its currentColor symbols are coloured where they are used. */
 #defs{color:#1B2F6E;--fg:#1B2F6E;--ac:#8B6D3F;--fg2:rgba(27,47,110,.78)}
+/* a sideways swipe on the touchpad turns the cards, never the browser's pages */
+html,body{overscroll-behavior:none}
 /* reading: nothing a guest must read is under 14 px */
 #chap .l1 .no{font-size:.7em}
 #chap .l2{font-size:14px;letter-spacing:.14em;margin-top:8px}
@@ -1031,10 +1033,10 @@ const PEEK=(dx)=>({
   nxt:[{transform:BEHIND},{transform:'translate(6%,-.4%) rotate(1.6deg) scale(.975)',offset:.3},{transform:'translate(6%,-.4%) rotate(1.6deg) scale(.975)',offset:.64},{transform:BEHIND}]});
 const BEHIND='translate(0px,0px) rotate(0deg) scale(.955)';   // where a card waits behind the one in hand
 const guide=(()=>{
-  let T=[], learnt=false, taught=false, lvl=0, last=0, PA=[], flips=0, tips=0, tipT=0;
+  let T=[], learnt=false, taught=false, lvl=0, last=0, PA=[], flips=0, tips=0, tipT=0, PK=null;
   const nxSvg=$('svg',nextB), nxPath=$('path',nxSvg), nxTip=$('rect',nxSvg);
   const stopT=()=>{T.forEach(clearTimeout);T=[]};
-  const calm=()=>{ PA.forEach(a=>a.cancel()); PA=[];
+  const calm=()=>{ PA.forEach(a=>a.cancel()); PA=[]; PK=null; cardsEl.forEach(c=>{c.dataset.cur='Turn'});
     cardsEl.forEach((c,k)=>{ if(k!==cur&&c.classList.contains('nudging')){ c.classList.remove('nudging'); if(!c.classList.contains('vis-keep')){ c.classList.remove('vis'); c.style.zIndex=''; } } }); };
   function arrow(strong){
     if(RM){ nextB.classList.add('cue'); setTimeout(()=>nextB.classList.remove('cue'),2600); return; }
@@ -1046,8 +1048,12 @@ const guide=(()=>{
     const nb=cardsEl[cur+1], cc=cardsEl[cur]; if(!nb||RM||busy||phase!=='deck') return;
     calm(); prep(nb); nb.classList.add('vis','nudging'); nb.style.zIndex=1; cc.style.zIndex=2;
     const K=PEEK(strong?17:13), o={duration:strong?2300:2000,easing:INK};
-    const a=cc.animate(K.cur,o), b=nb.animate(K.nxt,o); PA=[a,b];
-    b.finished.then(()=>{ a.cancel(); b.cancel(); PA=[]; if(nb.classList.contains('nudging')){ nb.classList.remove('nudging','vis'); nb.style.zIndex=''; } }).catch(()=>{});
+    const a=cc.animate(K.cur,o), b=nb.animate(K.nxt,o); a.id=b.id='peek'; PA=[a,b];
+    /* where the next card shows while it peeks out: that strip can be tapped, and for a second after it has gone back */
+    const r=cardsWrap.getBoundingClientRect(), W=cardsWrap.offsetWidth, d=strong?17:13, t0=performance.now();
+    PK={l:r.right-W*d/100, r:r.right+W*.06, t:r.top, b:r.bottom, since:t0+o.duration*.1, end:Infinity, base:-W*d/100, held:false, hov:false};
+    nb.dataset.cur='Next';
+    b.finished.then(()=>{ a.cancel(); b.cancel(); PA=[]; nb.dataset.cur='Turn'; if(PK) PK.end=performance.now(); if(nb.classList.contains('nudging')){ nb.classList.remove('nudging','vis'); nb.style.zIndex=''; } }).catch(()=>{});
   }
   function nudge(strong){ if(phase!=='deck'||busy||cur>=LAST||!zoomEl.hidden||document.body.classList.contains('pz')) return; lift(strong); arrow(strong); last=performance.now(); }
   function teach(){ if(phase!=='deck'||busy) return; taught=true; aFlip.classList.remove('teach'); void aFlip.offsetWidth; aFlip.classList.add('teach'); }
@@ -1055,7 +1061,7 @@ const guide=(()=>{
   function tip(){
     if(phase!=='deck'||busy||cur>=LAST) return; tips++;
     const t=$('#tip'), f=$('#deck>footer');
-    t.textContent=INPUT==='key'?'Press the right arrow key to see the next card':INPUT==='mouse'?'The arrow on the right shows the next card':'Swipe the card to the left to see the next one';
+    t.textContent=INPUT==='key'?'Press the right arrow key to see the next card':INPUT==='mouse'?'Click the card peeking out behind, or the arrow on the right, for the next card':'Swipe the card to the left, or tap the card peeking out behind it';
     t.style.minHeight=Math.max(44,acts.offsetHeight)+'px';
     f.classList.add('tipping'); clearTimeout(tipT); tipT=setTimeout(untip,5600);
     setTimeout(()=>nudge(true),500);
@@ -1071,13 +1077,21 @@ const guide=(()=>{
     arrive(){ lvl=0; flips=0; untip(); plan(); },
     moved(fwd){ stopT(); calm(); untip(); if(fwd) learnt=true; },
     touched(){ stopT(); calm(); },
+    peekHit(x,y){ if(!PK) return false; const n=performance.now(); return n>=PK.since&&n<=PK.end+1500&&x>=PK.l-6&&x<=PK.r+12&&y>=PK.t&&y<=PK.b; },
+    hold(){ if(!PK) return; stopT(); if(PA.length){ PA.forEach(a=>a.pause()); PK.held=true; PK.end=Infinity; } },
+    release(){ if(!PK||!PK.held) return; PK.held=false; PA.forEach(a=>a.play()); },
+    peekBase(){ return PK&&PA.length?PK.base:0; },
+    openPeek(){ const nb=cardsEl[cur+1], cc=cardsEl[cur]; if(!nb) return; let fa=null, fb=null;
+      if(PA.length){ fa=getComputedStyle(cc).transform; fb=getComputedStyle(nb).transform; if(fa==='none') fa=null; if(fb==='none') fb=null; }
+      PK=null; go(cur+1,fa,fb); },
+    hover(x,y){ if(!PK) return; const on=PA.length&&this.peekHit(x,y); if(on&&!PK.hov){ PK.hov=true; this.hold(); } else if(!on&&PK.hov){ PK.hov=false; this.release(); } },
     flipped(){ plan(); flips++; if(tips<2&&cur<LAST&&flips>=(learnt?5:3)){ flips=0; tip(); } },
     deadTap(){ const t=performance.now(); if(t-last<1500||phase!=='deck') return; lvl++; nudge(lvl>1); },
     stop(){ stopT(); calm(); }
   };
 })();
 const snd=(n,...a)=>foley[n]&&foley[n](...a);
-async function go(n,from){
+async function go(n,from,fromB){
   if(busy||phase!=='deck'||n<0||n===cur) return;
   PZ.fit(true); guide.moved(n>cur); hint();
   if(n>LAST) return toFinale(from);
@@ -1092,7 +1106,7 @@ async function go(n,from){
     await done(A(a,[{opacity:1},{opacity:0}],{duration:600}));
   }else if(fwd){
     a.style.zIndex=2; b.style.zIndex=1;
-    A(b,[{transform:'translate(0px,0px) rotate(0deg) scale(.955)'},{transform:REST}],{duration:1000,easing:EASE}); b.classList.remove('nudging');
+    A(b,[{transform:fromB||'translate(0px,0px) rotate(0deg) scale(.955)'},{transform:REST}],{duration:1000,easing:EASE}); b.classList.remove('nudging');
     await done(A(a,[{transform:from||REST},{transform:away()}],{duration:from?800:1000,easing:from?INK:EASE}));
   }else{
     a.style.zIndex=1; b.style.zIndex=2;
@@ -1105,14 +1119,38 @@ async function go(n,from){
 }
 prevB.addEventListener('click',()=>go(cur-1));
 nextB.addEventListener('click',()=>go(cur+1));
+/* the mouse resting on the peeking card holds it still */
+addEventListener('pointermove',e=>{ if(e.pointerType==='mouse'&&phase==='deck') guide.hover(e.clientX,e.clientY); },{passive:true});
+/* touchpad: a two-finger swipe left or right turns one card. A pinch (ctrl + wheel) stays zoom; a zoomed card is moved around
+   by the zoom and never turned; up-and-down scrolling never turns. One swipe turns one card: the touchpad's coasting after the
+   fingers lift is ignored until it goes quiet, unless a fresh swipe starts. Inside the cards the swipe is kept from the browser,
+   so it cannot turn into the browser's Back gesture. */
+(()=>{
+  let acc=0, lock=0, low=Infinity, lastT=-1e9;
+  addEventListener('wheel',e=>{
+    if(phase!=='deck'||e.ctrlKey||!zoomEl.hidden||PZ.zoomed()) return;
+    const k=e.deltaMode===1?16:e.deltaMode===2?innerWidth:1, dx=e.deltaX*k, dy=e.deltaY*k, ax=Math.abs(dx), ay=Math.abs(dy);
+    const t=e.timeStamp||performance.now();   // when the touchpad sent it: a busy page must not split one swipe into two
+    if(ax>ay) e.preventDefault();
+    if(t-lastT>240){ acc=0; if(lock&&t-lock>450){ lock=0; low=Infinity; } }   // a pause between swipes
+    lastT=t;
+    if(lock){ low=Math.min(low,ax); if(t-lock>350&&ax>14&&ax>low*3){ lock=0; low=Infinity; acc=0; } else return; }
+    if(ax<=ay*1.2) return;
+    acc+=dx;
+    if(Math.abs(acc)>=50){ const n=cur+(acc>0?1:-1); lock=t; low=ax; acc=0; if(!busy) go(n); }
+  },{passive:false});
+})();
 
 /* swipe: the card follows the finger; a tap turns it over */
 let drag=null;
-deck.addEventListener('pointerdown',e=>{ if(phase==='deck'&&!e.target.closest('.card,button,a,#zoom')) guide.deadTap(); });
+deck.addEventListener('pointerdown',e=>{ if(phase!=='deck'||e.target.closest('.card,button,a,#zoom')) return;
+  if(!busy&&e.button<=0&&zoomEl.hidden&&!PZ.busy()&&guide.peekHit(e.clientX,e.clientY)){ guide.hold(); drag={x:e.clientX,y:e.clientY,t:performance.now(),dx:0,on:false,id:e.pointerId,peek:true,base:guide.peekBase()}; return; }
+  guide.deadTap(); });
 cardsWrap.addEventListener('pointerdown',e=>{
-  guide.touched();
+  const pk=phase==='deck'&&!busy&&e.button<=0&&zoomEl.hidden&&!PZ.busy()&&guide.peekHit(e.clientX,e.clientY);
+  if(pk) guide.hold(); else guide.touched();
   if(phase!=='deck'||busy||e.button>0||e.target.closest('a')||!zoomEl.hidden||PZ.busy()) return;
-  drag={x:e.clientX,y:e.clientY,t:performance.now(),dx:0,on:false,id:e.pointerId};
+  drag={x:e.clientX,y:e.clientY,t:performance.now(),dx:0,on:false,id:e.pointerId,peek:pk,base:pk?guide.peekBase():0};
 });
 function dragMove(dx){
   const W=awayX(), p=Math.min(1,Math.abs(dx)/W), a=cardsEl[cur];
@@ -1135,7 +1173,8 @@ addEventListener('pointermove',e=>{
   if(!drag.on){
     if(Math.abs(dx)>10&&Math.abs(dx)>Math.abs(dy)*1.2){drag.on=true;dragging=true;settle(cardsEl[cur]);snd('rubOn')} else return;
   }
-  drag.dx=dx; dragMove(dx); snd('rubAt',e.clientX);
+  if(drag.peek&&!drag.calmed){ drag.calmed=true; guide.touched(); }   // a drag that starts on the peek carries on from where the card is
+  drag.dx=dx+drag.base; dragMove(drag.dx); snd('rubAt',e.clientX);
 });
 async function dragEnd(d,cancel){
   dragging=false; snd('rubOff');
@@ -1157,10 +1196,10 @@ async function dragEnd(d,cancel){
 addEventListener('pointerup',e=>{
   if(!drag||e.pointerId!==drag.id) return;
   const d=drag; drag=null;
-  if(!d.on){ if(e.target.closest('.card')&&!e.target.closest('a')) flip(); return }
+  if(!d.on){ if(d.peek){ guide.openPeek(); return } if(e.target.closest('.card')&&!e.target.closest('a')) flip(); return }
   dragEnd(d,false);
 });
-addEventListener('pointercancel',e=>{ if(drag&&e.pointerId===drag.id){const d=drag;drag=null;if(d.on)dragEnd(d,true)} });
+addEventListener('pointercancel',e=>{ if(drag&&e.pointerId===drag.id){const d=drag;drag=null;if(d.on)dragEnd(d,true);else if(d.peek)guide.release()} });
 
 
 /* pinch to zoom, in place, as in a photo: two fingers on the card enlarge it around the fingers (up to 4x); one finger
@@ -1211,7 +1250,7 @@ const PZ=(()=>{
     }
   },{capture:true});
   /* the card's arrival effect is decorative: complete it at once, so the zoom never competes with it */
-  const still=()=>{ const c=cardsEl[cur]; if(c&&c.getAnimations) c.getAnimations({subtree:true}).forEach(k=>{ try{ if(isFinite(k.effect.getComputedTiming().endTime)) k.finish(); }catch(_){} }); };
+  const still=()=>{ const c=cardsEl[cur]; if(c&&c.getAnimations) c.getAnimations({subtree:true}).forEach(k=>{ try{ if(k.id==='peek') return; if(isFinite(k.effect.getComputedTiming().endTime)) k.finish(); }catch(_){} }); };
   function pinch(){
     if(drag){ const d=drag; drag=null; if(d.on) dragEnd(d,true); }
     guide.touched(); still(); base();
