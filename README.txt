@@ -14,4 +14,6 @@ The front page and the three invitations open without a word. Only the admin pag
 
 Mock any moment: add ?at=2026-11-28T16:10 to the front page address (Patna time).
 RSVP: replies are emailed to we@alishaadil.com through Web3Forms (form key RSVP_KEY at build time; public by design).
-Built with build_r3.py (round-2 sources plus the first-screen fixes).
+Clear one phone: add ?fresh to the front page address (alishaadil.com/?fresh) to forget everything the site stored there.
+Built with r1/build/mk_r4.sh: round-2 sources + first-screen fixes + round 4 (larger text, RSVP field errors, sideways layout,
+sound button, stream line, swipe tip, tap the peeking card, touchpad swipe). Tested before going live; see the commit message.
