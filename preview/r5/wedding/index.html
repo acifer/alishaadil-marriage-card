@@ -411,7 +411,7 @@ body[data-scene=c5] .pzb.b{background:linear-gradient(to top,rgb(12,15,28) calc(
   #fin #fan~.dl{grid-column:2;grid-row:5;margin-top:0!important}
   #fin #again{grid-column:2;grid-row:6;margin-top:0}
 }
-#bg i{transition:opacity 0s linear 2s;z-index:0}body[data-scene=intro] #bg [data-s=intro],body[data-scene=table] #bg [data-s=table],body[data-scene=c0] #bg [data-s=c0],body[data-scene=c1] #bg [data-s=c1],body[data-scene=c2] #bg [data-s=c2],body[data-scene=c3] #bg [data-s=c3],body[data-scene=c4] #bg [data-s=c4],body[data-scene=c5] #bg [data-s=c5],body[data-scene=fin] #bg [data-s=fin]{opacity:1;z-index:1;transition:opacity 1.9s var(--ink)}@media (prefers-reduced-motion:reduce){#bg i{transition:none!important}}.mark-ov{will-change:transform;pointer-events:none}</style>
+#bg i{transition:opacity 0s linear 2s;z-index:0}body[data-scene=intro] #bg [data-s=intro],body[data-scene=table] #bg [data-s=table],body[data-scene=c0] #bg [data-s=c0],body[data-scene=c1] #bg [data-s=c1],body[data-scene=c2] #bg [data-s=c2],body[data-scene=c3] #bg [data-s=c3],body[data-scene=c4] #bg [data-s=c4],body[data-scene=c5] #bg [data-s=c5],body[data-scene=fin] #bg [data-s=fin]{opacity:1;z-index:1;transition:opacity 1.9s var(--ink)}@media (prefers-reduced-motion:reduce){#bg i{transition:none!important}}.mark-ov{will-change:transform;pointer-events:none}html.warm:not(.go) #env{visibility:visible!important;opacity:.002}</style>
 </head>
 <body data-scene="intro">
 
@@ -742,7 +742,7 @@ async function intro(){
   const R=[]; const a=(...x)=>{const k=A(...x);R.push(k);return k};
   const score=foley.sfx&&foley.sfx('intro',SPI);
   $('#skip').classList.add('show');
-  a(ebody,[{transform:zoom},{transform:'none'}],{delay:6900,duration:2700,easing:INK});
+  a(ebody,[{transform:zoom},{transform:'none'}],{delay:6900,duration:2700,easing:INK}); ebody.style.transform='';
   a(nq,[{opacity:0,translate:'0px -16px',scale:'1.8'},{opacity:1,translate:'0px 0px',scale:'1',offset:.6},{opacity:1,translate:'0px 0px',scale:'1'}],{delay:300,duration:1000});
   a(nq,[{opacity:1},{opacity:0}],{delay:4300,duration:1400,fill:'forwards'});
   a(vine,[{opacity:1},{opacity:1,offset:.62},{opacity:0}],{delay:900,duration:4600});
@@ -1691,13 +1691,18 @@ addEventListener('keydown',e=>{
 });
 
 /* begin once the type is ready, so nothing reflows mid-reveal; where sound must wait for a touch, the guest is asked first */
+function warmEnv(){ if(RM) return; const w=wrap.offsetWidth, h=wrap.offsetHeight;
+  const Z=Math.max(1.15,Math.min(2.4,innerWidth*.9/(w*.6),innerHeight*.78/(h*.62)));
+  ebody.style.transform=`translate(0px,${((.40-.2737)*h).toFixed(1)}px) scale(${Z.toFixed(3)})`;
+  on(env,true); document.documentElement.classList.add('warm'); }
 async function start(){
+  warmEnv();
   if(!RM&&!MUTED&&foley.allowed&&!(await foley.allowed())){
     const g=$('#gate'); gating=true; g.classList.add('show'); g.focus({preventScroll:true});
     requestAnimationFrame(()=>requestAnimationFrame(()=>g.classList.add('in')));
     await new Promise(r=>g.addEventListener('click',r,{once:true}));
     g.classList.remove('in'); gating=false; setTimeout(()=>g.classList.remove('show'),900);
-  }
+  } else if(!RM) await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(r,120))));
   intro();
 }
 (document.fonts&&document.fonts.ready?Promise.race([document.fonts.ready,sleep(2500)]):Promise.resolve()).then(()=>requestAnimationFrame(start));
