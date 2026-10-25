@@ -411,7 +411,7 @@ body[data-scene=c5] .pzb.b{background:linear-gradient(to top,rgb(12,15,28) calc(
   #fin #fan~.dl{grid-column:2;grid-row:5;margin-top:0!important}
   #fin #again{grid-column:2;grid-row:6;margin-top:0}
 }
-#bg i{transition:opacity 0s linear 2s;z-index:0}body[data-scene=intro] #bg [data-s=intro],body[data-scene=table] #bg [data-s=table],body[data-scene=c0] #bg [data-s=c0],body[data-scene=c1] #bg [data-s=c1],body[data-scene=c2] #bg [data-s=c2],body[data-scene=c3] #bg [data-s=c3],body[data-scene=c4] #bg [data-s=c4],body[data-scene=c5] #bg [data-s=c5],body[data-scene=fin] #bg [data-s=fin]{opacity:1;z-index:1;transition:opacity 1.9s var(--ink)}@media (prefers-reduced-motion:reduce){#bg i{transition:none!important}}.mark-ov{will-change:transform;pointer-events:none}html.warm:not(.go) #env{visibility:visible!important;opacity:.002}</style>
+#bg i{transition:opacity 0s linear 2s;z-index:0}body[data-scene=intro] #bg [data-s=intro],body[data-scene=table] #bg [data-s=table],body[data-scene=c0] #bg [data-s=c0],body[data-scene=c1] #bg [data-s=c1],body[data-scene=c2] #bg [data-s=c2],body[data-scene=c3] #bg [data-s=c3],body[data-scene=c4] #bg [data-s=c4],body[data-scene=c5] #bg [data-s=c5],body[data-scene=fin] #bg [data-s=fin]{opacity:1;z-index:1;transition:opacity 1.9s var(--ink)}@media (prefers-reduced-motion:reduce){#bg i{transition:none!important}}.mark-ov{pointer-events:none}html.warm:not(.go) #env{visibility:visible!important}</style>
 </head>
 <body data-scene="intro">
 
@@ -725,24 +725,21 @@ nq.setAttribute('href','#m-nuqta'); nq.setAttribute('x','118.4'); nq.setAttribut
 nq.setAttribute('opacity','0'); nq.style.transformBox='fill-box'; nq.style.transformOrigin='50% 50%';
 $('.vine-ov').appendChild(nq);
 let skipIntro=null;
-async function intro(){
+let IP=null;
+const EV=n=>{try{(window.__ev=window.__ev||[]).push(n+' '+Math.round(performance.now()))}catch(_){}};
+async function prepIntro(){
   /* let the page settle first (fonts, the first frames), so the first strokes are smooth */
   await Promise.race([document.fonts?document.fonts.ready:null,new Promise(r=>setTimeout(r,700))]);
   await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
   scene('intro'); on(env,true);
+  if(RM) return;
   const w=wrap.offsetWidth, h=wrap.offsetHeight;
   const Z=Math.max(1.15,Math.min(2.4,innerWidth*.9/(w*.6),innerHeight*.78/(h*.62)));
   const zoom=`translate(0px,${((.40-.2737)*h).toFixed(1)}px) scale(${Z.toFixed(3)})`;
-  if(RM){
-    scene('table'); wrap.classList.add('on-table'); document.documentElement.classList.add('go');
-    await done(A(wrap,[{opacity:0},{opacity:1}],{duration:900})); clear(wrap);
-    return toFront();
-  }
   spNow=SPI;
+  const before=new Set(document.getAnimations?document.getAnimations():[]);
   const R=[]; const a=(...x)=>{const k=A(...x);R.push(k);return k};
-  const score=foley.sfx&&foley.sfx('intro',SPI);
-  $('#skip').classList.add('show');
-  a(ebody,[{transform:zoom},{transform:'none'}],{delay:6900,duration:2700,easing:INK}); ebody.style.transform='';
+  a(ebody,[{transform:zoom},{transform:'none'}],{delay:6900,duration:2700,easing:INK});
   a(nq,[{opacity:0,translate:'0px -16px',scale:'1.8'},{opacity:1,translate:'0px 0px',scale:'1',offset:.6},{opacity:1,translate:'0px 0px',scale:'1'}],{delay:300,duration:1000});
   a(nq,[{opacity:1},{opacity:0}],{delay:4300,duration:1400,fill:'forwards'});
   a(vine,[{opacity:1},{opacity:1,offset:.62},{opacity:0}],{delay:900,duration:4600});
@@ -753,23 +750,40 @@ async function intro(){
     else a(e,[{opacity:0},{opacity:1}],{delay:d+450,duration:800});
   });
   R.push(maskReveal([eMark],'mkmI',{delay:3000,duration:2400}));
-  sheen(5450,850);   // a quick glint on the close-up, over before the envelope moves
   a(eUrdu,[{opacity:0,translate:'18px 0px'},{opacity:1,translate:'0px 0px'}],{delay:4400,duration:1900});
   a(eNames,[{opacity:0,translate:'-18px 0px'},{opacity:1,translate:'0px 0px'}],{delay:4400,duration:1900});
   a(eRule,[{opacity:0,scale:'0 1'},{opacity:1,scale:'1 1'}],{delay:5300,duration:1500});
   a(eDate,[{opacity:0},{opacity:1}],{delay:5400,duration:1300});
   /* the frame is inked while the camera is still close on the mark, so it is already there when the envelope pulls back */
   eFrame.forEach((e,k)=>a(e,[{opacity:0},{opacity:1}],{delay:4300+k*Math.min(120,900/Math.max(1,eFrame.length)),duration:1400}));
-  document.documentElement.classList.add('go');   // every first frame is set: show the stage
+  const all=document.getAnimations?document.getAnimations().filter(x=>!before.has(x)):R;
+  all.forEach(x=>x.pause());
+  document.documentElement.classList.add('warm');   // the first frame is drawn now (under "Touch to begin"), not at the tap
+  IP={R,all}; EV('ready');
+}
+async function intro(){
+  EV('play');
+  if(RM||!IP){
+    scene('table'); wrap.classList.add('on-table'); document.documentElement.classList.add('go');
+    await done(A(wrap,[{opacity:0},{opacity:1}],{duration:900})); clear(wrap);
+    return toFront();
+  }
+  const {R,all}=IP; IP=null;
+  spNow=SPI;
+  const score=foley.sfx&&foley.sfx('intro',SPI);
+  $('#skip').classList.add('show');
+  all.forEach(x=>x.play());
+  document.documentElement.classList.add('go');   // show the stage
+  sheen(5450,850);   // a quick glint on the close-up, over before the envelope moves
   const tTable=setTimeout(()=>{scene('table');wrap.classList.add('on-table')},6500*SPI);
   envBtn.dataset.cur='Skip';
   await Promise.race([Promise.all(R.map(done)),new Promise(r=>{skipIntro=r})]);
   clearTimeout(tTable); skipIntro=null; foley.hush&&foley.hush(score);
   R.forEach(k=>k.finish()); await sleep(30); R.forEach(k=>k.cancel());
   spNow=SP; scene('table'); wrap.classList.add('on-table'); $('#skip').classList.remove('show');
-  toFront();
+  EV('front'); toFront();
 }
-function skip(){ if(skipIntro) skipIntro(); }
+function skip(){ if(skipIntro){ EV('skip'); skipIntro(); } }
 /* safety: never leave the envelope hidden if the intro could not run */
 setTimeout(()=>{ if(!document.querySelector('#gate.show')) document.documentElement.classList.add('go'); },10000);
 $('#skip').addEventListener('click',skip);
@@ -1691,18 +1705,15 @@ addEventListener('keydown',e=>{
 });
 
 /* begin once the type is ready, so nothing reflows mid-reveal; where sound must wait for a touch, the guest is asked first */
-function warmEnv(){ if(RM) return; const w=wrap.offsetWidth, h=wrap.offsetHeight;
-  const Z=Math.max(1.15,Math.min(2.4,innerWidth*.9/(w*.6),innerHeight*.78/(h*.62)));
-  ebody.style.transform=`translate(0px,${((.40-.2737)*h).toFixed(1)}px) scale(${Z.toFixed(3)})`;
-  on(env,true); document.documentElement.classList.add('warm'); }
 async function start(){
-  warmEnv();
+  const prep=prepIntro().catch(e=>{EV('err '+e);IP=null});
   if(!RM&&!MUTED&&foley.allowed&&!(await foley.allowed())){
     const g=$('#gate'); gating=true; g.classList.add('show'); g.focus({preventScroll:true});
     requestAnimationFrame(()=>requestAnimationFrame(()=>g.classList.add('in')));
-    await new Promise(r=>g.addEventListener('click',r,{once:true}));
+    EV('gate'); await new Promise(r=>g.addEventListener('click',r,{once:true})); EV('tap');
     g.classList.remove('in'); gating=false; setTimeout(()=>g.classList.remove('show'),900);
-  } else if(!RM) await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(r,120))));
+    await prep;
+  } else { await prep; if(!RM) await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(r,120)))); }
   intro();
 }
 (document.fonts&&document.fonts.ready?Promise.race([document.fonts.ready,sleep(2500)]):Promise.resolve()).then(()=>requestAnimationFrame(start));
@@ -1711,7 +1722,7 @@ async function start(){
 <script>(function(){if(!/[?&]perf\b/.test(location.search))return;var L=[],l=0,t0=0;
 function f(t){if(!t0)t0=t;if(l&&t-l>40){var mk=document.querySelector('#mkmI .mkm');L.push([Math.round(t-t0),Math.round(t-l),document.body.dataset.scene||'',mk?getComputedStyle(mk).strokeDashoffset:''])}l=t;if(t-t0<20000)requestAnimationFrame(f);else show()}
 function show(){var d=document.createElement('pre');d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;max-height:55vh;overflow:auto;z-index:99999;background:#fff;color:#000;font:12px/1.35 monospace;padding:10px;border:1px solid #000;white-space:pre-wrap';
-d.textContent=navigator.userAgent+'\nscreen '+innerWidth+'x'+innerHeight+' @'+devicePixelRatio+'\nlongest stalls: at ms · length ms · scene · A wipe progress (1px start → 0px done)\n'+L.slice().sort(function(a,b){return b[1]-a[1]}).slice(0,15).map(function(x){return x.join('  ·  ')}).join('\n');document.body.appendChild(d)}
+d.textContent=navigator.userAgent+'\nscreen '+innerWidth+'x'+innerHeight+' @'+devicePixelRatio+'\nevents: '+(window.__ev||[]).join(' · ')+'\nlongest stalls: at ms · length ms · scene · A wipe progress (1px start → 0px done)\n'+L.slice().sort(function(a,b){return b[1]-a[1]}).slice(0,15).map(function(x){return x.join('  ·  ')}).join('\n');document.body.appendChild(d)}
 requestAnimationFrame(f)})();</script>
 <script>if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('../sw.js',{scope:'../'}).catch(function(){})</script>
 </body>
