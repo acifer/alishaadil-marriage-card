@@ -864,20 +864,6 @@ nq.setAttribute('opacity','0'); nq.style.transformBox='fill-box'; nq.style.trans
 $('.vine-ov').appendChild(nq);
 let skipIntro=null;
 let IP=null;
-/* the nuqta's ripple: a thin gold outline of the same diamond that spreads when it lands */
-const nqR=document.createElementNS(NS,'path');
-nqR.setAttribute('d','M-6.3 4.9L-3.1 -3.9L6.3 -4.9L3.1 3.9Z'); nqR.setAttribute('fill','none'); nqR.setAttribute('stroke','#D8BC86'); nqR.setAttribute('stroke-width','.45');
-nqR.setAttribute('opacity','0'); nqR.style.transformBox='fill-box'; nqR.style.transformOrigin='50% 50%';
-$('.vine-ov').appendChild(nqR);
-/* on a phone the vine's first point is off the screen, so the nuqta lands where the mark will be drawn: the first
-   touch of the pen, in the middle of the screen; the mark then grows out of it */
-function placeNuqta(){
-  let cx=124.4, cy=395.2;
-  try{ const sv=$('.vine-ov'), r=eMark.getBoundingClientRect(), M=sv.getScreenCTM().inverse();
-       const p=new DOMPoint(r.left+r.width*.46, r.top+r.height*.5).matrixTransform(M); if(isFinite(p.x)&&isFinite(p.y)){ cx=p.x; cy=p.y; } }catch(_){}
-  const W=24; nq.setAttribute('x',(cx-W/2).toFixed(1)); nq.setAttribute('y',(cy-W/2).toFixed(1)); nq.setAttribute('width',W); nq.setAttribute('height',W);
-  nqR.setAttribute('transform',`translate(${cx.toFixed(1)} ${cy.toFixed(1)}) scale(${(W/20).toFixed(2)})`);
-}
 const EV=n=>{try{(window.__ev=window.__ev||[]).push(n+' '+Math.round(performance.now()))}catch(_){}};
 async function prepIntro(){
   /* let the page settle first (fonts, the first frames), so the first strokes are smooth */
@@ -889,29 +875,24 @@ async function prepIntro(){
   const Z=Math.max(1.15,Math.min(2.4,innerWidth*.9/(w*.6),innerHeight*.78/(h*.62)));
   const zoom=`translate(0px,${((.40-.2737)*h).toFixed(1)}px) scale(${Z.toFixed(3)})`;
   spNow=1;   // the opening at the designer's own pace (the rest of the invitation keeps its tempo)
-  placeNuqta();
   const before=new Set(document.getAnimations?document.getAnimations():[]);
   const R=[]; const a=(...x)=>{const k=A(...x);R.push(k);return k};
-  /* the first beat on its own: once 'Touch to begin' has faded, the nuqta falls, lands with a soft ripple of ink,
-     rests a moment, and only then does the stroke flow out of it (the rest keeps the designer's timings, S later) */
-  const S=800;
-  a(ebody,[{transform:zoom},{transform:'none'}],{delay:6900+S,duration:2700,easing:INK});
-  a(nq,[{opacity:0,translate:'0px -22px',scale:'2'},{opacity:1,translate:'0px 0px',scale:'1',offset:.62,easing:'cubic-bezier(.3,0,.2,1)'},{opacity:1,translate:'0px 0px',scale:'.92',offset:.74},{opacity:1,translate:'0px 0px',scale:'1'}],{delay:600,duration:1100,easing:'linear'});
-  a(nqR,[{opacity:0,scale:'1'},{opacity:.85,scale:'1',offset:.05},{opacity:0,scale:'4.2'}],{delay:600+680,duration:1300,easing:'cubic-bezier(.2,.6,.3,1)'});
-  a(nq,[{opacity:1},{opacity:0}],{delay:3000+S+500,duration:1300,fill:'forwards'});   // it melts into the mark as the pen draws it
-  a(vine,[{opacity:1},{opacity:1,offset:.62},{opacity:0}],{delay:900+S,duration:4600});
+  a(ebody,[{transform:zoom},{transform:'none'}],{delay:6900,duration:2700,easing:INK});
+  a(nq,[{opacity:0,translate:'0px -16px',scale:'1.8'},{opacity:1,translate:'0px 0px',scale:'1',offset:.6},{opacity:1,translate:'0px 0px',scale:'1'}],{delay:300,duration:1000});
+  a(nq,[{opacity:1},{opacity:0}],{delay:4300,duration:1400,fill:'forwards'});
+  a(vine,[{opacity:1},{opacity:1,offset:.62},{opacity:0}],{delay:900,duration:4600});
   const parts=[...vine.querySelectorAll('path,circle,ellipse')].map(e=>{let x=0;try{x=e.getBBox().x}catch(_){}return {e,x}});
   parts.forEach(({e,x})=>{
-    const d=1000+S+Math.max(0,Math.min(1,(x-10)/540))*1700;
+    const d=1000+Math.max(0,Math.min(1,(x-10)/540))*1700;
     if(e.tagName==='path'&&e.getAttribute('fill')==='none'){e.setAttribute('pathLength','1');a(e,[{strokeDasharray:'1 2',strokeDashoffset:1},{strokeDasharray:'1 2',strokeDashoffset:0}],{delay:d,duration:1300,easing:'cubic-bezier(.4,0,.3,1)'})}
     else a(e,[{opacity:0},{opacity:1}],{delay:d+450,duration:800});
   });
-  R.push(maskReveal([eMark],'mkmI',{delay:3000+S,duration:2400}));
-  a(eUrdu,[{opacity:0,translate:'18px 0px'},{opacity:1,translate:'0px 0px'}],{delay:4400+S,duration:1900});
-  a(eNames,[{opacity:0,translate:'-18px 0px'},{opacity:1,translate:'0px 0px'}],{delay:4400+S,duration:1900});
-  a(eRule,[{opacity:0,scale:'0 1'},{opacity:1,scale:'1 1'}],{delay:5300+S,duration:1700});
-  a(eDate,[{opacity:0},{opacity:1}],{delay:6000+S,duration:1500});
-  eFrame.forEach((e,k)=>a(e,[{opacity:0},{opacity:1}],{delay:7700+S+k*120,duration:1900}));
+  R.push(maskReveal([eMark],'mkmI',{delay:3000,duration:2400}));
+  a(eUrdu,[{opacity:0,translate:'18px 0px'},{opacity:1,translate:'0px 0px'}],{delay:4400,duration:1900});
+  a(eNames,[{opacity:0,translate:'-18px 0px'},{opacity:1,translate:'0px 0px'}],{delay:4400,duration:1900});
+  a(eRule,[{opacity:0,scale:'0 1'},{opacity:1,scale:'1 1'}],{delay:5300,duration:1700});
+  a(eDate,[{opacity:0},{opacity:1}],{delay:6000,duration:1500});
+  eFrame.forEach((e,k)=>a(e,[{opacity:0},{opacity:1}],{delay:7700+k*120,duration:1900}));
   const all=document.getAnimations?document.getAnimations().filter(x=>!before.has(x)):R;
   all.forEach(x=>x.pause());
   document.documentElement.classList.add('warm');   // the first frame is drawn now (under "Touch to begin"), not at the tap
@@ -930,8 +911,8 @@ async function intro(){
   $('#skip').classList.add('show');
   all.forEach(x=>x.play());
   document.documentElement.classList.add('go');   // show the stage
-  sheen(5300+800);
-  const tTable=setTimeout(()=>{scene('table');wrap.classList.add('on-table')},6900+800);
+  sheen(5300);
+  const tTable=setTimeout(()=>{scene('table');wrap.classList.add('on-table')},6900);
   envBtn.dataset.cur='Skip';
   await Promise.race([Promise.all(R.map(done)),new Promise(r=>{skipIntro=r})]);
   clearTimeout(tTable); skipIntro=null; foley.hush&&foley.hush(score);
