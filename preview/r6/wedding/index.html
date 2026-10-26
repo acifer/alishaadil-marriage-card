@@ -282,7 +282,7 @@ body{transition:none}
 /* the lattice patterns and card copies are drawn in fixed inks; giving them fixed scene colours stops a scene change
    at their edge, instead of restyling their ~30,000 cloned elements on every switch */
 #env .wrap,#cards,#fan,#zoom{color:#1B2F6E;--fg:#1B2F6E;--ac:#8B6D3F;--fg2:rgba(27,47,110,.78)}
-#env .body{will-change:transform}   /* the envelope is a ready layer from the first frame, so its zoom never waits for a redraw */
+#env .body{}   /* the envelope is a ready layer from the first frame, so its zoom never waits for a redraw */
 #skip{transition:opacity 1s,color 1.6s var(--ink)}
 html:not(.go) #env{visibility:hidden}   /* until the intro sets its first frame */
 body[data-scene=intro]{background:#1B2F6E}   /* the first paint is already the intro's lapis, even before its ground layer is drawn */
@@ -411,7 +411,7 @@ body[data-scene=c5] .pzb.b{background:linear-gradient(to top,rgb(12,15,28) calc(
   #fin #fan~.dl{grid-column:2;grid-row:5;margin-top:0!important}
   #fin #again{grid-column:2;grid-row:6;margin-top:0}
 }
-#bg i{transition:opacity 0s linear 2s;z-index:0}body[data-scene=intro] #bg [data-s=intro],body[data-scene=table] #bg [data-s=table],body[data-scene=c0] #bg [data-s=c0],body[data-scene=c1] #bg [data-s=c1],body[data-scene=c2] #bg [data-s=c2],body[data-scene=c3] #bg [data-s=c3],body[data-scene=c4] #bg [data-s=c4],body[data-scene=c5] #bg [data-s=c5],body[data-scene=fin] #bg [data-s=fin]{opacity:1;z-index:1;transition:opacity 1.9s var(--ink)}@media (prefers-reduced-motion:reduce){#bg i{transition:none!important}}html.warm:not(.go) #env{visibility:visible!important}
+#bg i:not([data-s=intro]){transition:opacity 0s linear 2s;z-index:0}body[data-scene=table] #bg [data-s=table],body[data-scene=c0] #bg [data-s=c0],body[data-scene=c1] #bg [data-s=c1],body[data-scene=c2] #bg [data-s=c2],body[data-scene=c3] #bg [data-s=c3],body[data-scene=c4] #bg [data-s=c4],body[data-scene=c5] #bg [data-s=c5],body[data-scene=fin] #bg [data-s=fin]{opacity:1;z-index:1;transition:opacity 1.9s var(--ink)}@media (prefers-reduced-motion:reduce){#bg i{transition:none!important}}html.opening #sound{opacity:0!important;visibility:hidden!important}
 /* ---------- round 6: the reply ---------- */
 #fin [hidden],#reply [hidden]{display:none!important}
 #fin .fin-ask{display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:clamp(12px,2.4vh,22px)}
@@ -863,20 +863,20 @@ nq.setAttribute('href','#m-nuqta'); nq.setAttribute('x','118.4'); nq.setAttribut
 nq.setAttribute('opacity','0'); nq.style.transformBox='fill-box'; nq.style.transformOrigin='50% 50%';
 $('.vine-ov').appendChild(nq);
 let skipIntro=null;
-let IP=null;
-const EV=n=>{try{(window.__ev=window.__ev||[]).push(n+' '+Math.round(performance.now()))}catch(_){}};
-async function prepIntro(){
-  /* let the page settle first (fonts, the first frames), so the first strokes are smooth */
-  await Promise.race([document.fonts?document.fonts.ready:null,new Promise(r=>setTimeout(r,700))]);
-  await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+async function intro(){
   scene('intro'); on(env,true);
-  if(RM) return;
   const w=wrap.offsetWidth, h=wrap.offsetHeight;
   const Z=Math.max(1.15,Math.min(2.4,innerWidth*.9/(w*.6),innerHeight*.78/(h*.62)));
   const zoom=`translate(0px,${((.40-.2737)*h).toFixed(1)}px) scale(${Z.toFixed(3)})`;
-  spNow=1;   // the opening at the designer's own pace (the rest of the invitation keeps its tempo)
-  const before=new Set(document.getAnimations?document.getAnimations():[]);
+  if(RM){
+    scene('table'); wrap.classList.add('on-table'); document.documentElement.classList.add('go');
+    await done(A(wrap,[{opacity:0},{opacity:1}],{duration:900})); clear(wrap);
+    return toFront();
+  }
+  spNow=1; document.documentElement.classList.add('opening');
   const R=[]; const a=(...x)=>{const k=A(...x);R.push(k);return k};
+  const score=foley.sfx&&foley.sfx('intro');
+  $('#skip').classList.add('show');
   a(ebody,[{transform:zoom},{transform:'none'}],{delay:6900,duration:2700,easing:INK});
   a(nq,[{opacity:0,translate:'0px -16px',scale:'1.8'},{opacity:1,translate:'0px 0px',scale:'1',offset:.6},{opacity:1,translate:'0px 0px',scale:'1'}],{delay:300,duration:1000});
   a(nq,[{opacity:1},{opacity:0}],{delay:4300,duration:1400,fill:'forwards'});
@@ -888,39 +888,22 @@ async function prepIntro(){
     else a(e,[{opacity:0},{opacity:1}],{delay:d+450,duration:800});
   });
   R.push(maskReveal([eMark],'mkmI',{delay:3000,duration:2400}));
+  sheen(5300);
   a(eUrdu,[{opacity:0,translate:'18px 0px'},{opacity:1,translate:'0px 0px'}],{delay:4400,duration:1900});
   a(eNames,[{opacity:0,translate:'-18px 0px'},{opacity:1,translate:'0px 0px'}],{delay:4400,duration:1900});
   a(eRule,[{opacity:0,scale:'0 1'},{opacity:1,scale:'1 1'}],{delay:5300,duration:1700});
   a(eDate,[{opacity:0},{opacity:1}],{delay:6000,duration:1500});
   eFrame.forEach((e,k)=>a(e,[{opacity:0},{opacity:1}],{delay:7700+k*120,duration:1900}));
-  const all=document.getAnimations?document.getAnimations().filter(x=>!before.has(x)):R;
-  all.forEach(x=>x.pause());
-  document.documentElement.classList.add('warm');   // the first frame is drawn now (under "Touch to begin"), not at the tap
-  IP={R,all}; EV('ready');
-}
-async function intro(){
-  EV('play');
-  if(RM||!IP){
-    scene('table'); wrap.classList.add('on-table'); document.documentElement.classList.add('go');
-    await done(A(wrap,[{opacity:0},{opacity:1}],{duration:900})); clear(wrap);
-    return toFront();
-  }
-  const {R,all}=IP; IP=null;
-  spNow=1;
-  const score=foley.sfx&&foley.sfx('intro',1);
-  $('#skip').classList.add('show');
-  all.forEach(x=>x.play());
-  document.documentElement.classList.add('go');   // show the stage
-  sheen(5300);
+  document.documentElement.classList.add('go');
   const tTable=setTimeout(()=>{scene('table');wrap.classList.add('on-table')},6900);
   envBtn.dataset.cur='Skip';
   await Promise.race([Promise.all(R.map(done)),new Promise(r=>{skipIntro=r})]);
   clearTimeout(tTable); skipIntro=null; foley.hush&&foley.hush(score);
   R.forEach(k=>k.finish()); await sleep(30); R.forEach(k=>k.cancel());
-  spNow=SP; scene('table'); wrap.classList.add('on-table'); $('#skip').classList.remove('show');
-  EV('front'); toFront();
+  spNow=SP; document.documentElement.classList.remove('opening'); scene('table'); wrap.classList.add('on-table'); $('#skip').classList.remove('show');
+  toFront();
 }
-function skip(){ if(skipIntro){ EV('skip'); skipIntro(); } }
+function skip(){ if(skipIntro) skipIntro(); }
 /* safety: never leave the envelope hidden if the intro could not run */
 setTimeout(()=>{ if(!document.querySelector('#gate.show')) document.documentElement.classList.add('go'); },10000);
 $('#skip').addEventListener('click',skip);
@@ -1844,14 +1827,12 @@ addEventListener('keydown',e=>{
 /* begin once the type is ready, so nothing reflows mid-reveal; where sound must wait for a touch, the guest is asked first */
 async function start(){
   if(location.hash==='#reply') return;   // the reply sheet was asked for directly: the opening waits
-  const prep=prepIntro().catch(e=>{EV('err '+e);IP=null});
   if(!RM&&!MUTED&&foley.allowed&&!(await foley.allowed())){
     const g=$('#gate'); gating=true; g.classList.add('show'); g.focus({preventScroll:true});
     requestAnimationFrame(()=>requestAnimationFrame(()=>g.classList.add('in')));
-    EV('gate'); await new Promise(r=>g.addEventListener('click',r,{once:true})); EV('tap');
+    await new Promise(r=>g.addEventListener('click',r,{once:true}));
     g.classList.remove('in'); gating=false; setTimeout(()=>g.classList.remove('show'),900);
-    await prep;
-  } else { await prep; if(!RM) await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(r,120)))); }
+  }
   intro();
 }
 (document.fonts&&document.fonts.ready?Promise.race([document.fonts.ready,sleep(2500)]):Promise.resolve()).then(()=>requestAnimationFrame(start));
