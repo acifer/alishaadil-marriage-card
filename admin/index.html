@@ -44,6 +44,27 @@ th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-alig
 ul{padding-left:20px}li{margin:2px 0;font-size:17px}
 .res{min-width:0;width:100%}.res th{width:34%}.res tr.bad td{background:rgba(242,184,160,.15)}
 @media (max-width:560px){.set{grid-template-columns:1fr}.qr{width:130px;height:130px}}
+/* round 6: tabs, one section per family in its own colour, the message as WhatsApp shows it */
+.tabs{position:sticky;top:0;z-index:5;display:flex;gap:4px;overflow-x:auto;margin:22px -16px 18px;padding:8px 16px 0;background:var(--ground);border-bottom:1px solid var(--line);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs [role=tab]{flex:1 1 0;min-width:72px;min-height:52px;padding:4px 6px;font:500 14px/1.2 Jost,sans-serif;text-align:center;letter-spacing:.03em;color:var(--quiet);background:none;border:0;border-bottom:3px solid transparent;cursor:pointer}
+.tabs [role=tab][aria-selected=true]{color:var(--ivory);border-bottom-color:var(--gold)}
+.tabs [role=tab]:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+.lead{margin:0 0 6px}
+.fam-s h2{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;border-bottom-color:var(--fc)}
+.fam-s h2 small{font:400 16px Jost,sans-serif;color:var(--quiet)}
+.fam-s .sw{width:14px;height:14px;border-radius:50%;background:var(--fc);align-self:center}
+.fam-s .inv{border-left:4px solid var(--fc)}
+.cap{margin:8px 0 4px;font:500 12px/1 Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.msg{max-width:440px;margin:0 0 12px;padding:10px 12px;background:#F7F3EA;color:#1F2A33;border-radius:8px 8px 8px 2px;font:16px/1.45 -apple-system,'Segoe UI',Roboto,Arial,sans-serif;word-break:break-word}
+.msg u{color:#1F6FB2;text-decoration:none}
+.b.fam{background:var(--fc);color:#16234F}
+.b.fam-o{background:transparent;color:var(--ivory);border:2px solid var(--fc)}
+.h3{margin:28px 0 8px}
+.lk{display:flex;flex-wrap:wrap;gap:10px 16px;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.lk>div:first-child{display:flex;flex-direction:column;min-width:0;flex:1 1 300px}
+.muted a{color:var(--ivory);text-decoration-color:var(--gold);text-underline-offset:3px}
+.lk b{font-weight:500;font-size:20px}.lk .muted{font-size:15px}.lk .u{color:var(--ivory);word-break:break-all;font:15px Jost,sans-serif}
 </style>
 </head>
 <body>
@@ -62,7 +83,7 @@ ul{padding-left:20px}li{margin:2px 0;font-size:17px}
 </form></main>
 <script>
 (function(){
-var SALT="/jIbLui6UO9/8J3CwRnTXA==",ITER=300000,SLOT="aa-admin",PIECES=[{"z": "../p/84d775e33756.z.bin", "u": "../p/a641c05ba826.bin", "ivz": "wbBbdqk8ubCib3xB", "ivu": "qxTGd1RgFhim5NJR"}],SW="../sw.js|../";
+var SALT="oSOzh14z+kz0wLOfGaWCZQ==",ITER=300000,SLOT="aa-admin",PIECES=[{"z": "../p/e89186df617c.z.bin", "u": "../p/2c9168c282de.bin", "ivz": "0EE3mMlQZzq9V9wx", "ivu": "l9hWU/km/PNYNkTG"}],SW="../sw.js|../";
 var g=document.getElementById('aagate'),f=document.getElementById('aagf'),p=document.getElementById('gp'),e=document.getElementById('ge'),bt=document.getElementById('gb');
 function b(s){var x=atob(s),a=new Uint8Array(x.length);for(var i=0;i<x.length;i++)a[i]=x.charCodeAt(i);return a}
 f.style.opacity='0';g.setAttribute('aria-busy','true');
