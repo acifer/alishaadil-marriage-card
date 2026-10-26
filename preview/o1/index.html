@@ -140,7 +140,7 @@ fieldset[aria-invalid=true] .opt{border-color:rgba(242,184,160,.7)}
     </svg>
     <span class="t">Your invitation</span>
   </a>
-  <div class="rs" id="rs" hidden><div class="links"><span id="rsPre" class="rs-pre" hidden>Replied ·</span><a href="wedding/#reply" id="rsvpLink">Reply</a></div><p class="reply" id="rsvpNote"></p></div>
+  <div class="rs" id="rs" hidden><div class="links"><span id="rsPre" class="rs-pre" hidden>Replied ·</span><a href="wedding/#reply" id="rsvpLink">RSVP</a></div><p class="reply" id="rsvpNote"></p></div>
   <section class="ev" aria-live="off">
     <p id="kick" class="kick" hidden></p>
     <p id="live" class="live" hidden><i></i>Live now</p>
@@ -408,8 +408,9 @@ function saved(){ try{ return JSON.parse(localStorage.getItem(KEY) || 'null'); }
 function rsvpLabel(){
   var s = saved(), a = $('rsvpLink'), note = $('rsvpNote');
   a.href = CFG.card + '#reply';
-  a.textContent = s ? 'Change your reply' : 'Reply'; $('rsPre').hidden = !s;
-  note.textContent = s ? '' : 'Kindly reply by ' + CFG.rsvpByText; note.hidden = !!s;
+  /* as the RSVP line always looked: 'RSVP' / 'Kindly reply by …', then 'Change your reply' / 'Thank you for your reply' */
+  a.textContent = s ? 'Change your reply' : 'RSVP'; $('rsPre').hidden = true;
+  note.textContent = s ? 'Thank you for your reply' : 'Kindly reply by ' + CFG.rsvpByText; note.hidden = false;
 }
 rsvpLabel();
 window.addEventListener('pageshow', rsvpLabel); window.addEventListener('storage', rsvpLabel);
