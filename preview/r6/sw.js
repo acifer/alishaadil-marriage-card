@@ -1,5 +1,5 @@
 /* keeps the shell, the shared fonts and the sealed pieces for instant and offline repeat visits */
-const V='aa-9d0cddb864';
+const V='aa-0b7457fca9';
 self.addEventListener('install',e=>{self.skipWaiting()});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith('aa-')&&k!==V).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{
