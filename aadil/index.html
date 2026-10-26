@@ -341,6 +341,7 @@ html.rsopen #cur{display:none}
 #reply .rp-sum div{display:flex;justify-content:space-between;gap:12px;padding:10px 2px;border-bottom:1px solid rgba(207,174,114,.3);font:400 16px Jost,sans-serif;text-align:left}
 #reply .rp-sum small{font-size:15px;color:#C3BBA6;text-align:right}
 #reply .rp-prev{font-size:14px!important;color:#F2C9A0!important;border:1px dashed rgba(242,201,160,.5);padding:8px 12px}
+#reply .rp-subs{margin-top:16px;display:flex;flex-direction:column;align-items:center}#reply .rp-subs p{margin:0 0 8px}#reply .rp-subs .rp-btn{margin-top:0;background:transparent;color:#F4ECDC;border:1px solid #CFAE72;text-decoration:none}
 #reply .rp-done .rp-btn{width:auto;min-width:240px;margin-top:24px}
 #reply .rp-link{margin-top:12px;min-height:44px;font:400 16px Jost,sans-serif;color:#F4ECDC;text-decoration:underline;text-decoration-color:#CFAE72;text-underline-offset:5px}
 @media (prefers-reduced-motion:reduce){#reply{transition:none}}
@@ -544,6 +545,7 @@ html.rsopen #cur{display:none}
       <svg class="rp-big" viewBox="0 0 2437 1725" aria-hidden="true" focusable="false"><use href="#mk" fill="url(#foilG)"/></svg><svg class="rp-ksh" viewBox="-4 -4 400 40" aria-hidden="true" focusable="false"><use href="#m-kashida"/></svg>
       <h2 id="rpDoneH" tabindex="-1">Thank you</h2><p id="rpDoneP">Your reply has reached Alisha and Aadil.</p>
       <div class="rp-sum" id="rpSum"></div>
+      <div class="rp-subs" id="rpSubs" hidden><p>To be told when we go live, subscribe and tap 🔔</p><a class="rp-btn" id="rpSubsA" target="_blank" rel="noopener">Subscribe on YouTube</a></div>
       <p class="rp-prev" id="rpPrev" hidden>Preview only: this reply was not sent, because the email is not set up yet.</p>
       <button type="button" class="rp-btn" id="rpHome">Back to the invitation</button>
       <button type="button" class="rp-link" id="rpAgain">Change your reply</button>
@@ -1405,7 +1407,7 @@ async function start(){
 <script>
 (function(){
 'use strict';
-var C = {"guest": "aadil", "face": "#aadil", "key": "42b6c650-9b86-4a72-ae1a-9dadf5436172", "by": "2026-11-20T23:59", "byText": "20 November", "evs": [{"id": "mehndi", "name": "Aadil’s Haldi & Mehndi", "note": "", "when": "Fri 27 Nov · 4 PM · Lumea", "c": "#9BAE55"}, {"id": "nikah", "name": "The Nikah", "note": "", "when": "Sat 28 Nov · 4 PM · Kishan Palace", "c": "#CFAE72"}, {"id": "reception", "name": "Reception Dinner", "note": "", "when": "Sat 28 Nov · 8 PM · Kishan Palace", "c": "#D9798A"}], "streamFrom": "2026-11-28T15:30", "streamUntil": "2026-11-28T17:00", "group": "Aadil’s side"};
+var C = {"guest": "aadil", "face": "#aadil", "key": "42b6c650-9b86-4a72-ae1a-9dadf5436172", "by": "2026-11-20T23:59", "byText": "20 November", "evs": [{"id": "mehndi", "name": "Aadil’s Haldi & Mehndi", "note": "", "when": "Fri 27 Nov · 4 PM · Lumea", "c": "#9BAE55"}, {"id": "nikah", "name": "The Nikah", "note": "", "when": "Sat 28 Nov · 4 PM · Kishan Palace", "c": "#CFAE72"}, {"id": "reception", "name": "Reception Dinner", "note": "", "when": "Sat 28 Nov · 8 PM · Kishan Palace", "c": "#D9798A"}], "streamFrom": "2026-11-28T15:30", "streamUntil": "2026-11-28T17:00", "subscribe": "https://www.youtube.com/@ciferlish?sub_confirmation=1", "group": "Aadil’s side"};
 function $(id){ return document.getElementById(id); }
 function ist(s){ var p = s.split(/[-T:]/).map(Number); return Date.UTC(p[0],p[1]-1,p[2],p[3]||0,p[4]||0) - 330*60000; }
 var at = new URLSearchParams(location.search).get('at'), T0 = Date.now();
@@ -1540,6 +1542,7 @@ function thank(d, preview){
   $('rpDoneP').textContent = 'Your reply has reached Alisha and Aadil. ' + (any ? 'They look forward to celebrating with you.' : w ? 'They will be glad to have you with them online.' : 'You will be missed, and your prayers are with them.');
   $('rpSum').innerHTML = C.evs.map(function(ev){ return '<div><span>' + ev.name + '</span><small>' + said(ev, d.answers[ev.id]) + '</small></div>'; }).join('');
   $('rpPrev').hidden = !preview;
+  $('rpSubs').hidden = !(w && C.subscribe); if(C.subscribe) $('rpSubsA').href = C.subscribe;
   $('rpForm').hidden = true; $('rpDone').hidden = false; sheet.scrollTop = 0; $('rpDoneH').focus({preventScroll:true});
 }
 /* the front page's Reply link: <card>/#reply opens the sheet at once */
