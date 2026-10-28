@@ -288,7 +288,7 @@ function plain(src){            // YouTube's controls did not load: the picture 
 function open(k){
   if(openW) return; var w = W[k]; if(!w || !(w.state === 'live' || (w.state === 'after' && w.c.rec))) return;
   openW = k; var c = w.c, again = w.state === 'after';
-  var src = again ? c.rec : c.src, id = vidOf(src), before = !again && now() < ist(c.start);
+  var src = again ? c.rec : c.src, id = vidOf(src), before = !again && !c.test && now() < ist(c.start);
   TH.dataset.w = k; thT.textContent = c.title; TH.className = 'theatre'; thSound.hidden = true; say('');
   thV.querySelector('.th-player').outerHTML = '<div class="th-player"></div>';
   thWhen.innerHTML = again ? 'The recording' : (before || !src) ? (before ? 'Starting at ' : '') + c.when : liveLine(c);
