@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Alisha &amp; Aadil</title>
 <meta name="theme-color" content="#1B2F6E"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="../a/f-latin.42c892a840de.css"><link rel="stylesheet" href="../a/f-urdu.84a6fd72effe.css">
+<link rel="stylesheet" href="../a/f-latin.5287445996fe.css"><link rel="stylesheet" href="../a/f-urdu.84a6fd72effe.css">
 <style>
 
 :root{
@@ -341,10 +341,70 @@ html.rsopen #cur{display:none}
 #reply .rp-sum div{display:flex;justify-content:space-between;gap:12px;padding:10px 2px;border-bottom:1px solid rgba(207,174,114,.3);font:400 16px Jost,sans-serif;text-align:left}
 #reply .rp-sum small{font-size:15px;color:#C3BBA6;text-align:right}
 #reply .rp-prev{font-size:14px!important;color:#F2C9A0!important;border:1px dashed rgba(242,201,160,.5);padding:8px 12px}
+#reply .rp-jk{display:inline-block;width:17px;height:auto;vertical-align:-4px;margin-right:7px;--door:#14245A}
+#reply .rp-jkw{margin-top:18px;display:flex;flex-direction:column;align-items:center;text-align:center}
+#reply .rj-svg{width:76px;height:auto;--door:#14245A}
+#reply .rp-jkw .lt,#reply .rp-jk .lt{animation:rpb 4.2s ease-in-out infinite}@keyframes rpb{0%,100%{opacity:.35}50%{opacity:.9}}
+#reply .rp-jkw .a{margin:10px 0 0;font:italic 400 22px/1.2 'Cormorant Garamond',Georgia,serif;color:#F4ECDC}
+#reply .rp-jkw .b{margin:4px auto 0;max-width:32ch;font:400 15px/1.45 Jost,sans-serif;color:#C3BBA6}
+#reply .rp-go{margin-top:12px;display:inline-flex;align-items:center;min-height:46px;padding:0 20px;border:1px solid #CFAE72;border-radius:2px;color:#F4ECDC;font:500 15px Jost,sans-serif;text-decoration:none}
+#reply .rp-jkw .s{margin:10px 0 0;font:400 14px Jost,sans-serif;color:#C3BBA6}#reply .rp-jkw .s a{color:#F4ECDC;text-decoration-color:#CFAE72;text-underline-offset:3px}
 #reply .rp-subs{margin-top:16px;display:flex;flex-direction:column;align-items:center}#reply .rp-subs p{margin:0 0 8px}#reply .rp-subs .rp-btn{margin-top:0;background:transparent;color:#F4ECDC;border:1px solid #CFAE72;text-decoration:none}
 #reply .rp-done .rp-btn{width:auto;min-width:240px;margin-top:24px}
 #reply .rp-link{margin-top:12px;min-height:44px;font:400 16px Jost,sans-serif;color:#F4ECDC;text-decoration:underline;text-decoration-color:#CFAE72;text-underline-offset:5px}
 @media (prefers-reduced-motion:reduce){#reply{transition:none}}
+
+/* ---------- zoom (cards and envelope) ---------- */
+html.zooming .face,html.zooming #envBtn{cursor:grab}
+/* in the deck the hint sits just under the card (the original's hint line is behind the card's own actions there) */
+#ztip{position:fixed;left:16px;right:16px;z-index:12;margin:0;text-align:center;pointer-events:none;font:500 11px/1.5 Jost,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--fg2);opacity:0;transition:opacity .9s var(--ink)}
+#ztip.show{opacity:1}
+/* while zoomed: the way on is "zoom out", said where the next step usually is (Turn over / the hint line) */
+.zi{display:inline-block;width:13px;height:13px;margin:0 9px 0 0;vertical-align:-2px;overflow:visible}
+.zi *{fill:none;stroke:var(--ac);stroke-width:1.3;stroke-linecap:round}
+html.zoom-card #acts>:not(#aFlip){display:none}
+#aFlip.zo{border:1px solid var(--ac);border-radius:999px;padding:9px 16px 9px 13px;opacity:1}
+#aFlip.zo::after{display:none}
+#zout{position:fixed;left:0;right:0;margin:0 auto;width:max-content;max-width:calc(100vw - 32px);bottom:calc(env(safe-area-inset-bottom) + 5.5vh - 13px);z-index:12;
+  font:500 10.5px/1 Jost,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--fg);background:none;border:1px solid var(--ac);border-radius:999px;
+  padding:10px 18px 10px 14px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .6s var(--ink);white-space:nowrap}
+#zout.show{opacity:1;pointer-events:auto}
+html.zoom-env #hint{opacity:0!important;transition-duration:.3s}
+.zn{animation:zn .7s var(--ink)}
+@keyframes zn{0%{scale:1}25%{scale:1.1}55%{scale:.97}100%{scale:1}}
+@media (prefers-reduced-motion:reduce){#ztip,#zout{transition:none}.zn{animation:none}}
+
+/* smoothness: the colour fade only where it shows (the "Open map" labels), not on the whole page */
+body{transition:none}
+.qr span{transition:opacity .6s,color 1.6s var(--ink)}
+
+/* map QR codes: label, zoom, two taps (patch_qr.py) */
+.qr span{opacity:.86}
+.qr.armed{outline-color:var(--ac,#B08C57);box-shadow:0 0 0 4px rgba(176,140,87,.22)}.qr.armed span{opacity:1}@media (prefers-reduced-motion:no-preference){.qr.armed{animation:qrArm .5s cubic-bezier(.3,.7,.3,1)}}@keyframes qrArm{0%{box-shadow:0 0 0 0 rgba(176,140,87,.5)}100%{box-shadow:0 0 0 4px rgba(176,140,87,.22)}}
+
+/* turn the envelope back (patch_turnback.py) */
+#tbk{position:fixed;left:0;right:0;margin:0 auto;width:max-content;bottom:max(4px,calc(env(safe-area-inset-bottom) + 5.5vh - 46px));z-index:6;
+  display:flex;align-items:center;gap:10px;padding:10px 16px;background:none;border:0;cursor:pointer;
+  font:500 10px/1 Jost,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--fg2);
+  opacity:0;pointer-events:none;transition:opacity .9s var(--ink)}
+#tbk.show{opacity:.78;pointer-events:auto}
+#tbk.show:hover{opacity:1}
+#tbk:focus-visible{outline:2px solid var(--ac);outline-offset:2px;border-radius:2px;opacity:1}
+#tbk svg{width:30px;height:12px;overflow:visible}
+#tbk svg .k{fill:none;stroke:var(--ac);stroke-width:1.15;stroke-linecap:round}
+#tbk svg .n{fill:var(--ac)}
+html.zooming #tbk{opacity:0!important;pointer-events:none!important;transition-duration:.2s}
+@media (prefers-reduced-motion:reduce){#tbk{transition:none}}
+
+/* the envelope hints in Hindi and Urdu (patch_hints.py) */
+
+#hint span,#hint .hl{transition:opacity .7s var(--ink)}
+#hint .fade{opacity:0}
+#hint .hl{display:inline-block;vertical-align:middle;color:inherit}
+#hint .hl[lang=hi]{font:500 14px/1 'AA Hindi','Kohinoor Devanagari','Noto Sans Devanagari',sans-serif;letter-spacing:.02em;text-transform:none}
+#hint .hl[lang=ur]{padding:0 6px}
+#hint .hl[lang=ur] svg{display:block;height:25px;width:auto;overflow:visible;fill:currentColor}
+@media (prefers-reduced-motion:reduce){#hint span,#hint .hl{transition:none}}
 </style>
 </head>
 <body data-scene="intro">
@@ -469,8 +529,8 @@ html.rsopen #cur{display:none}
             <div class="flap">
               <div class="fout"><svg viewBox="0 0 558 244.8" aria-hidden="true">
                 <g transform="matrix(-1 0 0 -1 637.2 244.8)" clip-path="url(#dieC)"><g clip-path="url(#fT)"><use href="#eo-layer-Ground"/><use href="#eo-layer-Pattern"/><use href="#eo-layer-Artwork"/></g></g>
-                <g class="seal" transform="translate(279 204.8)"><g class="seal-in">
-                  <use class="s-whole" href="#sealG"/>
+                <defs><linearGradient id="waveG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#F6DFA4" stop-opacity="0"/><stop offset=".5" stop-color="#F6DFA4" stop-opacity=".95"/><stop offset="1" stop-color="#F6DFA4" stop-opacity="0"/></linearGradient><radialGradient id="glowG"><stop offset=".62" stop-color="#E6C47F" stop-opacity="0"/><stop offset=".78" stop-color="#E6C47F" stop-opacity=".55"/><stop offset="1" stop-color="#E6C47F" stop-opacity="0"/></radialGradient></defs><g class="seal" transform="translate(279 204.8)"><circle class="s-glow" r="66" fill="url(#glowG)" style="opacity:0;pointer-events:none"/><g class="seal-in">
+                  <use class="s-whole" href="#sealG"/><g class="s-wave" clip-path="url(#sealShapeC)" style="pointer-events:none"><g transform="rotate(-24)"><rect class="s-band" x="-170" y="-80" width="80" height="160" fill="url(#waveG)" style="opacity:0;mix-blend-mode:screen"/></g></g>
                   <g class="s-top" style="display:none"><g clip-path="url(#sealTopC)"><use href="#sealG"/><use href="#sealEdge"/></g></g>
                   <g class="s-crack" fill="none" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#sealShapeC)">
                     <path class="ck" d="M-53 -3L-46 1L-41 0L-35 6L-29 8L-24 14L-17 16L-12 22L-6 23L-1 29L5 26L10 27L15 21L21 19L26 13L32 12L37 6L44 5L53 -2" transform="translate(.4 .9)" stroke="rgb(222,140,98)" stroke-opacity=".55" stroke-width=".7" pathLength="1" stroke-dasharray="1 2" stroke-dashoffset="1"/>
@@ -520,7 +580,7 @@ html.rsopen #cur{display:none}
       <div class="dl rev" style="margin-top:clamp(22px,4vh,40px)"><span lang="ur" style="font-family:Gulzar,serif;font-size:17px;letter-spacing:0;text-transform:none;color:#D8BC86">محبت کے ساتھ</span> &nbsp;·&nbsp; with love</div>
       <button class="again rev" id="again" data-cur="Open"><svg viewBox="-31 -31 62 62" aria-hidden="true" focusable="false"><defs><clipPath id="rsSc"><circle r="24"/></clipPath><linearGradient id="rsGl" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#FFE9B8" stop-opacity=".5"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs><g class="br"><path d="M0-26 C9-26 14-22 19-18 C25-12 27-6 26 1 C27 9 23 16 17 21 C11 26 4 27 -3 26 C-11 27 -18 23 -22 17 C-27 10 -27 2 -26 -5 C-26 -13 -20 -21 -12 -24 C-8 -26 -4 -26 0 -26Z" fill="#7A1F2B"/><circle r="18" fill="none" stroke="#5C1420" stroke-width="2"/><g clip-path="url(#rsSc)"><rect class="gl" x="-22" y="-30" width="24" height="60" fill="url(#rsGl)" transform="rotate(20)"/></g><use href="#mk" fill="#D8BC86" transform="translate(-14 -10) scale(.0115)"/></g></svg><span>Open the envelope again</span></button>
       <div class="fin-ask rev" id="finAsk" hidden><button type="button" class="ask-btn" id="finReply" data-cur="RSVP" aria-describedby="finBy"><svg viewBox="0 0 88 60" aria-hidden="true" focusable="false"><g class="rc"><rect x="12" y="6" width="64" height="42" rx="1" fill="#F4ECDC"/><text x="44" y="21" text-anchor="middle" font-family="Jost,sans-serif" font-size="8" font-weight="500" letter-spacing="2" fill="#1B2F6E">RSVP</text><path d="M30 28h28M34 34h20" stroke="#C9A86F" stroke-width=".8"/></g><rect x="1" y="1" width="86" height="58" rx="3" fill="none" stroke="#D8BC86" stroke-width="1.3"/><path d="M1 22 L1 58 L87 58 L87 22 L44 44 Z" fill="#1B2F6E" stroke="#D8BC86" stroke-width="1.3" stroke-linejoin="round"/><g transform="translate(44 44)"><path class="halo" d="M-6.3 4.9 L-3.1 -3.9 L6.3 -4.9 L3.1 3.9Z" fill="none" stroke="#D8BC86" stroke-width=".6"/><path d="M-5.7 4.4 L-2.8 -3.5 L5.7 -4.4 L2.8 3.5Z" fill="#D8BC86"/></g></svg><span class="lb" id="finRl">RSVP</span></button><span class="ask-by" id="finBy">kindly reply by 20 November</span></div>
-      <a class="fin-live rev" id="finLive" href="../#alisha" hidden>Watch the Nikah live</a>
+      <a class="fin-live rev" id="finLive" href="../live/" hidden>Watch the Wedding live</a>
       
     </div>
   </section>
@@ -545,7 +605,8 @@ html.rsopen #cur{display:none}
       <svg class="rp-big" viewBox="0 0 2437 1725" aria-hidden="true" focusable="false"><use href="#mk" fill="url(#foilG)"/></svg><svg class="rp-ksh" viewBox="-4 -4 400 40" aria-hidden="true" focusable="false"><use href="#m-kashida"/></svg>
       <h2 id="rpDoneH" tabindex="-1">Thank you</h2><p id="rpDoneP">Your reply has reached Alisha and Aadil.</p>
       <div class="rp-sum" id="rpSum"></div>
-      <div class="rp-subs" id="rpSubs" hidden><p>To be told when we go live, subscribe and tap 🔔</p><a class="rp-btn" id="rpSubsA" target="_blank" rel="noopener">Subscribe on YouTube</a></div>
+      <div class="rp-jkw" id="rpSubs" hidden><svg class="rj-svg" viewBox="-16 -60 212 326" aria-hidden="true" focusable="false"><defs><pattern id="rjJ" width="24.8" height="24.8" patternUnits="userSpaceOnUse"><path transform="scale(.62)" d="M20 7L23.8 10.8L29.2 10.8L29.2 16.2L33 20L29.2 23.8L29.2 29.2L23.8 29.2L20 33L16.2 29.2L10.8 29.2L10.8 23.8L7 20L10.8 16.2L10.8 10.8L16.2 10.8ZM0 0L7 7M40 0L33 7M0 40L7 33M40 40L33 33M20 0L20 5M20 40L20 35M0 20L5 20M40 20L35 20" fill="none" stroke="#CFAE72" stroke-width="2.6"/></pattern><radialGradient id="rjG" cx=".5" cy=".45" r=".6"><stop offset="0" stop-color="#FFEBC2"/><stop offset="1" stop-color="#E7C98E" stop-opacity="0"/></radialGradient><clipPath id="rjC"><path d="M0 260L0 96C0 80 12 70 28 70C30 46 48 34 66 38C72 16 84 6 90 0C96 6 108 16 114 38C132 34 150 46 152 70C168 70 180 80 180 96L180 260Z"/></clipPath></defs><g clip-path="url(#rjC)"><rect x="-10" y="-20" width="200" height="290" style="fill:var(--door)"/><rect class="lt" x="-10" y="-20" width="200" height="290" fill="url(#rjG)"/><rect x="-10" y="-20" width="200" height="290" fill="url(#rjJ)" opacity=".9"/><path d="M90 -20V270" stroke="#CFAE72" stroke-width="3"/></g><path d="M-12 262L-12 88C-12 70.1 -7.29 52.5 1.67 37C10.62 21.5 23.5 8.62 39 -0.33C54.5 -9.29 72.1 -14 90 -14C107.9 -14 125.5 -9.29 141 -0.33C156.5 8.62 169.38 21.5 178.33 37C187.29 52.5 192 70.1 192 88L192 262" fill="none" stroke="#CFAE72" stroke-width="5"/><path d="M0 260L0 96C0 80 12 70 28 70C30 46 48 34 66 38C72 16 84 6 90 0C96 6 108 16 114 38C132 34 150 46 152 70C168 70 180 80 180 96L180 260" fill="none" stroke="#CFAE72" stroke-width="5"/><g transform="translate(90 -38) scale(.15)"><path d="M0 -50L14.6 -35.3L35.4 -35.4L35.3 -14.6L50 0L35.3 14.6L35.4 35.4L14.6 35.3L0 50L-14.6 35.3L-35.4 35.4L-35.3 14.6L-50 0L-35.3 -14.6L-35.4 -35.4L-14.6 -35.3Z" fill="none" stroke="#CFAE72" stroke-width="16"/></g></svg><p class="a">Your window to the Wedding</p><p class="b" id="rpJkWhen"></p>
+        <a class="rp-go" href="../live/">Open the live page</a><p class="s" id="rpSubsL">To be reminded, <a id="rpSubsA" target="_blank" rel="noopener">subscribe on YouTube</a> and tap 🔔</p></div>
       <p class="rp-prev" id="rpPrev" hidden>Preview only: this reply was not sent, because the email is not set up yet.</p>
       <button type="button" class="rp-btn" id="rpHome">Back to the invitation</button>
       <button type="button" class="rp-link" id="rpAgain">Change your reply</button>
@@ -691,26 +752,48 @@ async function intro(){
     return toFront();
   }
   const R=[]; const a=(...x)=>{const k=A(...x);R.push(k);return k};
+  /* the pen (patch_pen.py): kashida written, lift, nuqta, lift, monogram */
+  const LIFT=(()=>{const q=new URLSearchParams(location.search).get('lift'); const v=q===null?.5:parseFloat(q); return Math.max(.2,Math.min(1.5,isFinite(v)?v:.5))*1000})();
+  let kash=null, kb=null;
+  [...vine.querySelectorAll('path')].forEach(e=>{ if(e.getAttribute('fill')==='none') return; let b=null; try{b=e.getBBox()}catch(_){} if(b&&(!kb||b.width>kb.width)){kb=b;kash=e} });
+  // the designer's own nuqta, drawn into the vine just past the kashida's tip: the one nuqta, set after the stroke
+  const tail=kb?[...vine.querySelectorAll('path')].filter(e=>{ if(e===kash||e.getAttribute('fill')==='none') return false; let b=null; try{b=e.getBBox()}catch(_){} return b&&b.x>=kb.x+kb.width*.85&&b.x<=kb.x+kb.width*1.25&&b.width<kb.width*.2 }):[];
+  const dot=tail[0]||null;
+  const kd=kb?1000+Math.max(0,Math.min(1,(kb.x-10)/540))*1700:2000;
+  const K0=kd+300, K1=K0+1200, NQ=K1+LIFT, LOGO=NQ+600+LIFT, BR=LOGO-3000;
+  window.__AANQ=(NQ+600)/1000; window.__AABR=BR;
+  if(kash){
+    // a soft pen edge moving left to right over the kashida
+    const vo=$('.vine-ov'); let df=vo.querySelector('defs'); if(!df){ df=document.createElementNS(NS,'defs'); vo.prepend(df); }
+    const bx=kb.x, by=kb.y, bw=kb.width, bh=kb.height;
+    df.insertAdjacentHTML('beforeend',`<linearGradient id="kPenG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#fff"/><stop offset=".56" stop-color="#000"/><stop offset="1" stop-color="#000"/></linearGradient><mask id="kPen" maskUnits="userSpaceOnUse" x="${bx-bw}" y="${by-bh*3}" width="${bw*3.5}" height="${bh*7}"><rect id="kPenR" x="${bx-1.35*bw}" y="${by-bh*2}" width="${2.4*bw}" height="${bh*5}" fill="url(#kPenG)"/></mask>`);
+    kash.setAttribute('mask','url(#kPen)');
+    const kr=$('#kPenR'), ka=a(kr,[{transform:'translateX(0px)'},{transform:`translateX(${(1.32*bw).toFixed(2)}px)`}],{delay:K0,duration:1200,easing:'cubic-bezier(.45,.05,.55,.95)'});
+    const unmask=()=>kash.removeAttribute('mask'); ka.finished.then(unmask,unmask);
+    // the nuqta falls onto its own place with the designer's fall (16 units, in the overlay's measure)
+    if(dot){ let k=1; try{ const M=vo.getScreenCTM().inverse().multiply(dot.getScreenCTM()); k=Math.hypot(M.a,M.b)||1; }catch(_){}
+      window.__AANQF=(16/k).toFixed(1); dot.style.transformBox='fill-box'; dot.style.transformOrigin='50% 50%'; }
+  }
   const score=foley.sfx&&foley.sfx('intro');
   $('#skip').classList.add('show');
-  a(ebody,[{transform:zoom},{transform:'none'}],{delay:6900,duration:2700,easing:INK});
-  a(nq,[{opacity:0,translate:'0px -16px',scale:'1.8'},{opacity:1,translate:'0px 0px',scale:'1',offset:.6},{opacity:1,translate:'0px 0px',scale:'1'}],{delay:300,duration:1000});
-  a(nq,[{opacity:1},{opacity:0}],{delay:4300,duration:1400,fill:'forwards'});
-  a(vine,[{opacity:1},{opacity:1,offset:.62},{opacity:0}],{delay:900,duration:4600});
+  a(ebody,[{transform:zoom},{transform:'none'}],{delay:6900+BR,duration:2700,easing:INK});
+  a(dot||nq,[{opacity:0,translate:dot?`0px -${window.__AANQF}px`:'0px -16px',scale:'1.8'},{opacity:1,translate:'0px 0px',scale:'1',offset:.6},{opacity:1,translate:'0px 0px',scale:'1'}],{delay:dot?NQ:300,duration:1000});
+  if(!dot) a(nq,[{opacity:1},{opacity:0}],{delay:4300,duration:1400,fill:'forwards'});
+  a(vine,[{opacity:1},{opacity:1,offset:(LOGO+750-900)/(LOGO+2500-900),easing:INK},{opacity:0}],{delay:900,duration:LOGO+2500-900,easing:'linear'});
   const parts=[...vine.querySelectorAll('path,circle,ellipse')].map(e=>{let x=0;try{x=e.getBBox().x}catch(_){}return {e,x}});
   parts.forEach(({e,x})=>{
     const d=1000+Math.max(0,Math.min(1,(x-10)/540))*1700;
     if(e.tagName==='path'&&e.getAttribute('fill')==='none'){e.setAttribute('pathLength','1');a(e,[{strokeDasharray:'1 2',strokeDashoffset:1},{strokeDasharray:'1 2',strokeDashoffset:0}],{delay:d,duration:1300,easing:'cubic-bezier(.4,0,.3,1)'})}
-    else a(e,[{opacity:0},{opacity:1}],{delay:d+450,duration:800});
+    else if(e!==kash&&!tail.includes(e)) a(e,[{opacity:0},{opacity:1}],{delay:d+450,duration:800});
   });
-  R.push(maskReveal([eMark],'mkmI',{delay:3000,duration:2400}));
-  sheen(5300);
-  a(eUrdu,[{opacity:0,translate:'18px 0px'},{opacity:1,translate:'0px 0px'}],{delay:4400,duration:1900});
-  a(eNames,[{opacity:0,translate:'-18px 0px'},{opacity:1,translate:'0px 0px'}],{delay:4400,duration:1900});
-  a(eRule,[{opacity:0,scale:'0 1'},{opacity:1,scale:'1 1'}],{delay:5300,duration:1700});
-  a(eDate,[{opacity:0},{opacity:1}],{delay:6000,duration:1500});
-  eFrame.forEach((e,k)=>a(e,[{opacity:0},{opacity:1}],{delay:7700+k*120,duration:1900}));
-  const tTable=setTimeout(()=>{scene('table');wrap.classList.add('on-table')},6900);
+  R.push(maskReveal([eMark],'mkmI',{delay:3000+BR,duration:2400}));
+  sheen(5300+BR);
+  a(eUrdu,[{opacity:0,translate:'18px 0px'},{opacity:1,translate:'0px 0px'}],{delay:4400+BR,duration:1900});
+  a(eNames,[{opacity:0,translate:'-18px 0px'},{opacity:1,translate:'0px 0px'}],{delay:4400+BR,duration:1900});
+  a(eRule,[{opacity:0,scale:'0 1'},{opacity:1,scale:'1 1'}],{delay:5300+BR,duration:1700});
+  a(eDate,[{opacity:0},{opacity:1}],{delay:6000+BR,duration:1500});
+  eFrame.forEach((e,k)=>a(e,[{opacity:0},{opacity:1}],{delay:7700+BR+k*120,duration:1900}));
+  const tTable=setTimeout(()=>{scene('table');wrap.classList.add('on-table')},6900+BR);
   envBtn.dataset.cur='Skip';
   await Promise.race([Promise.all(R.map(done)),new Promise(r=>{skipIntro=r})]);
   clearTimeout(tTable); skipIntro=null; foley.hush&&foley.hush(score);
@@ -742,10 +825,29 @@ async function turn(){
     clear(lift); clear(eshadow);
   }
   phase='back'; envBtn.dataset.cur='Break'; envBtn.setAttribute('aria-label','Break the seal and open the envelope');
-  hint('Break the seal'); live('The back of the envelope, closed with a wax seal bearing their monogram.');
+  hint('Break the seal'); sealGuide.start(); live('The back of the envelope, closed with a wax seal bearing their monogram.');
 }
 /* ---------- the wax seal ---------- */
-const sealHit=$('#env .seal');
+async function turnBack(){
+  if(phase!=='back') return;
+  sealGuide.stop(); phase='turning'; hint();
+  foley.sfx&&foley.sfx(RM?'tap':'turn');
+  if(RM){
+    await done(A(lift,[{opacity:1},{opacity:0}],{duration:350})); wrap.classList.remove('turned');
+    await done(A(lift,[{opacity:0},{opacity:1}],{duration:450})); clear(lift);
+  }else{
+    const e1='cubic-bezier(.55,0,.8,.3)', e2='cubic-bezier(.2,.7,.35,1)';
+    A(eshadow,[{transform:'none'},{transform:'scaleX(.3)'}],{duration:760,easing:e1});
+    await done(A(lift,[{transform:'translateY(0) rotateY(0deg)'},{transform:'translateY(-3%) rotateY(-90deg)'}],{duration:760,easing:e1}));
+    wrap.classList.remove('turned');
+    A(eshadow,[{transform:'scaleX(.3)'},{transform:'none'}],{duration:1050,easing:e2});
+    await done(A(lift,[{transform:'translateY(-3%) rotateY(90deg)'},{transform:'translateY(0) rotateY(0deg)'}],{duration:1050,easing:e2}));
+    clear(lift); clear(eshadow);
+  }
+  toFront();
+}
+window.__AATB={go:turnBack,get phase(){return phase}};
+const sealHit=$('#env .s-whole');   // the wax itself, not the glow around it
 function onSeal(x,y){
   const r=sealHit.getBoundingClientRect(), R=Math.max(r.width/2*1.08,22);
   return Math.hypot(x-(r.left+r.width/2),y-(r.top+r.height/2))<=R;
@@ -756,6 +858,28 @@ async function nudgeSeal(){
   const a=A(sealIn,[{scale:'1'},{scale:'1.05',offset:.35},{scale:'.985',offset:.7},{scale:'1'}],{duration:620,easing:EASE});
   await done(a); a.cancel(); nudging=false;
 }
+const sealGuide=(()=>{
+  const band=$('#env .s-band'), glow=$('#env .s-glow');
+  const LV=[null,{a:.26,every:5200,dur:2300},{a:.42,every:3800,dur:2000,glow:.55},{a:.48,every:3400,dur:1900,glow:.8,lift:1}];
+  let lvl=0, on=false, loop=0, timers=[];
+  const kill=()=>[band,glow].forEach(e=>e&&e.getAnimations().forEach(a=>a.cancel()));
+  function pulse(){
+    const L=LV[lvl]; if(!L||!on) return;
+    if(RM){ if(glow) glow.style.opacity=L.glow||.45; return; }
+    if(band) band.animate([{transform:'translateX(0px)',opacity:0},{opacity:L.a,offset:.35},{opacity:L.a,offset:.65},{transform:'translateX(250px)',opacity:0}],{duration:L.dur,easing:'cubic-bezier(.45,0,.2,1)'});
+    if(L.glow&&glow) glow.animate([{opacity:0},{opacity:L.glow,offset:.45},{opacity:0}],{duration:L.dur+500,easing:'ease-in-out'});
+    if(L.lift&&!nudging) sealIn.animate([{scale:'1',translate:'0px 0px'},{scale:'1.045',translate:'0px -1.4px',offset:.45},{scale:'1',translate:'0px 0px'}],{duration:L.dur,easing:'cubic-bezier(.45,0,.2,1)'});
+  }
+  function again(){ clearTimeout(loop); if(on&&lvl) loop=setTimeout(()=>{pulse();again()},LV[lvl].every); }
+  function to(n){ n=Math.min(3,n); if(!on||n<=lvl) return; lvl=n; pulse(); again(); }
+  const api={
+    start(){ api.stop(); on=true; lvl=0; timers=[setTimeout(()=>to(1),2500),setTimeout(()=>to(2),9000),setTimeout(()=>to(3),16000)]; },
+    miss(){ if(!on) return; if(!RM) nudgeSeal(); to(Math.max(lvl+1,2)); },
+    stop(){ on=false; lvl=0; timers.forEach(clearTimeout); timers=[]; clearTimeout(loop); kill(); if(glow) glow.style.opacity=0; }
+  };
+  window.__AASG={get level(){return lvl}, get on(){return on}};
+  return api;
+})();
 const sWhole=$('#env .s-whole'), sTop=$('#env .s-top'), sBot=$('#env .s-bot'), sCrack=$('#env .s-crack'), crumbsG=$('#env .crumbs');
 const CK=[[-53,-3],[-46,1],[-41,0],[-35,6],[-29,8],[-24,14],[-17,16],[-12,22],[-6,23],[-1,29],[5,26],[10,27],[15,21],[21,19],[26,13],[32,12],[37,6],[44,5],[53,-2]];
 const SVGN='http://www.w3.org/2000/svg';
@@ -806,7 +930,7 @@ async function breakSeal(){
 }
 const openPose=()=>{const u=U(),s=Math.min(1,.9*innerHeight/(658.8*u));return `translateY(${122.4*u*s}px) scale(${s})`};
 async function openEnv(){
-  phase='opening'; hint();
+  phase='opening'; sealGuide.stop(); hint();
   await breakSeal();
   if(RM){ flap.style.transform='rotateX(180deg)'; flap.classList.add('behind'); wrap.style.transform=openPose(); }
   else{
@@ -851,16 +975,17 @@ async function drawOut(){
   phase='deck'; c.tabIndex=0; deck.classList.remove('bare');
   reveal(c); arrive(0);
 }
-envBtn.addEventListener('click',e=>{
+const __envH=e=>{
   if(phase==='intro') skip();
   else if(phase==='front') turn();
   else if(phase==='back'){
     // pointer clicks must land on the wax; keyboard activation (detail 0) always opens
-    if(e.detail&&!onSeal(e.clientX,e.clientY)){ nudgeSeal(); return; }
+    if(e.detail&&!onSeal(e.clientX,e.clientY)){ sealGuide.miss(); return; }
     openEnv();
   }
   else if(phase==='open') drawOut();
-});
+};
+envBtn.addEventListener('click',e=>{ if(window.__AAZenv&&window.__AAZenv(e,__envH)) return; __envH(e); });
 /* ---------- the functions ---------- */
 const seen=new Set();
 const layersOf=face=>{const all=face.querySelector('svg.cs > g[id$="-all"]');return all?[...all.children].filter(g=>g.classList&&g.classList.contains('L')):[]};
@@ -1014,7 +1139,7 @@ async function dragEnd(d,cancel){
 addEventListener('pointerup',e=>{
   if(!drag||e.pointerId!==drag.id) return;
   const d=drag; drag=null;
-  if(!d.on){ if(e.target.closest('.card')&&!e.target.closest('a')) flip(); return }
+  if(!d.on){ if(e.target.closest('.card')&&!e.target.closest('a')) (window.__AAZtap?window.__AAZtap(e,flip):flip()); return }
   dragEnd(d,false);
 });
 addEventListener('pointercancel',e=>{ if(drag&&e.pointerId===drag.id){const d=drag;drag=null;if(d.on)dragEnd(d,true)} });
@@ -1183,7 +1308,7 @@ const foley=(()=>{
     ready();
     const t=ctx.currentTime+.01+at, r=(a,b)=>a+Math.random()*(b-a);
     const out=ctx.createGain(); out.gain.value={crack:3.2,tick:2.4,press:2,flip:2.6,slide:2.4,tap:2.4,turn:2.6,intro:2,draw:2.2}[name]||1.6; out.connect(master); const vs=ctx.createGain(); vs.gain.value={intro:.5}[name]||.12; out.connect(vs).connect(verbIn);
-    setTimeout(()=>out.disconnect(),(at+({intro:13,draw:5}[name]||3))*1000);
+    setTimeout(()=>out.disconnect(),(at+({intro:13+(window.__AABR||0)/1000,draw:5}[name]||3))*1000);
     if(name==='draw'){             // slid out of the pocket and swung up into the light
       const s=ctx.createBufferSource(); s.buffer=noise; s.loop=true;
       const b=ctx.createBiquadFilter(); b.type='bandpass'; b.Q.value=.6; b.frequency.setValueAtTime(1500,t); b.frequency.linearRampToValueAtTime(2700,t+.8); b.frequency.linearRampToValueAtTime(2000,t+1.55);
@@ -1194,7 +1319,7 @@ const foley=(()=>{
       air(out,t+1.6,1.9,480,1200,560,.05,.45);
     }else if(name==='intro'){            // scored to the opening: ink drop, the vine's climb, the foil catching light, the envelope settling
       const S=293.66, P=[0,2,4,7,9,12,14,16,19,21,24].map(s=>S*2**(s/12));
-      const dp=ctx.createOscillator(), dg=ctx.createGain(), tn=t+.86;
+      const dp=ctx.createOscillator(), dg=ctx.createGain(), tn=t+(window.__AANQ?window.__AANQ-.04:.86);
       dp.frequency.setValueAtTime(1760,tn); dp.frequency.exponentialRampToValueAtTime(900,tn+.07);
       dg.gain.setValueAtTime(0,tn); dg.gain.linearRampToValueAtTime(.08,tn+.004); dg.gain.exponentialRampToValueAtTime(.0003,tn+.45);
       dp.connect(dg).connect(out); dp.start(tn); dp.stop(tn+.5);
@@ -1202,9 +1327,9 @@ const foley=(()=>{
       air(out,t+1,3.6,700,2600,1800,.022,.45);
       P.forEach((f,k)=>{ const tk=t+1.08+k*.27+r(-.025,.025), a=r(.05,.065), p=-.7+k*.14;
         pluck(out,tk,f,a,1.8,p); if(k%3===2) pluck(out,tk+.075,f,a*.45,1.2,p) });
-      bell(out,t+5.3,S*4,.1); bell(out,t+5.62,S*6,.04);
-      for(let k=0;k<10;k++) burst(panTo(out,-.8+k*.18),t+5.36+k*.12+r(0,.05),r(5200,9000),3,.01,r(.018,.04));
-      air(out,t+6.9,2.7,380,900,420,.07,.4);
+      const br=(window.__AABR||0)/1000; bell(out,t+5.3+br,S*4,.1); bell(out,t+5.62+br,S*6,.04);
+      for(let k=0;k<10;k++) burst(panTo(out,-.8+k*.18),t+5.36+br+k*.12+r(0,.05),r(5200,9000),3,.01,r(.018,.04));
+      air(out,t+6.9+br,2.7,380,900,420,.07,.4);
     }else if(name==='turn'){       // the envelope is eased off the table, swung over, and laid down on its face
       burst(out,t,1100,.9,.12,.05,.03); burst(out,t+.02,3200,1.5,.02,.03);
       const s=ctx.createBufferSource(); s.buffer=noise; s.loop=true;
@@ -1402,12 +1527,13 @@ async function start(){
   intro();
 }
 (document.fonts&&document.fonts.ready?Promise.race([document.fonts.ready,sleep(2500)]):Promise.resolve()).then(()=>requestAnimationFrame(start));
+window.__AAZ={get phase(){return phase},get busy(){return busy},get cur(){return cur},get cards(){return cardsEl}};
 })();
 </script>
 <script>
 (function(){
 'use strict';
-var C = {"guest": "alisha", "face": "#alisha", "key": "42b6c650-9b86-4a72-ae1a-9dadf5436172", "by": "2026-11-20T23:59", "byText": "20 November", "evs": [{"id": "haldi", "name": "Alisha’s Haldi", "note": "ladies only", "when": "Thu 26 Nov · 5 PM · Lumea", "c": "#F4C430"}, {"id": "nikah", "name": "The Nikah", "note": "", "when": "Sat 28 Nov · 4 PM · Kishan Palace", "c": "#CFAE72"}, {"id": "reception", "name": "Reception Dinner", "note": "", "when": "Sat 28 Nov · 8 PM · Kishan Palace", "c": "#D9798A"}], "streamFrom": "2026-11-28T15:30", "streamUntil": "2026-11-28T17:00", "subscribe": "https://www.youtube.com/@ciferlish?sub_confirmation=1", "group": "Alisha’s side"};
+var C = {"guest": "alisha", "face": "#alisha", "key": "42b6c650-9b86-4a72-ae1a-9dadf5436172", "by": "2026-11-20T23:59", "byText": "20 November", "evs": [{"id": "haldi", "name": "Alisha’s Haldi", "note": "ladies only", "when": "Thu 26 Nov · 5 PM · Lumea", "c": "#F4C430"}, {"id": "nikah", "name": "The Wedding", "note": "", "when": "Sat 28 Nov · 4 PM, Reception 8 PM · Kishan Palace", "c": "#CFAE72"}], "streamFrom": "2026-11-28T15:30", "streamUntil": "2026-11-28T17:00", "subscribe": "https://www.youtube.com/@ciferlish?sub_confirmation=1", "group": "Alisha’s side"};
 function $(id){ return document.getElementById(id); }
 function ist(s){ var p = s.split(/[-T:]/).map(Number); return Date.UTC(p[0],p[1]-1,p[2],p[3]||0,p[4]||0) - 330*60000; }
 var at = new URLSearchParams(location.search).get('at'), T0 = Date.now();
@@ -1420,7 +1546,7 @@ var sheet = $('reply'), form = $('rpF'), mode = 'fin', lastFocus = null;
 var NQ = 0;
 $('rpEvs').innerHTML = C.evs.map(function(ev){
   var n = 'rp-' + ev.id;
-  var watch = ev.id === 'nikah' ? '<div class="rp-watch" id="' + n + '-w" role="group" aria-labelledby="' + n + '-wq" hidden><p class="rp-wq" id="' + n + '-wq">Would you like to watch the Nikah online? We’ll send you the live link on the day.</p>' +
+  var watch = ev.id === 'nikah' ? '<div class="rp-watch" id="' + n + '-w" role="group" aria-labelledby="' + n + '-wq" hidden><p class="rp-wq" id="' + n + '-wq"><svg class="rp-jk" viewBox="-16 -60 212 326" aria-hidden="true" focusable="false"><defs><pattern id="rtJ" width="24.8" height="24.8" patternUnits="userSpaceOnUse"><path transform="scale(.62)" d="M20 7L23.8 10.8L29.2 10.8L29.2 16.2L33 20L29.2 23.8L29.2 29.2L23.8 29.2L20 33L16.2 29.2L10.8 29.2L10.8 23.8L7 20L10.8 16.2L10.8 10.8L16.2 10.8ZM0 0L7 7M40 0L33 7M0 40L7 33M40 40L33 33M20 0L20 5M20 40L20 35M0 20L5 20M40 20L35 20" fill="none" stroke="#CFAE72" stroke-width="2.6"/></pattern><radialGradient id="rtG" cx=".5" cy=".45" r=".6"><stop offset="0" stop-color="#FFEBC2"/><stop offset="1" stop-color="#E7C98E" stop-opacity="0"/></radialGradient><clipPath id="rtC"><path d="M0 260L0 96C0 80 12 70 28 70C30 46 48 34 66 38C72 16 84 6 90 0C96 6 108 16 114 38C132 34 150 46 152 70C168 70 180 80 180 96L180 260Z"/></clipPath></defs><g clip-path="url(#rtC)"><rect x="-10" y="-20" width="200" height="290" style="fill:var(--door)"/><rect class="lt" x="-10" y="-20" width="200" height="290" fill="url(#rtG)"/><rect x="-10" y="-20" width="200" height="290" fill="url(#rtJ)" opacity=".9"/><path d="M90 -20V270" stroke="#CFAE72" stroke-width="3"/></g><path d="M-12 262L-12 88C-12 70.1 -7.29 52.5 1.67 37C10.62 21.5 23.5 8.62 39 -0.33C54.5 -9.29 72.1 -14 90 -14C107.9 -14 125.5 -9.29 141 -0.33C156.5 8.62 169.38 21.5 178.33 37C187.29 52.5 192 70.1 192 88L192 262" fill="none" stroke="#CFAE72" stroke-width="5"/><path d="M0 260L0 96C0 80 12 70 28 70C30 46 48 34 66 38C72 16 84 6 90 0C96 6 108 16 114 38C132 34 150 46 152 70C168 70 180 80 180 96L180 260" fill="none" stroke="#CFAE72" stroke-width="5"/><g transform="translate(90 -38) scale(.15)"><path d="M0 -50L14.6 -35.3L35.4 -35.4L35.3 -14.6L50 0L35.3 14.6L35.4 35.4L14.6 35.3L0 50L-14.6 35.3L-35.4 35.4L-35.3 14.6L-50 0L-35.3 -14.6L-35.4 -35.4L-14.6 -35.3Z" fill="none" stroke="#CFAE72" stroke-width="16"/></g></svg>Would you like to watch online? We’ll send you the link to the Wedding and the Reception on the day.</p>' +
       '<div class="rp-yn"><label><input type="radio" name="' + n + '-w" value="yes">Yes, send me the link</label><label><input type="radio" name="' + n + '-w" value="no">No, thank you</label></div>' +
       '<div class="rp-mail" id="' + n + '-m" hidden><label class="rp-lab" for="' + n + '-e">Your email</label><input id="' + n + '-e" type="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false"></div></div>' : '';
   return '<div class="rp-ev" style="--c:' + ev.c + '" data-ev="' + ev.id + '"><h3 id="' + n + '-h">' + ev.name + (ev.note ? ' <small>' + ev.note + '</small>' : '') + '</h3><p class="rp-when">' + ev.when + '</p>' +
@@ -1542,11 +1668,351 @@ function thank(d, preview){
   $('rpDoneP').textContent = 'Your reply has reached Alisha and Aadil. ' + (any ? 'They look forward to celebrating with you.' : w ? 'They will be glad to have you with them online.' : 'You will be missed, and your prayers are with them.');
   $('rpSum').innerHTML = C.evs.map(function(ev){ return '<div><span>' + ev.name + '</span><small>' + said(ev, d.answers[ev.id]) + '</small></div>'; }).join('');
   $('rpPrev').hidden = !preview;
-  $('rpSubs').hidden = !(w && C.subscribe); if(C.subscribe) $('rpSubsA').href = C.subscribe;
+  $('rpSubs').hidden = !w; $('rpSubsL').hidden = !C.subscribe; if(C.subscribe) $('rpSubsA').href = C.subscribe;
+  if(w){ var yt = function(s){ try{ var d = new Date(ist(s)); return d.getTimezoneOffset() === -330 ? '' : ' (' + d.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'}).replace(/:00(?=\s?[AaPp]\.?\s?[Mm])/, '') + ' your time)'; }catch(_){ return ''; } };
+    $('rpJkWhen').textContent = 'On Sat 28 Nov its doors open here: the Wedding from 3:30 PM' + yt(C.streamFrom) + ', the Reception from 7:30 PM' + yt('2026-11-28T19:30') + ', Patna time. We’ll also email you the link.'; }
   $('rpForm').hidden = true; $('rpDone').hidden = false; sheet.scrollTop = 0; $('rpDoneH').focus({preventScroll:true});
 }
 /* the front page's Reply link: <card>/#reply opens the sheet at once */
 if(location.hash === '#reply') open('front');
+})();
+</script>
+<script>
+(function(){
+'use strict';
+var Z=function(){return window.__AAZ}; if(!Z()) return;
+var RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var MAX=3, DT=300, WAIT=260, IN=2.5;
+function $(s,r){return (r||document).querySelector(s)}
+function lsGet(k){try{return localStorage.getItem(k)}catch(_){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,v)}catch(_){}}
+var st=null, pend=null, lastTap=null, ptrs=new Map(), pinch=null, pan=null, swallowUntil=0, crispT=0;
+var tips=+(lsGet('aa-zoomtip')||0), disc=+(lsGet('aa-zoomdisc')||0), everZoomed=lsGet('aa-zoomed')==='1';
+
+/* what can be zoomed now: the visible face of the current card, or the envelope while it waits on the table */
+function target(){
+  var z=Z(), ph=z.phase;
+  if(ph==='deck'&&!z.busy){
+    var c=z.cards[z.cur]; if(!c||c.style.transform) return null;
+    var back=c.classList.contains('flipped'), face=c.querySelector(back?'.face.back':'.face.front');
+    return face&&{kind:'card',el:face.querySelector('svg.cs'),clip:face,key:'c'+z.cur+(back?'b':'f')};
+  }
+  if(ph==='front'||ph==='back'||ph==='open') return {kind:'env',el:$('#env .body'),clip:$('#env .wrap'),key:'e'+ph,up:ph==='open'?$('#env .flap').offsetHeight:0};
+  return null;
+}
+function geo(t){ var r=t.clip.getBoundingClientRect(), W=t.clip.offsetWidth||1; return {ox:r.left,oy:r.top,k:r.width/W,W:W,H:t.clip.offsetHeight,up:t.up||0}; }
+function inside(t,x,y){ var g=geo(t); return x>=g.ox&&x<=g.ox+g.W*g.k&&y>=g.oy-g.up*g.k&&y<=g.oy+g.H*g.k; }
+function loc(cx,cy){ var g=geo(st); return {x:(cx-g.ox)/g.k,y:(cy-g.oy)/g.k}; }
+function apply(anim){
+  var e=st.el;
+  e.style.transition=(anim&&!RM)?'transform .32s cubic-bezier(.3,.7,.3,1)':'none';
+  e.style.transform='translate('+st.x.toFixed(2)+'px,'+st.y.toFixed(2)+'px) scale('+st.s.toFixed(4)+')';
+}
+function clamp(){ st.x=Math.min(0,Math.max(st.W-st.W*st.s,st.x)); st.y=Math.min(st.up*(st.s-1),Math.max(st.H-st.H*st.s,st.y)); }
+function begin(t){
+  st={kind:t.kind,el:t.el,clip:t.clip,key:t.key,up:t.up||0,s:1,x:0,y:0,W:t.clip.offsetWidth,H:t.clip.offsetHeight};
+  t.el.style.transformOrigin='0 0';
+  if(t.kind==='env'){
+    if(st.up){ // the open flap stands above the outline: clip the scene around both (Safari hides a 3D flap clipped on the outline itself)
+      var sc=$('#env'), e=sc.getBoundingClientRect(), w=t.clip.getBoundingClientRect(), f=$('#env .flap').getBoundingClientRect();
+      var T=Math.min(w.top,f.top)-e.top, L=w.left-e.left, Rr=w.right-e.left, Bt=w.bottom-e.top;
+      sc.style.clipPath='polygon('+L+'px '+T+'px,'+Rr+'px '+T+'px,'+Rr+'px '+Bt+'px,'+L+'px '+Bt+'px)'; st.scene=sc;
+    } else t.clip.style.overflow='hidden';
+  }
+  document.documentElement.classList.add('zooming');
+  wayOut(t);
+  if(pend){clearTimeout(pend.timer);pend=null}
+}
+function zoomAt(ns,cx,cy,anim){
+  var q=loc(cx,cy), lx=(q.x-st.x)/st.s, ly=(q.y-st.y)/st.s;
+  ns=Math.max(1,Math.min(MAX,ns)); st.x=q.x-lx*ns; st.y=q.y-ly*ns; st.s=ns; clamp(); apply(anim);
+}
+/* fine print stays sharp: while fingers move the picture is a layer that is only enlarged; once they lift it is
+   drawn again at the new size */
+function crisp(){
+  clearTimeout(crispT);
+  crispT=setTimeout(function(){ if(!st) return; st.el.style.willChange='auto'; st.el.style.transition='none';
+    st.x+=0.001; apply(false); },360);
+}
+function out(anim){
+  if(!st) return;
+  var t=st; st.s=1; st.x=0; st.y=0; apply(anim); st=null; pinch=null; pan=null; lastTap=null;
+  document.documentElement.classList.remove('zooming'); tip(null); wayOut(null);
+  var fin=function(){ if(st&&st.el===t.el) return; t.el.style.transition=''; t.el.style.transform=''; t.el.style.transformOrigin=''; t.el.style.willChange='';
+    if(t.kind==='env'){ t.clip.style.overflow=''; if(t.scene) t.scene.style.clipPath=''; } };
+  if(anim&&!RM) setTimeout(fin,340); else fin();
+}
+function zoomedIn(){
+  if(!everZoomed){everZoomed=true;lsSet('aa-zoomed','1')}
+  if(tips<2){ tips++; lsSet('aa-zoomtip',String(tips)); setTimeout(function(){ if(st) tip('Hold and move to look around',4200); },500); }
+  crisp();
+}
+
+/* the hint line is the original's own (under the stage); what it said before comes back afterwards */
+var hintEl=$('#hint'), hintTx=$('#hint span'), saved=null, tipT=0;
+var ztip=document.createElement('p'); ztip.id='ztip'; ztip.setAttribute('aria-live','polite'); document.body.appendChild(ztip); var ztT=0;
+function tip(t,ms){
+  var z=Z();
+  if(z.phase==='deck'||st||(!t&&ztip.classList.contains('show'))){
+    clearTimeout(ztT);
+    if(t){ if(z.phase==='deck'){ var c=z.cards[z.cur], r=c&&c.getBoundingClientRect(); if(r){ ztip.style.top=Math.min(innerHeight-60,r.bottom+14)+'px'; } }
+      else { var b=zout.getBoundingClientRect(); ztip.style.top=(b.top-30)+'px'; }
+      ztip.textContent=t; ztip.classList.add('show'); ztT=setTimeout(function(){tip(null)},ms||4000); }
+    else ztip.classList.remove('show');
+    if(z.phase==='deck'||st||t) return;
+  }
+  if(!hintEl) return;
+  clearTimeout(tipT);
+  if(t){ if(!saved) saved={t:hintTx.textContent,on:hintEl.classList.contains('show')};
+    hintTx.textContent=t; hintEl.classList.add('show'); tipT=setTimeout(function(){tip(null)},ms||4000); }
+  else if(saved){ var sv=saved; saved=null; hintEl.classList.remove('show');
+    tipT=setTimeout(function(){ if(saved) return; hintTx.textContent=sv.t; if(sv.on&&!st) hintEl.classList.add('show'); },600); }
+}
+
+var ICON='<svg class="zi" viewBox="0 0 13 13" aria-hidden="true"><circle cx="5.5" cy="5.5" r="4.4"/><path d="M8.7 8.7 12.2 12.2M3.4 5.5h4.2"/></svg>';
+var zout=document.createElement('button'); zout.id='zout'; zout.type='button'; zout.tabIndex=-1; document.body.appendChild(zout);
+var aFlip=$('#aFlip'), flipTx=null, eatFlip=false;
+var ENV={front:'Zoom out to turn over',back:'Zoom out to break the seal',open:'Zoom out to draw it out'};
+function wayOut(t){
+  var h=document.documentElement;
+  if(t&&t.kind==='card'){ var back=Z().cards[Z().cur].classList.contains('flipped');
+    if(flipTx===null) flipTx=aFlip.textContent; aFlip.innerHTML=ICON+'Zoom out to turn '+(back?'back':'over'); aFlip.classList.add('zo'); h.classList.add('zoom-card'); }
+  else if(t){ zout.innerHTML=ICON+ENV[Z().phase]; zout.classList.add('show'); zout.tabIndex=0; h.classList.add('zoom-env'); }
+  else{ if(flipTx!==null){ aFlip.textContent=flipTx; flipTx=null; } aFlip.classList.remove('zo'); zout.classList.remove('show'); zout.tabIndex=-1; h.classList.remove('zoom-card','zoom-env'); }
+}
+/* a tap on the zoomed picture does nothing, so the way out says so */
+function nudge(){ var b=st&&(st.kind==='card'?aFlip:zout); if(!b) return; b.classList.remove('zn'); void b.offsetWidth; b.classList.add('zn'); }
+zout.addEventListener('click',function(e){ e.preventDefault(); out(true); });
+
+/* a single tap waits a moment, in case it is the first of a double-tap */
+function tapOrZoom(e,run){
+  var now=performance.now();
+  if(pend&&now-pend.t<DT&&Math.hypot(e.clientX-pend.x,e.clientY-pend.y)<48){
+    clearTimeout(pend.timer); pend=null;
+    var t=target(); if(t){ begin(t); zoomAt(IN,e.clientX,e.clientY,true); zoomedIn(); }
+    return;
+  }
+  if(pend) clearTimeout(pend.timer);
+  pend={t:now,x:e.clientX,y:e.clientY,timer:setTimeout(function(){pend=null;run();},WAIT)};
+}
+window.__AAZtap=function(e,flip){ if(st) return; tapOrZoom(e,flip); };
+window.__AAZenv=function(e,h){
+  if(!e.detail){ if(st) out(false); return false; }            // keyboard: exactly as the original
+  if(st||performance.now()<swallowUntil) return true;          // zoomed: a tap never turns it nor breaks the seal
+  var ph=Z().phase;
+  if(ph!=='front'&&ph!=='back'&&ph!=='open') return false;
+  tapOrZoom(e,function(){h(e)}); return true;
+};
+
+function isCtl(el){ return !!(el&&el.closest&&el.closest('button:not(#envBtn):not(#zout),a:not(.qr),input,textarea,select,label')); }
+function onObj(x,y){ var t=st||target(); return !!(t&&inside(t,x,y)); }
+function startPinch(){
+  var a=[...ptrs.values()]; if(a.length<2) return;
+  var p1=a[0], p2=a[1];
+  var q=loc((p1.x+p2.x)/2,(p1.y+p2.y)/2);
+  pinch={ids:[...ptrs.keys()].slice(0,2),d0:Math.hypot(p1.x-p2.x,p1.y-p2.y)||1,s0:st.s,lx:(q.x-st.x)/st.s,ly:(q.y-st.y)/st.s};
+  pan=null; st.el.style.willChange='transform'; swallowUntil=performance.now()+600;
+}
+addEventListener('pointerdown',function(e){
+  ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY,x0:e.clientX,y0:e.clientY});
+  if(st){
+    if(e.target.closest&&e.target.closest('#zout')){ ptrs.delete(e.pointerId); return; }
+    if(e.target.closest&&e.target.closest('#aFlip')&&!pinch){ ptrs.delete(e.pointerId); eatFlip=true; out(true); return; }   // "Zoom out to turn over": only zooms out
+    if(isCtl(e.target)&&!pinch){ ptrs.delete(e.pointerId); out(true); return; }   // arrows, dots, other actions: zoom out, then act
+    e.stopPropagation();
+    if(ptrs.size>=2){ startPinch(); return; }
+    pan={id:e.pointerId,x:e.clientX,y:e.clientY,sx:st.x,sy:st.y,moved:false};
+    return;
+  }
+  if(ptrs.size===2){
+    var a=[...ptrs.values()], t=target();
+    if(t&&inside(t,(a[0].x0+a[1].x0)/2,(a[0].y0+a[1].y0)/2)){ e.stopPropagation(); begin(t); startPinch(); }
+  }
+},{capture:true});
+addEventListener('pointermove',function(e){
+  var p=ptrs.get(e.pointerId); if(p){p.x=e.clientX;p.y=e.clientY}
+  if(pend&&p&&Math.hypot(p.x-p.x0,p.y-p.y0)>12){ clearTimeout(pend.timer); pend=null; }
+  if(pinch&&st){
+    e.stopPropagation();
+    var q1=ptrs.get(pinch.ids[0]), q2=ptrs.get(pinch.ids[1]); if(!q1||!q2) return;
+    var d=Math.hypot(q1.x-q2.x,q1.y-q2.y), m=loc((q1.x+q2.x)/2,(q1.y+q2.y)/2);
+    var ns=Math.max(.85,Math.min(MAX*1.12,pinch.s0*d/pinch.d0));
+    st.s=ns; st.x=m.x-pinch.lx*ns; st.y=m.y-pinch.ly*ns; apply(false);
+    return;
+  }
+  if(st){
+    e.stopPropagation();
+    if(pan&&e.pointerId===pan.id){
+      var dx=e.clientX-pan.x, dy=e.clientY-pan.y;
+      if(!pan.moved&&Math.hypot(dx,dy)>6){ pan.moved=true; st.el.style.willChange='transform'; }
+      if(pan.moved){ var k=geo(st).k; st.x=pan.sx+dx/k; st.y=pan.sy+dy/k; clamp(); apply(false); }
+    }
+  }
+},{capture:true});
+function up(e){
+  var p=ptrs.get(e.pointerId); ptrs.delete(e.pointerId);
+  if(pinch){
+    e.stopPropagation(); swallowUntil=performance.now()+500;
+    if(ptrs.size<2){
+      pinch=null;
+      if(!st) return;
+      if(st.s<1.08) out(true);
+      else{ st.s=Math.min(MAX,st.s); clamp(); apply(true); zoomedIn(); }
+    }
+    return;
+  }
+  if(!st) return;
+  e.stopPropagation();
+  if(pan&&e.pointerId===pan.id){
+    var moved=pan.moved; pan=null;
+    if(moved){ swallowUntil=performance.now()+400; crisp(); return; }
+    if(e.type==='pointercancel') return;
+    swallowUntil=performance.now()+400;
+    var now=performance.now();
+    if(!onObj(e.clientX,e.clientY)){ out(true); return; }                         // tap outside: zoom out
+    if(lastTap&&now-lastTap.t<DT&&Math.hypot(e.clientX-lastTap.x,e.clientY-lastTap.y)<48){ lastTap=null; out(true); return; }   // double-tap: zoom out
+    lastTap={t:now,x:e.clientX,y:e.clientY};                                     // a single tap does nothing while zoomed …
+    setTimeout(function(){ if(st&&lastTap&&lastTap.t===now) nudge(); },DT);      // … except point at the way out
+  }
+}
+addEventListener('pointerup',up,{capture:true});
+addEventListener('pointercancel',up,{capture:true});
+/* clicks that end a zoom gesture, or land on the zoomed object, do nothing else */
+addEventListener('click',function(e){
+  if(eatFlip&&e.target.closest&&e.target.closest('#aFlip')){ eatFlip=false; e.stopImmediatePropagation(); e.preventDefault(); return; }
+  if(e.target.closest&&e.target.closest('#zout')) return;
+  if((st||performance.now()<swallowUntil)&&!isCtl(e.target)){ e.stopImmediatePropagation(); e.preventDefault(); }
+},{capture:true});
+/* the page itself never zooms (Safari's own pinch) */
+['gesturestart','gesturechange','gestureend'].forEach(function(t){ document.addEventListener(t,function(e){e.preventDefault()},{passive:false}); });
+/* laptops: a trackpad pinch (ctrl + wheel) zooms; scrolling moves around while zoomed */
+var wheelEnd=0;
+addEventListener('wheel',function(e){
+  var t=st||target(); if(!t||!inside(t,e.clientX,e.clientY)) return;
+  if(e.ctrlKey){
+    e.preventDefault(); e.stopPropagation();
+    if(!st) begin(t);
+    st.el.style.willChange='transform';
+    zoomAt(st.s*Math.exp(-e.deltaY*.01),e.clientX,e.clientY,false);
+    clearTimeout(wheelEnd); wheelEnd=setTimeout(function(){ if(!st) return; if(st.s<1.02) out(false); else zoomedIn(); },220);
+  }else if(st){
+    var k=geo(st).k; e.preventDefault(); e.stopPropagation(); st.x-=e.deltaX/k; st.y-=e.deltaY/k; clamp(); apply(false); crisp();
+  }
+},{capture:true,passive:false});
+/* keyboard: + and - zoom, Escape zooms out; everything else zooms out first, then does what it did */
+addEventListener('keydown',function(e){
+  var k=e.key;
+  if(st&&k==='Escape'){ e.preventDefault(); e.stopPropagation(); out(true); return; }
+  if(k==='+'||k==='='){ var t=st||target(); if(!t) return; e.preventDefault(); e.stopPropagation();
+    var r=t.clip.getBoundingClientRect(); if(!st) begin(t); zoomAt(st.s*1.5,r.left+r.width/2,r.top+r.height/2,true); zoomedIn(); return; }
+  if((k==='-'||k==='_')&&st){ e.preventDefault(); e.stopPropagation(); var r2=st.clip.getBoundingClientRect();
+    if(st.s/1.5<1.05) out(true); else { zoomAt(st.s/1.5,r2.left+r2.width/2,r2.top+r2.height/2,true); crisp(); } return; }
+  if(st&&(k==='Enter'||k===' ')&&document.activeElement===aFlip){ e.preventDefault(); e.stopPropagation(); out(true); return; }
+  if(st&&!e.metaKey&&!e.ctrlKey) out(false);
+},{capture:true});
+/* the zoom never outlives what it was on: another card, the other side, a new phase, a rotation */
+setInterval(function(){
+  if(!st) return; var t=target();
+  if(!t||t.key!==st.key) out(false);
+},250);
+addEventListener('resize',function(){ out(false); });
+addEventListener('orientationchange',function(){ out(false); });
+
+/* found by few without a word: once (at most twice on a phone), on the first card after a quiet moment */
+var shown=false, idleT=0;
+function arm(){
+  clearTimeout(idleT);
+  if(shown||everZoomed||disc>=2) return;
+  idleT=setTimeout(function(){
+    var z=Z(); if(z.phase!=='deck'||z.busy||st||everZoomed) return;
+    shown=true; disc++; lsSet('aa-zoomdisc',String(disc)); tip('Double-tap to look closer',5000);
+  },4500);
+}
+var armed=false;
+setInterval(function(){ var z=Z(); if(!armed&&z.phase==='deck'&&!z.busy){ armed=true; arm(); } },400);
+addEventListener('pointerdown',function(){ if(armed&&!shown) arm(); },{capture:true,passive:true});
+})();
+</script>
+<script>
+(function(){
+
+  /* the label takes the QR's own ink, so it reads on every card */
+  document.querySelectorAll('.qr').forEach(function(a){
+    var f=a.closest('.face'), p=f&&f.querySelector('[id$="b-layer-QR"] path, [id$="f-layer-QR"] path'), sp=a.querySelector('span');
+    if(p&&sp){ var c=getComputedStyle(p).fill; if(c&&c!=='none'&&c.indexOf('url')<0){ sp.style.color=c; } }
+  });
+  /* first tap lights the QR, the second opens Maps (touch only; a mouse or the keyboard opens at once) */
+  var armed=null, armT=0, lastType='mouse';
+  function disarm(){ if(!armed) return; armed.classList.remove('armed'); var sp=armed.querySelector('span'); if(sp&&sp.dataset.t) sp.textContent=sp.dataset.t; armed=null; clearTimeout(armT); }
+  addEventListener('pointerdown',function(e){ lastType=e.pointerType||'mouse'; if(armed&&!(e.target.closest&&e.target.closest('.qr')===armed)) disarm(); },{capture:true,passive:true});
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('.qr'); if(!a) return;
+    if(e.defaultPrevented) return;                         // the zoom layer already stopped it
+    if(!e.detail||lastType==='mouse') return;              // keyboard or mouse: open at once
+    if(armed===a){ disarm(); return; }                     // second tap: open
+    e.preventDefault(); disarm(); armed=a; a.classList.add('armed');
+    var sp=a.querySelector('span'); if(sp){ if(!sp.dataset.t) sp.dataset.t=sp.textContent; sp.textContent='Tap again'; }
+    armT=setTimeout(disarm,5000);
+  },true);
+  setInterval(function(){ if(armed&&!armed.closest('.card.vis.flipped')) disarm(); },400);
+})();
+</script>
+<button id="tbk" type="button" tabindex="-1" aria-label="Turn the envelope back to the front"><svg viewBox="0 0 30 12" aria-hidden="true"><path class="k" d="M24.5 7.2C18 9.4 9.5 9.6 5.2 7C2.6 5.4 3.6 2.4 6.6 3.2"/><path class="n" d="M27.6 5.2 29.5 7.1 27.6 9 25.7 7.1Z"/></svg>Turn back</button>
+<script>
+(function(){
+  var T=window.__AATB, b=document.getElementById('tbk'); if(!T||!b) return;
+  var since=0, on=false;
+  function set(v){ if(v===on) return; on=v; b.classList.toggle('show',v); b.tabIndex=v?0:-1; }
+  setInterval(function(){
+    var back=T.phase==='back' && !document.documentElement.classList.contains('zooming');
+    if(!back){ since=0; set(false); return; }
+    if(!since) since=performance.now();
+    set(performance.now()-since>1500);
+  },150);
+  b.addEventListener('click',function(e){ e.preventDefault(); if(!on) return; set(false); since=0; T.go(); });
+})();
+</script>
+<script>
+(function(){
+  var hint=document.getElementById('hint'), tx=hint&&hint.querySelector('span'); if(!tx) return;
+  var EN={'Turn the envelope over':'front','Break the seal':'back','Draw out the invitation':'open'};
+  var HI={"front": "लिफ़ाफ़ा पलटिए", "back": "मुहर तोड़िए", "open": "दावतनामा बाहर निकालिए"}, UR={"front": "<svg viewBox=\"-67 -1190 2849 1701\" aria-hidden=\"true\"><path d=\"M262 0Q222 0 181.0 -3.0Q140 -6 108 -16Q83 -25 66.5 -41.5Q50 -58 50 -85Q50 -94 52.0 -104.0Q54 -114 58 -126Q94 -186 129 -187Q129 -169 148.5 -156.5Q168 -144 214 -136Q254 -129 314.5 -127.0Q375 -125 461 -128L1047 -147L1050 -127L936 -76Q892 -57 823.5 -43.0Q755 -29 675 -20Q575 -9 466.5 -4.5Q358 0 262 0Z M354 300Q347 300 336 297Q305 287 287.0 266.5Q269 246 269 225Q269 208 278.0 194.0Q287 180 294 171L330 124H336Q344 151 368.5 167.0Q393 183 418 188L485 98H491Q499 124 521.0 138.0Q543 152 568 157Q585 161 585 174Q585 182 578 192L529 262Q520 274 508 274Q501 274 490 271Q466 262 448.0 248.5Q430 235 421 222L375 288Q366 300 354 300Z M58 -126Q74 -173 90.0 -207.5Q106 -242 138 -270Q162 -290 189.5 -306.0Q217 -322 245 -335Q277 -352 305.5 -368.5Q334 -385 353 -407Q368 -424 375.0 -436.0Q382 -448 387 -457H402Q416 -421 402 -384Q377 -375 364.0 -362.5Q351 -350 337 -333Q323 -317 300.5 -296.5Q278 -276 234 -251Q204 -234 184.0 -223.5Q164 -213 152 -206Q129 -194 129 -187Q126 -171 113.5 -157.0Q101 -143 85.5 -134.5Q70 -126 58 -126Z M395 -722 392 -742Q410 -747 428 -752L486 -847Q491 -856 492.0 -864.0Q493 -872 492 -884L488 -947Q487 -970 487.5 -988.5Q488 -1007 498 -1029L517 -1071H529V-971Q529 -952 527.5 -935.0Q526 -918 522 -899Q539 -920 555.5 -932.0Q572 -944 587 -944Q607 -944 615.0 -929.0Q623 -914 623 -896Q623 -872 613.0 -844.0Q603 -816 585.5 -791.0Q568 -766 545.5 -749.5Q523 -733 498 -731ZM490 -812 455 -762Q512 -784 548.5 -809.0Q585 -834 600 -852Q596 -869 587.0 -875.5Q578 -882 569 -882Q551 -882 533.0 -865.0Q515 -848 490 -812Z M413 -354Q403 -354 390.5 -358.5Q378 -363 364 -377Q371 -399 381.0 -418.5Q391 -438 402 -457Q413 -440 434 -440Q454 -440 475.0 -449.0Q496 -458 509 -473Q507 -486 507 -501Q507 -577 554 -651L569 -648Q560 -587 585 -556Q606 -530 643 -530Q648 -501 640.5 -472.0Q633 -443 620.5 -422.0Q608 -401 596 -395Q571 -395 553.0 -404.5Q535 -414 525 -431Q506 -402 476.5 -378.0Q447 -354 413 -354Z M596 -395Q599 -417 607.5 -445.5Q616 -474 626.5 -498.0Q637 -522 643 -530H645Q675 -530 693.0 -551.5Q711 -573 719.5 -605.5Q728 -638 728 -670L727 -841Q727 -888 736.0 -921.5Q745 -955 750 -974L778 -1073L799 -1070Q798 -1054 796.5 -1019.0Q795 -984 793.5 -939.5Q792 -895 791.0 -847.0Q790 -799 789.0 -755.5Q788 -712 788 -681Q788 -626 815.0 -591.5Q842 -557 892 -557H894Q896 -531 890.5 -503.0Q885 -475 874.0 -453.5Q863 -432 847 -422H845Q812 -422 784.0 -448.5Q756 -475 741 -525Q721 -470 682.5 -432.5Q644 -395 598 -395Z M899 240Q892 240 881 237Q850 227 832.0 206.5Q814 186 814 165Q814 148 823.0 134.0Q832 120 839 111L875 64H881Q889 91 913.5 107.0Q938 123 963 128L1030 38H1036Q1044 64 1066.0 78.0Q1088 92 1113 97Q1130 101 1130 114Q1130 122 1123 132L1074 202Q1065 214 1053 214Q1046 214 1035 211Q1011 202 993.0 188.5Q975 175 966 162L920 228Q911 240 899 240ZM996 393Q993 393 989.0 392.5Q985 392 980 391Q948 383 933.0 363.5Q918 344 918 325Q918 308 926.5 295.0Q935 282 941 274L972 231H977Q987 255 1010.0 268.5Q1033 282 1055 286Q1071 289 1071 300Q1071 306 1064 316L1015 382Q1008 393 996 393Z M847 -422Q849 -435 855.0 -460.0Q861 -485 871.0 -512.0Q881 -539 894 -557H896Q925 -557 952.0 -581.5Q979 -606 991 -644L1011 -640Q1005 -607 992.0 -569.5Q979 -532 959.0 -498.5Q939 -465 911.5 -443.5Q884 -422 849 -422Z M1548 65 1531 55Q1567 -23 1611.5 -70.5Q1656 -118 1697.0 -140.0Q1738 -162 1761 -162Q1774 -162 1782.5 -157.0Q1791 -152 1798 -147Q1804 -143 1810.5 -139.0Q1817 -135 1824 -135H1826Q1826 -98 1812.0 -59.0Q1798 -20 1779 0H1777Q1770 0 1762.0 -4.0Q1754 -8 1748 -12Q1738 -19 1727.5 -24.0Q1717 -29 1701 -29Q1691 -29 1667.0 -21.5Q1643 -14 1611.5 6.0Q1580 26 1548 65Z M1952 -629Q1948 -629 1943.5 -629.5Q1939 -630 1934 -631Q1894 -642 1874.5 -664.5Q1855 -687 1855 -708Q1855 -726 1864.5 -740.5Q1874 -755 1881 -764L1918 -812H1923Q1938 -786 1959.0 -770.0Q1980 -754 2013 -747Q2031 -744 2031 -732Q2031 -725 2023 -714L1973 -641Q1968 -634 1963.5 -631.5Q1959 -629 1952 -629Z M1779 0Q1779 -7 1783.5 -25.0Q1788 -43 1795.0 -65.0Q1802 -87 1810.0 -106.5Q1818 -126 1826 -135H1828Q1871 -135 1909 -158Q1926 -168 1936.5 -180.5Q1947 -193 1947 -206Q1947 -216 1936 -225Q1923 -217 1908.5 -213.0Q1894 -209 1880 -209Q1850 -209 1829.0 -227.5Q1808 -246 1808 -287L1862 -440Q1867 -444 1878.5 -450.5Q1890 -457 1909 -457Q1942 -457 1962.0 -433.0Q1982 -409 1991.0 -374.0Q2000 -339 2000 -305Q2000 -247 1981.0 -188.0Q1962 -129 1927 -84Q1899 -47 1862.0 -23.5Q1825 0 1781 0Z M2226 0H2224Q2181 0 2157.0 -37.5Q2133 -75 2125 -146Q2119 -199 2119.5 -264.0Q2120 -329 2123 -401Q2126 -459 2127.5 -493.0Q2129 -527 2132.0 -549.5Q2135 -572 2142 -595L2176 -710L2193 -707L2182 -310Q2181 -259 2185.5 -219.5Q2190 -180 2209.5 -157.5Q2229 -135 2271 -135H2273Q2276 -115 2271.0 -87.5Q2266 -60 2255.0 -35.5Q2244 -11 2226 0Z M2409 -569Q2405 -569 2400.5 -569.5Q2396 -570 2391 -571Q2351 -582 2331.5 -604.5Q2312 -627 2312 -648Q2312 -666 2321.5 -680.5Q2331 -695 2338 -704L2375 -752H2380Q2395 -726 2416.0 -710.0Q2437 -694 2470 -687Q2488 -684 2488 -672Q2488 -665 2480 -654L2430 -581Q2425 -574 2420.5 -571.5Q2416 -569 2409 -569Z M2226 0Q2228 -19 2236.0 -47.0Q2244 -75 2254.5 -100.0Q2265 -125 2273 -135H2275Q2293 -135 2311 -138Q2296 -152 2290.0 -168.0Q2284 -184 2284 -203Q2284 -229 2299.0 -265.0Q2314 -301 2339.0 -335.5Q2364 -370 2393.5 -393.5Q2423 -417 2453 -417Q2492 -417 2509.5 -394.5Q2527 -372 2528 -337Q2529 -312 2520.5 -282.5Q2512 -253 2496 -225Q2478 -193 2452 -167Q2394 -83 2333.0 -41.5Q2272 0 2228 0ZM2328 -252Q2331 -234 2351.5 -211.0Q2372 -188 2417 -183Q2436 -195 2452.0 -211.0Q2468 -227 2475 -241Q2475 -252 2470.5 -268.0Q2466 -284 2454.5 -297.0Q2443 -310 2421 -311Q2397 -313 2368.5 -298.0Q2340 -283 2328 -252Z M2363 -110 2421 -177Q2427 -176 2433.0 -175.5Q2439 -175 2445 -175Q2476 -175 2510.5 -193.0Q2545 -211 2569.0 -245.5Q2593 -280 2592 -329L2591 -438Q2590 -502 2593.5 -545.5Q2597 -589 2610 -627L2643 -726L2664 -723L2654 -415Q2652 -343 2633.5 -290.0Q2615 -237 2598 -207Q2570 -156 2524.0 -127.0Q2478 -98 2426 -98Q2395 -98 2363 -110Z\"/></svg>", "back": "<svg viewBox=\"-52 -1060 3287 1472\" aria-hidden=\"true\"><path d=\"M262 0Q222 0 181.0 -3.0Q140 -6 108 -16Q83 -25 66.5 -41.5Q50 -58 50 -85Q50 -94 52.0 -104.0Q54 -114 58 -126Q94 -186 129 -187Q129 -169 148.5 -156.5Q168 -144 214 -136Q254 -129 314.5 -127.0Q375 -125 461 -128L1047 -147L1050 -127L936 -76Q892 -57 823.5 -43.0Q755 -29 675 -20Q575 -9 466.5 -4.5Q358 0 262 0Z M344 300Q337 300 326 297Q295 287 277.0 266.5Q259 246 259 225Q259 208 268.0 194.0Q277 180 284 171L320 124H326Q334 151 358.5 167.0Q383 183 408 188L475 98H481Q489 124 511.0 138.0Q533 152 558 157Q575 161 575 174Q575 182 568 192L519 262Q510 274 498 274Q491 274 480 271Q456 262 438.0 248.5Q420 235 411 222L365 288Q356 300 344 300Z M58 -126Q62 -139 70.5 -161.0Q79 -183 96.0 -208.0Q113 -233 141 -254Q187 -289 236.5 -312.0Q286 -335 320 -357Q334 -367 338.5 -373.5Q343 -380 343 -392Q343 -411 341.5 -436.5Q340 -462 340 -503Q340 -541 357.0 -576.5Q374 -612 393 -645L411 -639V-522Q411 -467 405.0 -437.5Q399 -408 389 -388Q377 -363 364.0 -340.5Q351 -318 338 -305Q316 -283 274.0 -267.0Q232 -251 194 -233Q167 -220 148.0 -208.5Q129 -197 129 -187Q122 -173 101.0 -154.0Q80 -135 58 -126Z M1229 -495 1226 -515Q1244 -520 1262 -525L1320 -620Q1325 -629 1326.0 -637.0Q1327 -645 1326 -657L1322 -720Q1321 -743 1321.5 -761.5Q1322 -780 1332 -802L1351 -844H1363V-744Q1363 -725 1361.5 -708.0Q1360 -691 1356 -672Q1373 -693 1389.5 -705.0Q1406 -717 1421 -717Q1441 -717 1449.0 -702.0Q1457 -687 1457 -669Q1457 -645 1447.0 -617.0Q1437 -589 1419.5 -564.0Q1402 -539 1379.5 -522.5Q1357 -506 1332 -504ZM1324 -585 1289 -535Q1346 -557 1382.5 -582.0Q1419 -607 1434 -625Q1430 -642 1421.0 -648.5Q1412 -655 1403 -655Q1385 -655 1367.0 -638.0Q1349 -621 1324 -585Z M1086 7 1078 -19 1142 -56Q1187 -82 1217.0 -104.0Q1247 -126 1266 -145Q1297 -177 1309.0 -208.0Q1321 -239 1331 -277L1355 -365L1384 -359L1357 -226Q1338 -135 1317.0 -92.0Q1296 -49 1273 -29Q1260 -17 1248.5 -12.5Q1237 -8 1220 -6Z M1422 15 1414 -11 1510 -67Q1577 -106 1614 -136Q1627 -147 1635.0 -159.0Q1643 -171 1643 -179Q1643 -190 1637.5 -197.0Q1632 -204 1628 -204Q1624 -200 1608.0 -189.5Q1592 -179 1562 -179Q1537 -179 1513.5 -195.0Q1490 -211 1490 -257L1544 -410Q1555 -419 1568.0 -423.0Q1581 -427 1591 -427Q1632 -427 1657.0 -384.5Q1682 -342 1682 -271Q1682 -226 1669.5 -181.5Q1657 -137 1638.5 -100.0Q1620 -63 1602 -39Q1587 -19 1575.5 -13.5Q1564 -8 1541 -4Z M1717 -756Q1710 -756 1699 -759Q1668 -769 1650.0 -789.5Q1632 -810 1632 -831Q1632 -848 1641.0 -862.0Q1650 -876 1657 -885L1693 -932H1699Q1707 -905 1731.5 -889.0Q1756 -873 1781 -868L1848 -958H1854Q1862 -932 1884.0 -918.0Q1906 -904 1931 -899Q1948 -895 1948 -882Q1948 -874 1941 -864L1892 -794Q1883 -782 1871 -782Q1864 -782 1853 -785Q1829 -794 1811.0 -807.5Q1793 -821 1784 -834L1738 -768Q1729 -756 1717 -756Z M1652 -218V-306Q1667 -306 1686.0 -312.5Q1705 -319 1722 -331Q1737 -342 1740.0 -349.5Q1743 -357 1743 -382V-414Q1742 -432 1741.5 -449.5Q1741 -467 1741 -491Q1741 -518 1752.0 -555.0Q1763 -592 1794 -635L1812 -629V-512Q1812 -470 1809.0 -442.0Q1806 -414 1799.5 -392.5Q1793 -371 1781 -346Q1762 -309 1729.5 -273.5Q1697 -238 1652 -218Z M2159 205 2156 189Q2206 163 2254.0 121.5Q2302 80 2340 32Q2405 -51 2451.5 -129.5Q2498 -208 2545 -267Q2576 -306 2618.0 -336.5Q2660 -367 2712 -367Q2738 -367 2765 -358Q2744 -293 2701 -260Q2666 -262 2637.0 -248.0Q2608 -234 2586.5 -214.5Q2565 -195 2551 -180Q2517 -143 2488.5 -96.0Q2460 -49 2425.5 3.5Q2391 56 2337 110Q2323 124 2295.5 145.5Q2268 167 2232.5 184.5Q2197 202 2159 205Z M2775 311Q2749 311 2732.0 286.0Q2715 261 2715 220Q2715 195 2722.0 159.5Q2729 124 2742.0 87.0Q2755 50 2771 20L2794 28Q2778 65 2767.5 104.5Q2757 144 2757 173Q2757 195 2764.5 208.0Q2772 221 2789 221Q2792 208 2796.5 195.5Q2801 183 2804 176Q2807 174 2810.0 174.0Q2813 174 2816 174Q2830 174 2837.5 185.0Q2845 196 2845 214Q2845 236 2836.0 258.5Q2827 281 2811.0 296.0Q2795 311 2775 311Z M2798 -92Q2798 -181 2768.0 -220.0Q2738 -259 2687 -259Q2677 -259 2666.5 -257.5Q2656 -256 2645 -251Q2652 -276 2674.5 -298.5Q2697 -321 2723.0 -337.0Q2749 -353 2765 -358Q2775 -354 2789.0 -342.0Q2803 -330 2814.0 -305.0Q2825 -280 2825 -237Q2825 -226 2824.0 -198.0Q2823 -170 2821.0 -140.5Q2819 -111 2816 -92Z M2798 -92Q2807 -174 2833.0 -233.5Q2859 -293 2896.5 -336.0Q2934 -379 2977 -411L2935 -434L2963 -515Q2977 -557 2999.0 -561.0Q3021 -565 3049 -554L3104 -533Q3121 -527 3129.5 -512.5Q3138 -498 3130 -481L3106 -428Q3091 -395 3063.5 -382.5Q3036 -370 3014 -360Q2944 -328 2891.0 -260.5Q2838 -193 2816 -92Z\"/></svg>", "open": "<svg viewBox=\"-54 -1089 6952 1515\" aria-hidden=\"true\"><path d=\"M262 0Q222 0 181.0 -3.0Q140 -6 108 -16Q83 -25 66.5 -41.5Q50 -58 50 -85Q50 -94 52.0 -104.0Q54 -114 58 -126Q94 -186 129 -187Q129 -169 148.5 -156.5Q168 -144 214 -136Q254 -129 314.5 -127.0Q375 -125 461 -128L1047 -147L1050 -127L936 -76Q892 -57 823.5 -43.0Q755 -29 675 -20Q575 -9 466.5 -4.5Q358 0 262 0Z M354 300Q347 300 336 297Q305 287 287.0 266.5Q269 246 269 225Q269 208 278.0 194.0Q287 180 294 171L330 124H336Q344 151 368.5 167.0Q393 183 418 188L485 98H491Q499 124 521.0 138.0Q543 152 568 157Q585 161 585 174Q585 182 578 192L529 262Q520 274 508 274Q501 274 490 271Q466 262 448.0 248.5Q430 235 421 222L375 288Q366 300 354 300Z M58 -126Q74 -173 90.0 -207.5Q106 -242 138 -270Q162 -290 189.5 -306.0Q217 -322 245 -335Q277 -352 305.5 -368.5Q334 -385 353 -407Q368 -424 375.0 -436.0Q382 -448 387 -457H402Q416 -421 402 -384Q377 -375 364.0 -362.5Q351 -350 337 -333Q323 -317 300.5 -296.5Q278 -276 234 -251Q204 -234 184.0 -223.5Q164 -213 152 -206Q129 -194 129 -187Q126 -171 113.5 -157.0Q101 -143 85.5 -134.5Q70 -126 58 -126Z M418 -354Q393 -354 369 -372Q378 -396 384.5 -412.0Q391 -428 402 -457Q407 -448 417.5 -444.0Q428 -440 438 -440Q478 -440 495.5 -478.0Q513 -516 511 -595L509 -697Q508 -761 511.5 -804.5Q515 -848 528 -886L561 -985L582 -982L572 -674Q567 -538 530 -452Q508 -402 477.5 -378.0Q447 -354 418 -354Z M1220 0H1218Q1175 0 1151.0 -37.5Q1127 -75 1119 -146Q1113 -199 1113.5 -264.0Q1114 -329 1117 -401Q1120 -459 1121.5 -493.0Q1123 -527 1126.0 -549.5Q1129 -572 1136 -595L1170 -710L1187 -707L1176 -310Q1175 -259 1179.5 -219.5Q1184 -180 1203.5 -157.5Q1223 -135 1265 -135H1267Q1270 -115 1265.0 -87.5Q1260 -60 1249.0 -35.5Q1238 -11 1220 0Z M1220 0Q1225 -29 1233.5 -57.0Q1242 -85 1251.5 -106.0Q1261 -127 1267 -135H1269Q1304 -135 1333.0 -159.0Q1362 -183 1372 -214Q1368 -246 1346.5 -268.0Q1325 -290 1293.5 -299.5Q1262 -309 1228.0 -304.0Q1194 -299 1165 -278L1155 -284Q1178 -331 1203.5 -382.0Q1229 -433 1265 -482L1596 -930L1611 -922L1602 -877Q1595 -839 1583.0 -806.5Q1571 -774 1539 -732L1299 -416Q1331 -420 1361.5 -410.5Q1392 -401 1411.5 -375.5Q1431 -350 1431 -308Q1431 -271 1413.5 -225.0Q1396 -179 1376 -141Q1356 -103 1332.0 -71.0Q1308 -39 1280.5 -19.5Q1253 0 1222 0Z M1693 -534Q1689 -534 1684.5 -534.5Q1680 -535 1675 -536Q1635 -547 1615.5 -569.5Q1596 -592 1596 -613Q1596 -631 1605.5 -645.5Q1615 -660 1622 -669L1659 -717H1664Q1679 -691 1700.0 -675.0Q1721 -659 1754 -652Q1772 -649 1772 -637Q1772 -630 1764 -619L1714 -546Q1709 -539 1704.5 -536.5Q1700 -534 1693 -534Z M1220 0Q1220 -11 1226.5 -22.0Q1233 -33 1249 -37Q1288 -43 1331.5 -58.5Q1375 -74 1415.5 -96.5Q1456 -119 1486 -144Q1503 -158 1508.0 -167.0Q1513 -176 1513 -197Q1513 -217 1511.5 -242.0Q1510 -267 1510 -301Q1510 -339 1526.0 -375.5Q1542 -412 1563 -446L1581 -440V-323Q1581 -268 1574.5 -238.5Q1568 -209 1560 -189Q1544 -149 1508.5 -116.5Q1473 -84 1429 -59Q1378 -31 1322.5 -15.5Q1267 0 1220 0Z M1964 205 1961 189Q2011 163 2059.0 121.5Q2107 80 2145 32Q2210 -51 2256.5 -129.5Q2303 -208 2350 -267Q2381 -306 2423.0 -336.5Q2465 -367 2517 -367Q2543 -367 2570 -358Q2549 -293 2506 -260Q2471 -262 2442.0 -248.0Q2413 -234 2391.5 -214.5Q2370 -195 2356 -180Q2322 -143 2293.5 -96.0Q2265 -49 2230.5 3.5Q2196 56 2142 110Q2128 124 2100.5 145.5Q2073 167 2037.5 184.5Q2002 202 1964 205Z M2528 141Q2502 141 2485.0 116.0Q2468 91 2468 50Q2468 25 2475.0 -10.5Q2482 -46 2495.0 -83.0Q2508 -120 2524 -150L2547 -142Q2531 -105 2520.5 -65.5Q2510 -26 2510 3Q2510 25 2517.5 38.0Q2525 51 2542 51Q2545 38 2549.5 25.5Q2554 13 2557 6Q2560 4 2563.0 4.0Q2566 4 2569 4Q2583 4 2590.5 15.0Q2598 26 2598 44Q2598 66 2589.0 88.5Q2580 111 2564.0 126.0Q2548 141 2528 141Z M2388 -213 2439 -345Q2465 -360 2488.5 -366.0Q2512 -372 2533 -372Q2549 -372 2563.0 -369.0Q2577 -366 2588 -363L2613 -425Q2617 -426 2620.5 -426.5Q2624 -427 2628 -427Q2650 -427 2658.0 -410.0Q2666 -393 2666 -371Q2666 -338 2645.5 -307.0Q2625 -276 2595.0 -256.5Q2565 -237 2537 -237Q2533 -237 2518.5 -243.0Q2504 -249 2480 -249Q2461 -249 2438.0 -241.5Q2415 -234 2388 -213Z M2892 0H2890Q2847 0 2823.0 -37.5Q2799 -75 2791 -146Q2785 -199 2785.5 -264.0Q2786 -329 2789 -401Q2792 -459 2793.5 -493.0Q2795 -527 2798.0 -549.5Q2801 -572 2808 -595L2842 -710L2859 -707L2848 -310Q2847 -259 2851.5 -219.5Q2856 -180 2875.5 -157.5Q2895 -135 2937 -135H2939Q2942 -115 2937.0 -87.5Q2932 -60 2921.0 -35.5Q2910 -11 2892 0Z M2975 321Q2971 321 2966.5 320.5Q2962 320 2957 319Q2917 308 2897.5 285.5Q2878 263 2878 242Q2878 224 2887.5 209.5Q2897 195 2904 186L2941 138H2946Q2961 164 2982.0 180.0Q3003 196 3036 203Q3054 206 3054 218Q3054 225 3046 236L2996 309Q2991 316 2986.5 318.5Q2982 321 2975 321Z M2892 0Q2893 -11 2899.5 -37.0Q2906 -63 2916.5 -91.0Q2927 -119 2939 -135H2941Q2969 -135 2990.5 -159.5Q3012 -184 3024 -222L3044 -218Q3038 -185 3026.5 -147.5Q3015 -110 2997.5 -76.5Q2980 -43 2954.5 -21.5Q2929 0 2894 0Z M3541 65 3524 55Q3560 -23 3604.5 -70.5Q3649 -118 3690.0 -140.0Q3731 -162 3754 -162Q3767 -162 3775.5 -157.0Q3784 -152 3791 -147Q3797 -143 3803.5 -139.0Q3810 -135 3817 -135H3819Q3819 -98 3805.0 -59.0Q3791 -20 3772 0H3770Q3763 0 3755.0 -4.0Q3747 -8 3741 -12Q3731 -19 3720.5 -24.0Q3710 -29 3694 -29Q3684 -29 3660.0 -21.5Q3636 -14 3604.5 6.0Q3573 26 3541 65Z M3770 0Q3765 -24 3771.0 -50.0Q3777 -76 3790.0 -99.0Q3803 -122 3819 -135Q3846 -135 3874.5 -155.0Q3903 -175 3940 -228L4045 -382H4059Q4059 -372 4064.0 -359.5Q4069 -347 4094 -331Q4118 -316 4135.0 -299.5Q4152 -283 4152 -266Q4152 -247 4139.5 -224.5Q4127 -202 4107 -176L4079 -141Q4021 -175 3979.5 -168.0Q3938 -161 3912 -120Q3892 -89 3870.5 -61.5Q3849 -34 3824.5 -17.0Q3800 0 3770 0Z M4378 0H4376Q4333 0 4309.0 -37.5Q4285 -75 4277 -146Q4271 -199 4271.5 -264.0Q4272 -329 4275 -401Q4278 -459 4279.5 -493.0Q4281 -527 4284.0 -549.5Q4287 -572 4294 -595L4328 -710L4345 -707L4334 -310Q4333 -259 4337.5 -219.5Q4342 -180 4361.5 -157.5Q4381 -135 4423 -135H4425Q4428 -115 4423.0 -87.5Q4418 -60 4407.0 -35.5Q4396 -11 4378 0Z M4491 -389Q4487 -389 4482.5 -389.5Q4478 -390 4473 -391Q4433 -402 4413.5 -424.5Q4394 -447 4394 -468Q4394 -486 4403.5 -500.5Q4413 -515 4420 -524L4457 -572H4462Q4477 -546 4498.0 -530.0Q4519 -514 4552 -507Q4570 -504 4570 -492Q4570 -485 4562 -474L4512 -401Q4507 -394 4502.5 -391.5Q4498 -389 4491 -389Z M4378 0Q4379 -11 4385.5 -37.0Q4392 -63 4402.5 -91.0Q4413 -119 4425 -135H4427Q4455 -135 4476.5 -159.5Q4498 -184 4510 -222L4530 -218Q4524 -185 4512.5 -147.5Q4501 -110 4483.5 -76.5Q4466 -43 4440.5 -21.5Q4415 0 4380 0Z M5375 -360Q5368 -360 5357 -363Q5326 -373 5308.0 -393.5Q5290 -414 5290 -435Q5290 -452 5299.0 -466.0Q5308 -480 5315 -489L5351 -536H5357Q5365 -509 5389.5 -493.0Q5414 -477 5439 -472L5506 -562H5512Q5520 -536 5542.0 -522.0Q5564 -508 5589 -503Q5606 -499 5606 -486Q5606 -478 5599 -468L5550 -398Q5541 -386 5529 -386Q5522 -386 5511 -389Q5487 -398 5469.0 -411.5Q5451 -425 5442 -438L5396 -372Q5387 -360 5375 -360Z M5263 0Q5212 0 5166.5 -6.0Q5121 -12 5086.0 -29.5Q5051 -47 5030.5 -79.5Q5010 -112 5010 -165Q5010 -196 5017.0 -240.0Q5024 -284 5029 -324H5060Q5055 -282 5059.5 -259.0Q5064 -236 5078 -215Q5099 -185 5150.5 -168.5Q5202 -152 5287 -152Q5399 -152 5484.0 -162.0Q5569 -172 5636 -188Q5713 -206 5759.0 -228.0Q5805 -250 5819 -263Q5840 -281 5850.0 -297.0Q5860 -313 5871 -340L5889 -335Q5880 -292 5869.5 -259.0Q5859 -226 5846 -200Q5818 -147 5765.5 -111.0Q5713 -75 5633 -51Q5569 -32 5500.5 -20.5Q5432 -9 5370.0 -4.5Q5308 0 5263 0Z M5927 15 5919 -11 6015 -67Q6082 -106 6119 -136Q6132 -147 6140.0 -159.0Q6148 -171 6148 -179Q6148 -190 6142.5 -197.0Q6137 -204 6133 -204Q6129 -200 6113.0 -189.5Q6097 -179 6067 -179Q6042 -179 6018.5 -195.0Q5995 -211 5995 -257L6049 -410Q6060 -419 6073.0 -423.0Q6086 -427 6096 -427Q6137 -427 6162.0 -384.5Q6187 -342 6187 -271Q6187 -226 6174.5 -181.5Q6162 -137 6143.5 -100.0Q6125 -63 6107 -39Q6092 -19 6080.5 -13.5Q6069 -8 6046 -4Z M6157 -224V-306Q6194 -309 6231.0 -329.0Q6268 -349 6304 -374Q6252 -385 6229.0 -408.5Q6206 -432 6206 -463Q6206 -478 6215.5 -501.0Q6225 -524 6238.0 -547.5Q6251 -571 6260 -589Q6285 -651 6312.0 -675.0Q6339 -699 6375 -699Q6407 -699 6423.0 -683.0Q6439 -667 6441.0 -647.0Q6443 -627 6430 -615Q6406 -625 6378 -625Q6339 -625 6311.0 -604.0Q6283 -583 6283 -548Q6283 -519 6313.0 -501.5Q6343 -484 6380 -484Q6424 -484 6466.0 -501.0Q6508 -518 6557 -548L6570 -536L6529 -468Q6486 -440 6445.0 -412.0Q6404 -384 6377 -365Q6346 -343 6316.0 -317.0Q6286 -291 6257 -268Q6233 -249 6208.0 -236.5Q6183 -224 6157 -224Z M6528 14 6520 -12 6629 -70Q6678 -96 6702.5 -115.5Q6727 -135 6736.0 -148.5Q6745 -162 6745 -168Q6745 -183 6729.0 -202.5Q6713 -222 6685 -236Q6669 -245 6649.5 -251.5Q6630 -258 6607 -259L6639 -417Q6687 -412 6717 -395Q6756 -374 6774.5 -338.5Q6793 -303 6793 -264Q6793 -219 6773.0 -160.5Q6753 -102 6721 -52Q6709 -33 6700.0 -23.5Q6691 -14 6679.5 -10.5Q6668 -7 6648 -4Z\"/></svg>"};
+  var L=String((navigator.languages&&navigator.languages[0])||navigator.language||'').toLowerCase();
+  var base=L.indexOf('hi')===0?'hi':(L.indexOf('ur')===0?'ur':'en');
+  var ORDER=base==='hi'?['hi','ur','en']:(base==='ur'?['ur','hi','en']:['en','hi','ur']);
+  var STUCK=5000, DWELL={en:6000,hi:4000,ur:4000}, FADE=700;
+  var RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var alt=document.createElement('span'); alt.className='hl'; alt.hidden=true; tx.after(alt);
+  var key=null, idx=0, timer=0, swapT=0, cur='en';
+  window.__AAHint={get lang(){return cur}, get key(){return key}, base:base};
+  function put(l){                                   // show language l at once
+    cur=l;
+    if(l==='en'||!key){ alt.hidden=true; tx.hidden=false; tx.classList.remove('fade'); return; }
+    alt.lang=l; alt.innerHTML=l==='hi'?HI[key]:UR[key];
+    tx.hidden=true; alt.hidden=false; alt.classList.remove('fade');
+  }
+  function stop(){ clearTimeout(timer); clearTimeout(swapT); }
+  function next(){
+    if(!key) return;
+    if(document.documentElement.classList.contains('zooming')||!hint.classList.contains('show')){ timer=setTimeout(next,1000); return; }
+    var n=ORDER[(idx+1)%ORDER.length], el=cur==='en'?tx:alt;
+    if(RM){ idx=(idx+1)%ORDER.length; put(n); timer=setTimeout(next,DWELL[n]); return; }
+    el.classList.add('fade');
+    swapT=setTimeout(function(){
+      if(!key) return; idx=(idx+1)%ORDER.length; put(n);
+      var e2=n==='en'?tx:alt; e2.classList.add('fade'); void e2.offsetWidth; e2.classList.remove('fade');
+      timer=setTimeout(next,DWELL[n]);
+    },FADE);
+  }
+  function reset(){
+    stop(); var k=EN[tx.textContent]||null;
+    if(k===key&&k) return;
+    key=k; idx=0; put(k?ORDER[0]:'en');
+    if(k) timer=setTimeout(next,STUCK);
+  }
+  new MutationObserver(reset).observe(tx,{childList:true,characterData:true,subtree:true});
+  new MutationObserver(function(){ if(!hint.classList.contains('show')){ stop(); key=null; } else if(!key) reset(); }).observe(hint,{attributes:true,attributeFilter:['class']});
+  reset();
 })();
 </script>
 
