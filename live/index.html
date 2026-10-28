@@ -152,6 +152,10 @@ var C = {"windows": [{"id": "n", "title": "The Wedding", "when": "4 PM in Patna"
 function $(s, r){ return (r || document).querySelector(s); }
 function ist(s){ var p = s.split(/[-T:]/).map(Number); return Date.UTC(p[0],p[1]-1,p[2],p[3]||0,p[4]||0) - 330*60000; }
 var at = new URLSearchParams(location.search).get('at'), T0 = Date.now();
+/* testing: ?test=<any YouTube link> plays that link in both windows, open now (for trying a stream before the day) */
+var TEST = new URLSearchParams(location.search).get('test');
+if(TEST){ var tm = String(TEST).match(/(?:v=|youtu\.be\/|\/live\/|\/embed\/|\/shorts\/)([\w-]{11})/), te = tm ? 'https://www.youtube-nocookie.com/embed/' + tm[1] + '?rel=0&modestbranding=1' : '';
+  C.windows.forEach(function(c){ if(te) c.src = te; c.from = '2000-01-01T00:00'; c.start = '2000-01-01T00:00'; c.until = '2100-01-01T00:00'; }); }
 function now(){ return at ? ist(at) + (Date.now() - T0) : Date.now(); }
 var stage = $('#stage'), veil = $('#veil'), openW = null;
 function yours(t){
