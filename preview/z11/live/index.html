@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#1B2F6E">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Watch live · Alisha &amp; Aadil</title>
+<link rel="stylesheet" href="../a/f-latin.5287445996fe.css">
+<style>
+:root{--lapis:#1B2F6E;--night:#0E1A44;--gold:#CFAE72;--ivory:#F2E9D6;--quiet:#C3BBA6;--live:#D2553A;--slow:cubic-bezier(.65,0,.25,1);--ink:cubic-bezier(.45,0,.2,1)}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html,body{margin:0;background:var(--lapis);color:var(--ivory)}
+body{font:17px/1.5 Jost,'Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+main{max-width:520px;margin:0 auto;min-height:100vh;min-height:100svh;padding:max(18px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(30px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));display:flex;flex-direction:column}
+.top{display:flex;align-items:center;justify-content:space-between;min-height:44px}
+.back{font:italic 400 19px 'Cormorant Garamond',Georgia,serif;color:var(--ivory);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:5px}
+.top .mini{width:54px;height:auto}.top i{width:54px}
+.head{text-align:center;margin-top:10px}
+.head h1{margin:0;font:400 32px/1.15 'Cormorant Garamond',Georgia,serif}
+.head p{margin:4px 0 0;font-size:15px;color:var(--quiet)}
+.kashida{display:block;width:120px;height:auto;margin:12px auto 0;fill:var(--gold);opacity:.8;overflow:visible}
+.stage{position:relative;flex:1;display:flex;justify-content:center;align-items:flex-start;gap:6%;margin-top:26px}
+.win{position:relative;width:44%;max-width:210px;--door:#14245A;--inside:#0B1433;--l1:#FFEBC2;--l2:#E7C98E;transition:opacity .6s var(--ink)}
+.win[data-w="r"]{--door:#4A1220;--inside:#1E0710;--l1:#FFE0D2;--l2:#E3A98F}
+.arch{position:relative;width:100%;aspect-ratio:212/326;perspective:900px}
+.arch>svg,.door{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.door svg{display:block;width:100%;height:100%}
+.glow,.frame,.door{pointer-events:none}
+.win.open .video{z-index:3}.win.open .base{z-index:4}.crown{z-index:5}
+.door{transform-style:preserve-3d;backface-visibility:hidden}
+.door.l{transform-origin:7.55% 50%}.door.r{transform-origin:92.45% 50%}
+.door .shade{opacity:0}
+.frame path{fill:none;stroke:var(--gold);stroke-width:2.2;stroke-linecap:round}
+.frame .star path{fill:var(--lapis);stroke:var(--gold);stroke-width:9;stroke-linejoin:miter}
+.spark{stroke:#FFF3D6!important;stroke-width:3!important;stroke-dasharray:.035 .965!important;stroke-dashoffset:1;opacity:0}
+.glow .light{opacity:0}
+/* the picture sits exactly in the body of the inner arch: full width of the opening, from where the crown meets the sides */
+.video{position:absolute;left:7.55%;width:84.9%;top:47.85%;aspect-ratio:16/9;background:#05091C;opacity:0;display:grid;place-items:center;text-align:center;
+  font:400 14px/1.35 Jost,sans-serif;color:var(--quiet);padding:0 10px}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.base{position:absolute;left:7.55%;width:84.9%;top:79.2%;bottom:1.5%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;opacity:0;pointer-events:none}
+.base .bt{font:400 19px/1.1 'Cormorant Garamond',Georgia,serif;color:var(--ivory)}
+.base .close{font:500 11px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--quiet);padding:10px 14px;min-height:40px}
+.base .close:hover{color:var(--gold)}
+.hit{position:absolute;left:4%;right:4%;top:10%;bottom:0;cursor:default}
+.crown{position:absolute;left:41%;width:18%;top:-1%;aspect-ratio:1;border-radius:50%;display:none}
+.cap{text-align:center;margin-top:12px}
+.cap h2{margin:0;font:400 21px/1.15 'Cormorant Garamond',Georgia,serif}
+.cap .when{margin:6px 0 0;font:500 10.5px/1.4 Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.cap .yours{margin:3px 0 0;font:400 13.5px/1.3 Jost,sans-serif;color:var(--quiet);min-height:1em}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:6px;vertical-align:1px;box-shadow:0 0 0 3px rgba(210,85,58,.25)}
+.foot{margin-top:28px;text-align:center;font-size:15px;color:var(--quiet)}
+.foot a{color:var(--ivory);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:4px}
+
+/* moments of a window */
+.win .frame .draw{stroke-dasharray:1;stroke-dashoffset:0}
+.win.drawing .frame .draw{stroke-dashoffset:1;animation:draw 2.4s var(--slow) forwards}
+.win.drawing .frame .i{animation-delay:.5s}
+.win.drawing .door{opacity:0;animation:fade 1.3s ease 1.2s forwards}
+.win.drawing .star{opacity:0;animation:fade .9s ease 2s forwards}
+.win.live .glow .light{opacity:.9;animation:breathe 4.2s ease-in-out infinite}
+.win.live .spark{opacity:1;animation:spark 6s linear infinite}
+.win.live .star path{animation:twinkle 4.2s ease-in-out infinite}
+.win.live .hit{cursor:pointer}
+.win.after .door{filter:saturate(.7)}
+/* one window open: it comes forward to the full width, the other steps back */
+.stage.has-open .win:not(.open):not(.closing){opacity:0;pointer-events:none}
+.win.lift{position:fixed;z-index:20;max-width:none;margin:0;transition:left .9s var(--slow),top .9s var(--slow),width .9s var(--slow)}
+.win.open .door{will-change:transform;transition:transform 1.5s cubic-bezier(.3,0,.12,1) .75s}
+.win.open .door .shade{opacity:.45;transition:opacity 1.5s .75s}
+.win.open .door.l{transform:rotateY(-108deg)}.win.open .door.r{transform:rotateY(108deg)}
+.win.open .glow .light{opacity:1;animation:bloom 2.6s ease .75s forwards}
+.win.open .video{opacity:1;transition:opacity .8s ease 1.55s}
+.win.open .base{opacity:1;pointer-events:auto;transition:opacity .8s ease 1.9s}
+.win.open .cap,.win.lift .cap{opacity:0;pointer-events:none}
+.win .cap{transition:opacity .6s var(--ink)}
+.win.open .hit{display:none}.win.open .crown{display:block}
+.win.open .spark{opacity:0}
+.win.closing .door{transition:transform 1.1s var(--slow) .3s}
+.win.closing .video,.win.closing .base{opacity:0;transition:opacity .35s}
+.veil{position:fixed;inset:0;background:var(--lapis);opacity:0;pointer-events:none;z-index:15;transition:opacity .7s var(--ink)}
+.stage.has-open~.veil,.veil.on{opacity:.94;pointer-events:auto}
+/* the watching window: the jharokha widened to the picture; its doors open onto the stream */
+.theatre{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  padding:max(10px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));
+  background:var(--lapis);opacity:0;transition:opacity .7s var(--ink);--door:#14245A;--inside:#0B1433;--l1:#FFEBC2;--l2:#E7C98E}
+.theatre[data-w="r"]{--door:#4A1220;--inside:#1E0710;--l1:#FFE0D2;--l2:#E3A98F}
+.theatre.in{opacity:1}
+.th-arch{position:relative;width:min(calc(100vw - 16px),760px,calc((100svh - 96px) * 408 / 336));aspect-ratio:408/336;perspective:1100px}
+.th-back,.th-frame,.tdoor{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.th-frame,.tdoor,.th-back{pointer-events:none}
+.th-frame path{fill:none;stroke:var(--gold);stroke-width:2.2;stroke-linecap:round}
+.th-frame .sill{stroke-width:.8;opacity:.5}
+.th-frame .star path{fill:var(--lapis);stroke:var(--gold);stroke-width:9}
+.th-title{font:400 25px 'Cormorant Garamond',Georgia,serif;fill:var(--ivory)}
+.th-nuqta{fill:var(--gold);transition:fill .6s}
+.theatre.playing .th-nuqta{fill:#E25A3C}
+.th-light{opacity:.35;transition:opacity 1.2s var(--ink)}
+.theatre.ajar .th-light,.theatre.wait .th-light{opacity:1;animation:breathe 4.2s ease-in-out infinite}
+.th-video{position:absolute;overflow:hidden}
+.th-player,.th-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.th-player{opacity:0;transition:opacity 1s ease}
+.theatre.playing .th-player,.theatre.shown .th-player{opacity:1}
+.th-over{position:absolute;pointer-events:none}
+.th-msg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:0 24%;pointer-events:none;opacity:0;transition:opacity .8s;
+  text-shadow:0 0 12px var(--inside),0 0 24px var(--inside)}
+.theatre:not(.ajar):not(.open) .th-msg{padding:0 14%;background:radial-gradient(48% 34% at 50% 50%,color-mix(in srgb,var(--inside) 88%,transparent),transparent 100%)}
+.th-msg b{font:400 clamp(19px,4.4vw,30px)/1.15 'Cormorant Garamond',Georgia,serif;color:var(--ivory)}
+.th-msg span{font:400 clamp(11px,2.4vw,14px)/1.35 Jost,sans-serif;color:var(--quiet)}
+.th-msg.on{opacity:1}
+.th-sound{position:absolute;left:50%;bottom:7%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:9px 16px 9px 13px;border-radius:999px;
+  background:rgba(14,26,68,.74);border:1px solid var(--gold);color:var(--ivory);font:500 10px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;z-index:2;white-space:nowrap;
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.th-sound svg{width:14px;height:14px}.th-sound svg path{fill:var(--gold)}.th-sound svg .w{fill:none;stroke:var(--gold);stroke-width:1.3;stroke-linecap:round}
+.tdoor{transform-style:preserve-3d;backface-visibility:hidden;transition:transform 1.6s cubic-bezier(.3,0,.12,1)}
+.tdoor svg{display:block;width:100%;height:100%}
+.tdoor.l{transform-origin:10.784% 50%}.tdoor.r{transform-origin:89.216% 50%}
+.tdoor .shade{opacity:0;transition:opacity 1.6s}
+.theatre.ajar .tdoor.l{transform:rotateY(-64deg)}.theatre.ajar .tdoor.r{transform:rotateY(64deg)}
+.theatre.open .tdoor.l{transform:rotateY(-102deg)}.theatre.open .tdoor.r{transform:rotateY(102deg)}
+.theatre.ajar .tdoor .shade{opacity:.2}.theatre.open .tdoor .shade{opacity:.45}
+.th-crown{position:absolute;left:42%;width:16%;top:-1%;aspect-ratio:1;border-radius:50%}
+.th-cap{text-align:center;display:flex;flex-direction:column;align-items:center;gap:2px}
+.th-when{margin:0;font:500 10.5px/1.4 Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);min-height:1.4em}
+.th-close{font:500 11px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--quiet);padding:12px 16px;min-height:44px}
+.th-close:hover{color:var(--gold)}
+.th-close:focus-visible{outline:1px solid var(--gold);outline-offset:-4px;border-radius:2px}
+@media (orientation:landscape) and (max-height:500px){.theatre{gap:2px}.th-cap{flex-direction:row;gap:14px}.th-arch{width:min(calc(100vw - 16px),calc((100vh - 62px) * 408 / 336),calc((100svh - 62px) * 408 / 336))}}
+@media (prefers-reduced-motion:reduce){.tdoor{transition:none}.theatre{transition:none}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fade{to{opacity:1}}
+@keyframes breathe{0%,100%{opacity:.4}50%{opacity:.95}}
+@keyframes bloom{0%{opacity:.85}30%{opacity:1}100%{opacity:.5}}
+@keyframes spark{0%{stroke-dashoffset:1}100%{stroke-dashoffset:-.035}}
+@keyframes twinkle{0%,100%{stroke:var(--gold)}50%{stroke:#FFF3D6}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.frame .draw{stroke-dashoffset:0!important}.win.drawing .door,.win.drawing .star{opacity:1}}
+
+.slot>.win{width:100%;max-width:none}</style>
+</head>
+<body>
+
+<main>
+  <div class="top"><a class="back" href="../">‹ alishaadil.com</a><svg class="mini" viewBox="0 0 338426 241417" aria-hidden="true" focusable="false"><defs><linearGradient id="foilL" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C29F63"/><stop offset=".5" stop-color="#DCC28C"/><stop offset="1" stop-color="#B8955B"/></linearGradient></defs><path fill="url(#foilL)" d="M239366 161852c3586,-2543 6241,-5684 7993,-9486 2470,-5505 1027,-11839 -3752,-15466 -2046,-1553 -4567,-2157 -6994,-1456 -2765,799 -4279,3326 -3892,6210 235,1744 1129,3336 2172,4776l3742 5166c1765,3234 2042,6581 731,10256zm-32831 12979c8756,-495 26472,-5643 27553,-14543 313,-2580 -1156,-4791 -3081,-6357l-5683 -4625c-4711,-3832 -6427,-11924 -1012,-16959 6275,-5836 16579,-4752 22508,1832 -1607,-7466 2145,-15458 9280,-18248 6016,-2352 12470,416 14950,6372 3762,9039 -1501,20197 -7171,27875 -5014,6791 -11258,12223 -18409,16712 -10721,6730 -22754,10299 -35501,10317 12111,8056 24375,15722 38327,19352 10099,2628 21239,2997 30315,-2382 4479,-2654 7752,-6502 9472,-11453 1770,-5092 2281,-10283 2101,-15771 -756,-23100 -10677,-46060 -21768,-66002l-7086 -12739c-1604,-2885 -2626,-5901 -3495,-9078 -3392,-12407 2159,-22592 10605,-31480 3768,-3761 7462,-7393 12162,-10455 -5024,7250 -7104,15302 -5663,23812 870,5140 2255,9974 4524,14665l6182 12775 9003 19435c6591,16360 11121,34603 9903,52235 -940,13613 -5576,26470 -14579,36755 -9111,10411 -21841,16448 -35703,17085 -20910,962 -42070,-9944 -59296,-21226l-25112 -17553c-17426,-12180 -34980,-25525 -54659,-33980 -9093,-3907 -18416,-6537 -28327,-7290 -19020,-1446 -38989,3244 -54326,14689 -4765,3557 -8755,7667 -11896,12643 -1853,2936 -2737,5937 -3443,9431 -1097,-2880 -982,-5606 -594,-8443 1533,-11198 9570,-22256 18072,-29598 7230,-6245 15509,-10780 24550,-13928 17092,-5950 35417,-6115 52816,-1164 18761,5338 35727,15067 51690,26128l23194 16957 19597 14204z M156196 134804l-25634 -58004 -5861 -12965 -27229 47667c-6123,-644 -11954,-746 -18407,-292l19692 -33286 34036 -54819c6636,12566 12491,24884 18251,37383l43545 97444 2520 6464 -18334 -13749c-7391,-5427 -14671,-10726 -22579,-15843z M295260 232441l3542 -4892c14899,-19410 19977,-41713 19291,-66047 -831,-29510 -7103,-56733 -14840,-84972l-4559 -16647c-1279,-4668 -2027,-9215 -2431,-14048 -843,-10094 1691,-19682 7632,-27856 3918,-5505 8451,-10350 14023,-14661 -8797,14466 -5806,27186 -1757,42448l5506 19372c5252,18482 9341,37095 11772,56200 1386,10895 1984,21585 1508,32483 -1019,23333 -9515,46045 -24442,63972 -4536,5413 -9193,10434 -15245,14648z M78127 219474c-21081,-791 -41984,-761 -63145,-294l-11664 257 20 -628c3,-104 340,-218 466,-244 8200,-1692 15105,-6602 20814,-12646 4737,-5016 8755,-10353 12581,-16142 6526,-9882 12421,-19887 18334,-30159l12619 -22055c6261,-827 12541,-1088 19230,-451l-23393 46226 -4918 10186c-2999,6209 -4493,13154 998,17846 4800,4102 11489,5378 17993,6111l65 1993z M299785 199252c-390,1416 -1350,2698 -2321,4024 -4627,6317 -9897,11923 -15912,16960 -19628,16432 -46898,22507 -71253,14087 -11443,-3955 -21074,-11176 -28180,-20918 -3092,-4162 -5465,-8416 -7972,-12993l-13820 -28316 23457 16768 16486 11062 4428 6771c10571,13981 27563,21359 45055,19349 13622,-1565 25989,-7673 36897,-15754l13135 -11040z"/></svg><i></i></div>
+  <div class="head"><h1>Watch live</h1><p>Saturday 28 November · Kishan Palace, Patna</p><svg class="kashida" viewBox="-4 -4 410 40" aria-hidden="true" focusable="false"><path d="M0.0 20.00 L2.3 20.28 L4.6 20.55 L7.0 20.75 L9.3 20.95 L11.7 21.15 L14.0 21.36 L16.4 21.53 L18.7 21.70 L21.0 21.90 L23.4 22.10 L25.7 22.27 L28.1 22.43 L30.4 22.57 L32.8 22.70 L35.1 22.85 L37.5 23.01 L39.8 23.15 L42.2 23.27 L44.5 23.38 L46.9 23.52 L49.2 23.66 L51.6 23.74 L53.9 23.83 L56.3 23.89 L58.6 23.95 L61.0 24.02 L63.3 24.09 L65.7 24.16 L68.1 24.25 L70.4 24.33 L72.8 24.39 L75.1 24.43 L77.5 24.48 L79.8 24.55 L82.2 24.62 L84.5 24.67 L86.9 24.71 L89.2 24.75 L91.6 24.79 L94.0 24.83 L96.3 24.87 L98.7 24.91 L101.0 24.95 L103.4 24.99 L105.7 25.03 L108.1 25.07 L110.4 25.11 L112.8 25.15 L115.1 25.18 L117.5 25.20 L119.9 25.21 L122.2 25.22 L124.6 25.23 L126.9 25.23 L129.3 25.24 L131.6 25.26 L134.0 25.29 L136.3 25.30 L138.7 25.30 L141.0 25.30 L143.4 25.30 L145.8 25.30 L148.1 25.30 L150.5 25.30 L152.8 25.30 L155.2 25.29 L157.5 25.28 L159.9 25.26 L162.2 25.23 L164.6 25.20 L167.0 25.20 L169.3 25.18 L171.7 25.16 L174.0 25.12 L176.4 25.08 L178.7 25.04 L181.1 25.00 L183.4 24.96 L185.8 24.92 L188.1 24.88 L190.5 24.84 L192.9 24.81 L195.2 24.77 L197.6 24.73 L199.9 24.69 L202.3 24.65 L204.6 24.59 L207.0 24.54 L209.3 24.46 L211.7 24.39 L214.0 24.35 L216.4 24.30 L218.8 24.24 L221.1 24.16 L223.5 24.07 L225.8 23.99 L228.2 23.91 L230.5 23.83 L232.9 23.75 L235.2 23.67 L237.6 23.59 L239.9 23.51 L242.3 23.42 L244.6 23.33 L247.0 23.24 L249.3 23.11 L251.7 22.99 L254.0 22.88 L256.4 22.80 L258.8 22.70 L261.1 22.58 L263.5 22.46 L265.8 22.33 L268.2 22.20 L270.5 22.07 L272.9 21.93 L275.2 21.79 L277.6 21.65 L279.9 21.52 L282.3 21.36 L284.6 21.18 L287.0 21.02 L289.3 20.89 L291.7 20.74 L294.0 20.56 L296.4 20.38 L298.7 20.19 L301.1 20.01 L303.4 19.82 L305.8 19.62 L308.1 19.41 L310.4 19.22 L312.8 19.03 L315.1 18.84 L317.5 18.64 L319.8 18.43 L322.2 18.19 L324.5 17.94 L326.9 17.75 L329.2 17.54 L331.5 17.15 L333.8 16.67 L336.1 16.19 L338.4 15.74 L340.7 15.20 L343.0 14.66 L345.3 14.10 L347.6 13.49 L349.8 12.82 L352.1 12.17 L354.3 11.46 L356.5 10.52 L358.6 9.58 L360.7 8.58 L362.7 7.43 L364.7 6.25 L366.5 4.91 L368.4 3.53 L370.0 2.00 L370.0 2.00 L368.0 3.02 L366.0 3.98 L363.9 4.91 L361.7 5.71 L359.6 6.54 L357.4 7.24 L355.2 7.86 L353.0 8.64 L350.7 9.38 L348.5 10.08 L346.3 10.71 L344.0 11.36 L341.7 11.92 L339.4 12.46 L337.2 13.03 L334.9 13.53 L332.6 14.02 L330.3 14.49 L328.0 14.87 L325.6 15.17 L323.3 15.40 L321.0 15.65 L318.7 15.89 L316.3 16.12 L314.0 16.31 L311.6 16.50 L309.3 16.69 L307.0 16.89 L304.6 17.11 L302.3 17.33 L300.0 17.52 L297.6 17.70 L295.3 17.89 L292.9 18.07 L290.6 18.24 L288.3 18.38 L285.9 18.52 L283.6 18.69 L281.2 18.87 L278.9 19.01 L276.6 19.14 L274.2 19.29 L271.9 19.45 L269.5 19.60 L267.2 19.73 L264.9 19.85 L262.5 19.98 L260.2 20.11 L257.8 20.22 L255.5 20.30 L253.1 20.39 L250.8 20.51 L248.5 20.63 L246.1 20.76 L243.8 20.87 L241.4 20.97 L239.1 21.05 L236.7 21.13 L234.4 21.22 L232.1 21.30 L229.7 21.38 L227.4 21.46 L225.0 21.54 L222.7 21.62 L220.3 21.70 L218.0 21.78 L215.6 21.85 L213.3 21.92 L211.0 21.96 L208.6 22.01 L206.3 22.08 L203.9 22.15 L201.6 22.21 L199.2 22.26 L196.9 22.30 L194.5 22.34 L192.2 22.38 L189.9 22.41 L187.5 22.45 L185.2 22.49 L182.8 22.53 L180.5 22.57 L178.1 22.61 L175.8 22.65 L173.4 22.69 L171.1 22.73 L168.7 22.76 L166.4 22.79 L164.1 22.80 L161.7 22.81 L159.4 22.82 L157.0 22.86 L154.7 22.88 L152.3 22.90 L150.0 22.90 L147.6 22.90 L145.3 22.90 L142.9 22.90 L140.6 22.90 L138.3 22.90 L135.9 22.90 L133.6 22.90 L131.2 22.88 L128.9 22.87 L126.5 22.87 L124.2 22.87 L121.8 22.85 L119.5 22.82 L117.1 22.80 L114.8 22.79 L112.5 22.78 L110.1 22.75 L107.8 22.71 L105.4 22.67 L103.1 22.63 L100.7 22.59 L98.4 22.55 L96.0 22.51 L93.7 22.47 L91.4 22.42 L89.0 22.38 L86.7 22.34 L84.3 22.30 L82.0 22.26 L79.6 22.21 L77.3 22.15 L74.9 22.10 L72.6 22.06 L70.2 22.00 L67.9 21.92 L65.6 21.84 L63.2 21.78 L60.9 21.73 L58.5 21.65 L56.2 21.58 L53.8 21.50 L51.5 21.42 L49.1 21.33 L46.8 21.25 L44.5 21.16 L42.1 21.14 L39.8 21.11 L37.4 21.06 L35.1 20.99 L32.7 20.93 L30.4 20.87 L28.1 20.81 L25.7 20.74 L23.4 20.67 L21.0 20.59 L18.7 20.50 L16.4 20.43 L14.0 20.35 L11.7 20.27 L9.3 20.18 L7.0 20.12 L4.7 20.06 L2.3 20.03 L0.0 20.00Z"/><path d="M384.1 21.0 L386.1 15.6 L391.9 15.0 L389.9 20.4Z"/></svg></div>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><pattern id="jaali" width="24.8" height="24.8" patternUnits="userSpaceOnUse" x="0" y="0"><path transform="scale(.62)" d="M20 7L23.8 10.8L29.2 10.8L29.2 16.2L33 20L29.2 23.8L29.2 29.2L23.8 29.2L20 33L16.2 29.2L10.8 29.2L10.8 23.8L7 20L10.8 16.2L10.8 10.8L16.2 10.8ZM0 0L7 7M40 0L33 7M0 40L7 33M40 40L33 33M20 0L20 5M20 40L20 35M0 20L5 20M40 20L35 20" fill="none" stroke="#CFAE72" stroke-width="2.26"/></pattern></defs></svg>
+  <div class="stage" id="stage">
+    <div class="slot" id="slot-n" style="width:44%;max-width:210px"><section class="win" id="w-n" data-w="n" aria-labelledby="t-n">
+  <div class="arch">
+    <svg viewBox="-16 -60 212 326" class="glow" aria-hidden="true" focusable="false"><defs>
+      <radialGradient id="g-n" cx=".5" cy=".42" r=".6"><stop offset="0" stop-color="var(--l1)"/><stop offset=".55" stop-color="var(--l2)" stop-opacity=".65"/><stop offset="1" stop-color="var(--l2)" stop-opacity="0"/></radialGradient>
+      <clipPath id="gi-n"><path d="M0 260L0 96C0 80 12 70 28 70C30 46 48 34 66 38C72 16 84 6 90 0C96 6 108 16 114 38C132 34 150 46 152 70C168 70 180 80 180 96L180 260Z"/></clipPath></defs>
+      <rect x="-10" y="-20" width="200" height="290" style="fill:var(--inside)" clip-path="url(#gi-n)"/>
+      <rect x="-10" y="-20" width="200" height="290" fill="url(#g-n)" clip-path="url(#gi-n)" class="light"/></svg>
+    <div class="video" aria-live="polite"></div>
+    <div class="base"><span class="bt">The Wedding</span><button type="button" class="close">Close</button></div>
+    <div class="door l"><svg viewBox="-16 -60 212 326" aria-hidden="true" focusable="false"><defs><clipPath id="ai-nl"><path d="M0 260L0 96C0 80 12 70 28 70C30 46 48 34 66 38C72 16 84 6 90 0C96 6 108 16 114 38C132 34 150 46 152 70C168 70 180 80 180 96L180 260Z"/></clipPath><clipPath id="h-nl"><rect x="-5" y="-20" width="95" height="290"/></clipPath></defs><g clip-path="url(#ai-nl)"><g clip-path="url(#h-nl)"><rect x="-10" y="-20" width="200" height="290" style="fill:var(--door)" fill-opacity=".8"/><rect x="-10" y="-20" width="200" height="290" fill="url(#jaali)" opacity=".85"/><path d="M88.8 -20V270" stroke="var(--gold)" stroke-width="2.2"/><rect class="shade" x="-10" y="-20" width="200" height="290" fill="#000"/></g></g></svg></div><div class="door r"><svg viewBox="-16 -60 212 326" aria-hidden="true" focusable="false"><defs><clipPath id="ai-nr"><path d="M0 260L0 96C0 80 12 70 28 70C30 46 48 34 66 38C72 16 84 6 90 0C96 6 108 16 114 38C132 34 150 46 152 70C168 70 180 80 180 96L180 260Z"/></clipPath><clipPath id="h-nr"><rect x="90" y="-20" width="95" height="290"/></clipPath></defs><g clip-path="url(#ai-nr)"><g clip-path="url(#h-nr)"><rect x="-10" y="-20" width="200" height="290" style="fill:var(--door)" fill-opacity=".8"/><rect x="-10" y="-20" width="200" height="290" fill="url(#jaali)" opacity=".85"/><path d="M91.2 -20V270" stroke="var(--gold)" stroke-width="2.2"/><rect class="shade" x="-10" y="-20" width="200" height="290" fill="#000"/></g></g></svg></div>
+    <svg viewBox="-16 -60 212 326" class="frame" aria-hidden="true" focusable="false">
+      <path class="draw o" pathLength="1" d="M-12 262L-12 88C-12 70.1 -7.29 52.5 1.67 37C10.62 21.5 23.5 8.62 39 -0.33C54.5 -9.29 72.1 -14 90 -14C107.9 -14 125.5 -9.29 141 -0.33C156.5 8.62 169.38 21.5 178.33 37C187.29 52.5 192 70.1 192 88L192 262"/><path class="draw i" pathLength="1" d="M0 260L0 96C0 80 12 70 28 70C30 46 48 34 66 38C72 16 84 6 90 0C96 6 108 16 114 38C132 34 150 46 152 70C168 70 180 80 180 96L180 260"/>
+      <path class="spark" pathLength="1" d="M-12 262L-12 88C-12 70.1 -7.29 52.5 1.67 37C10.62 21.5 23.5 8.62 39 -0.33C54.5 -9.29 72.1 -14 90 -14C107.9 -14 125.5 -9.29 141 -0.33C156.5 8.62 169.38 21.5 178.33 37C187.29 52.5 192 70.1 192 88L192 262"/>
+      <g class="star" transform="translate(90 -38) scale(.15)"><path d="M0 -50L14.6 -35.3L35.4 -35.4L35.3 -14.6L50 0L35.3 14.6L35.4 35.4L14.6 35.3L0 50L-14.6 35.3L-35.4 35.4L-35.3 14.6L-50 0L-35.3 -14.6L-35.4 -35.4L-14.6 -35.3Z"/></g></svg>
+    <button type="button" class="hit" aria-describedby="s-n"><span class="sr">Open the window and watch the Wedding live</span></button>
+    <button type="button" class="crown" aria-label="Close the window"></button>
+  </div>
+  <div class="cap"><h2 id="t-n">The Wedding</h2><p class="when" id="s-n"></p><p class="yours"></p></div>
+</section></div>
+    <div class="slot" id="slot-r" style="width:44%;max-width:210px"><section class="win" id="w-r" data-w="r" aria-labelledby="t-r">
+  <div class="arch">
+    <svg viewBox="-16 -60 212 326" class="glow" aria-hidden="true" focusable="false"><defs>
+      <radialGradient id="g-r" cx=".5" cy=".42" r=".6"><stop offset="0" stop-color="var(--l1)"/><stop offset=".55" stop-color="var(--l2)" stop-opacity=".65"/><stop offset="1" stop-color="var(--l2)" stop-opacity="0"/></radialGradient>
+      <clipPath id="gi-r"><path d="M0 260L0 96C0 80 12 70 28 70C30 46 48 34 66 38C72 16 84 6 90 0C96 6 108 16 114 38C132 34 150 46 152 70C168 70 180 80 180 96L180 260Z"/></clipPath></defs>
+      <rect x="-10" y="-20" width="200" height="290" style="fill:var(--inside)" clip-path="url(#gi-r)"/>
+      <rect x="-10" y="-20" width="200" height="290" fill="url(#g-r)" clip-path="url(#gi-r)" class="light"/></svg>
+    <div class="video" aria-live="polite"></div>
+    <div class="base"><span class="bt">The Reception</span><button type="button" class="close">Close</button></div>
+    <div class="door l"><svg viewBox="-16 -60 212 326" aria-hidden="true" focusable="false"><defs><clipPath id="ai-rl"><path d="M0 260L0 96C0 80 12 70 28 70C30 46 48 34 66 38C72 16 84 6 90 0C96 6 108 16 114 38C132 34 150 46 152 70C168 70 180 80 180 96L180 260Z"/></clipPath><clipPath id="h-rl"><rect x="-5" y="-20" width="95" height="290"/></clipPath></defs><g clip-path="url(#ai-rl)"><g clip-path="url(#h-rl)"><rect x="-10" y="-20" width="200" height="290" style="fill:var(--door)" fill-opacity=".8"/><rect x="-10" y="-20" width="200" height="290" fill="url(#jaali)" opacity=".85"/><path d="M88.8 -20V270" stroke="var(--gold)" stroke-width="2.2"/><rect class="shade" x="-10" y="-20" width="200" height="290" fill="#000"/></g></g></svg></div><div class="door r"><svg viewBox="-16 -60 212 326" aria-hidden="true" focusable="false"><defs><clipPath id="ai-rr"><path d="M0 260L0 96C0 80 12 70 28 70C30 46 48 34 66 38C72 16 84 6 90 0C96 6 108 16 114 38C132 34 150 46 152 70C168 70 180 80 180 96L180 260Z"/></clipPath><clipPath id="h-rr"><rect x="90" y="-20" width="95" height="290"/></clipPath></defs><g clip-path="url(#ai-rr)"><g clip-path="url(#h-rr)"><rect x="-10" y="-20" width="200" height="290" style="fill:var(--door)" fill-opacity=".8"/><rect x="-10" y="-20" width="200" height="290" fill="url(#jaali)" opacity=".85"/><path d="M91.2 -20V270" stroke="var(--gold)" stroke-width="2.2"/><rect class="shade" x="-10" y="-20" width="200" height="290" fill="#000"/></g></g></svg></div>
+    <svg viewBox="-16 -60 212 326" class="frame" aria-hidden="true" focusable="false">
+      <path class="draw o" pathLength="1" d="M-12 262L-12 88C-12 70.1 -7.29 52.5 1.67 37C10.62 21.5 23.5 8.62 39 -0.33C54.5 -9.29 72.1 -14 90 -14C107.9 -14 125.5 -9.29 141 -0.33C156.5 8.62 169.38 21.5 178.33 37C187.29 52.5 192 70.1 192 88L192 262"/><path class="draw i" pathLength="1" d="M0 260L0 96C0 80 12 70 28 70C30 46 48 34 66 38C72 16 84 6 90 0C96 6 108 16 114 38C132 34 150 46 152 70C168 70 180 80 180 96L180 260"/>
+      <path class="spark" pathLength="1" d="M-12 262L-12 88C-12 70.1 -7.29 52.5 1.67 37C10.62 21.5 23.5 8.62 39 -0.33C54.5 -9.29 72.1 -14 90 -14C107.9 -14 125.5 -9.29 141 -0.33C156.5 8.62 169.38 21.5 178.33 37C187.29 52.5 192 70.1 192 88L192 262"/>
+      <g class="star" transform="translate(90 -38) scale(.15)"><path d="M0 -50L14.6 -35.3L35.4 -35.4L35.3 -14.6L50 0L35.3 14.6L35.4 35.4L14.6 35.3L0 50L-14.6 35.3L-35.4 35.4L-35.3 14.6L-50 0L-35.3 -14.6L-35.4 -35.4L-14.6 -35.3Z"/></g></svg>
+    <button type="button" class="hit" aria-describedby="s-r"><span class="sr">Open the window and watch the Reception live</span></button>
+    <button type="button" class="crown" aria-label="Close the window"></button>
+  </div>
+  <div class="cap"><h2 id="t-r">The Reception</h2><p class="when" id="s-r"></p><p class="yours"></p></div>
+</section></div>
+  </div>
+  <div class="veil" id="veil"></div>
+  <div class="theatre" id="theatre" role="dialog" aria-modal="true" aria-labelledby="th-t" hidden>
+  <div class="th-arch">
+    <svg viewBox="-44 -64 408 336" class="th-back" aria-hidden="true" focusable="false"><defs>
+      <radialGradient id="th-g" cx=".5" cy=".55" r=".62"><stop offset="0" stop-color="var(--l1)" stop-opacity=".75"/><stop offset=".55" stop-color="var(--l2)" stop-opacity=".25"/><stop offset="1" stop-color="var(--inside)" stop-opacity="0"/></radialGradient>
+      <clipPath id="th-ai"><path d="M0 258L0 78C0 65 21.3 56.9 49.8 56.9C53.3 37.4 85.3 27.6 117.3 30.9C128 13 149.3 4.9 160 0C170.7 4.9 192 13 202.7 30.9C234.7 27.6 266.7 37.4 270.2 56.9C298.7 56.9 320 65 320 78L320 258Z"/></clipPath></defs>
+      <path d="M0 258L0 78C0 65 21.3 56.9 49.8 56.9C53.3 37.4 85.3 27.6 117.3 30.9C128 13 149.3 4.9 160 0C170.7 4.9 192 13 202.7 30.9C234.7 27.6 266.7 37.4 270.2 56.9C298.7 56.9 320 65 320 78L320 258Z" style="fill:var(--inside)"/>
+      <rect class="th-light" x="0" y="0" width="320" height="258" fill="url(#th-g)" clip-path="url(#th-ai)"/></svg>
+    <div class="th-video" style="left:10.784%;top:42.262%;width:78.431%;height:53.571%"><div class="th-player" id="th-player"></div>
+      <button type="button" class="th-sound" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6h3l4-3v10l-4-3H2z"/><path class="w" d="M11 5.5c1 .7 1.5 1.6 1.5 2.5s-.5 1.8-1.5 2.5"/></svg>Tap for sound</button></div>
+    <div class="tdoor l"><svg viewBox="-44 -64 408 336" aria-hidden="true" focusable="false"><defs><clipPath id="tai-l"><path d="M0 258L0 78C0 65 21.3 56.9 49.8 56.9C53.3 37.4 85.3 27.6 117.3 30.9C128 13 149.3 4.9 160 0C170.7 4.9 192 13 202.7 30.9C234.7 27.6 266.7 37.4 270.2 56.9C298.7 56.9 320 65 320 78L320 258Z"/></clipPath><clipPath id="th-l"><rect x="-2" y="78" width="162" height="184"/></clipPath></defs><g clip-path="url(#tai-l)"><g clip-path="url(#th-l)"><rect x="-10" y="-20" width="340" height="288" style="fill:var(--door)" fill-opacity=".86"/><rect x="-10" y="-20" width="340" height="288" fill="url(#jaali)" opacity=".85"/><path d="M159 78V258" stroke="var(--gold)" stroke-width="2.2"/><rect class="shade" x="-10" y="-20" width="340" height="288" fill="#000"/></g></g></svg></div><div class="tdoor r"><svg viewBox="-44 -64 408 336" aria-hidden="true" focusable="false"><defs><clipPath id="tai-r"><path d="M0 258L0 78C0 65 21.3 56.9 49.8 56.9C53.3 37.4 85.3 27.6 117.3 30.9C128 13 149.3 4.9 160 0C170.7 4.9 192 13 202.7 30.9C234.7 27.6 266.7 37.4 270.2 56.9C298.7 56.9 320 65 320 78L320 258Z"/></clipPath><clipPath id="th-r"><rect x="160" y="78" width="162" height="184"/></clipPath></defs><g clip-path="url(#tai-r)"><g clip-path="url(#th-r)"><rect x="-10" y="-20" width="340" height="288" style="fill:var(--door)" fill-opacity=".86"/><rect x="-10" y="-20" width="340" height="288" fill="url(#jaali)" opacity=".85"/><path d="M161 78V258" stroke="var(--gold)" stroke-width="2.2"/><rect class="shade" x="-10" y="-20" width="340" height="288" fill="#000"/></g></g></svg></div>
+    <div class="th-over" style="left:10.784%;top:42.262%;width:78.431%;height:53.571%"><div class="th-msg" aria-live="polite"><b></b><span></span></div></div>
+    <svg viewBox="-44 -64 408 336" class="th-frame" aria-hidden="true" focusable="false">
+      <path d="M-12 260L-12 72C-12 50 10 34 40 30C60 10 110 -6 160 -14C210 -6 260 10 280 30C310 34 332 50 332 72L332 260"/><path d="M0 258L0 78C0 65 21.3 56.9 49.8 56.9C53.3 37.4 85.3 27.6 117.3 30.9C128 13 149.3 4.9 160 0C170.7 4.9 192 13 202.7 30.9C234.7 27.6 266.7 37.4 270.2 56.9C298.7 56.9 320 65 320 78L320 258"/><path class="sill" d="M0 78H320"/>
+      <text x="160" y="51" text-anchor="middle" class="th-title" id="th-t"></text>
+      <path class="th-nuqta" transform="translate(160 66)" d="M-3.6 2.8L-1.8 -2.3L3.6 -2.8L1.8 2.3Z"/>
+      <g class="star" transform="translate(160 -36) scale(.15)"><path d="M0 -50L14.6 -35.3L35.4 -35.4L35.3 -14.6L50 0L35.3 14.6L35.4 35.4L14.6 35.3L0 50L-14.6 35.3L-35.4 35.4L-35.3 14.6L-50 0L-35.3 -14.6L-35.4 -35.4L-14.6 -35.3Z"/></g></svg>
+    <button type="button" class="th-crown" aria-label="Close the window"></button>
+  </div>
+  <div class="th-cap"><p class="th-when"></p><button type="button" class="th-close">Close</button></div>
+</div>
+  <p class="foot">To be told when we go live, <a href="https://www.youtube.com/@ciferlish?sub_confirmation=1" target="_blank" rel="noopener">subscribe on YouTube</a> and tap 🔔</p>
+</main>
+<script>
+(function(){
+'use strict';
+var C = {"windows": [{"id": "n", "title": "The Wedding", "when": "4 PM in Patna", "start": "2026-11-28T16:00", "from": "2026-11-28T15:30", "until": "2026-11-28T17:00", "src": "https://www.youtube-nocookie.com/embed/3wwAD_FR7hs?rel=0&modestbranding=1", "rec": ""}, {"id": "r", "title": "The Reception", "when": "8 PM in Patna", "start": "2026-11-28T20:00", "from": "2026-11-28T19:30", "until": "2026-11-29T00:00", "src": "", "rec": ""}]};
+function $(s, r){ return (r || document).querySelector(s); }
+function ist(s){ var p = s.split(/[-T:]/).map(Number); return Date.UTC(p[0],p[1]-1,p[2],p[3]||0,p[4]||0) - 330*60000; }
+var at = new URLSearchParams(location.search).get('at'), T0 = Date.now();
+/* testing: ?test=<any YouTube link> plays that link in both windows, open now (for trying a stream before the day) */
+var TEST = new URLSearchParams(location.search).get('test');
+if(TEST){ var tm = String(TEST).match(/(?:v=|youtu\.be\/|\/live\/|\/embed\/|\/shorts\/)([\w-]{11})/), te = tm ? 'https://www.youtube-nocookie.com/embed/' + tm[1] + '?rel=0&modestbranding=1' : '';
+  C.windows.forEach(function(c){ if(te) c.src = te; c.from = '2000-01-01T00:00'; c.until = '2100-01-01T00:00'; c.test = 1; }); }
+function now(){ return at ? ist(at) + (Date.now() - T0) : Date.now(); }
+var stage = $('#stage'), veil = $('#veil'), openW = null;
+function yours(t){
+  try{ var d = new Date(t); if(d.getTimezoneOffset() === -330) return '';
+    var s = d.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'}).replace(/:00(?=\s?[AaPp]\.?\s?[Mm])/, '');
+    var day = d.getFullYear() * 1e4 + (d.getMonth() + 1) * 100 + d.getDate(); if(day !== 20261128) s = d.toLocaleDateString([], {weekday:'short', day:'numeric', month:'short'}) + ', ' + s;
+    return s + ' your time'; }catch(_){ return ''; }
+}
+var W = {};
+C.windows.forEach(function(c){
+  var el = document.getElementById('w-' + c.id); W[c.id] = {c:c, el:el, state:''};
+  $('.yours', el).textContent = yours(ist(c.start));
+  $('.hit', el).addEventListener('click', function(){ open(c.id); });
+  $('.crown', el).addEventListener('click', function(){ close(); });
+  $('.close', el).addEventListener('click', function(){ close(); });
+  el.classList.add('drawing');
+});
+function state(c, t){ return t < ist(c.from) ? 'before' : t < ist(c.until) ? 'live' : 'after'; }
+function render(){
+  var t = now();
+  Object.keys(W).forEach(function(k){
+    var w = W[k], s = state(w.c, t); if(s === w.state) return; w.state = s;
+    w.el.classList.toggle('live', s === 'live'); w.el.classList.toggle('after', s === 'after');
+    var when = $('.when', w.el);
+    if(s === 'live') when.innerHTML = '<span class="dot"></span>' + (t < ist(w.c.start) ? 'Starting soon · touch to watch' : 'Live now · touch to watch');
+    else if(s === 'after') when.textContent = w.c.rec ? 'Touch to watch again' : 'Thank you for watching';
+    else when.textContent = w.c.when;
+    $('.hit', w.el).disabled = !(s === 'live' || (s === 'after' && w.c.rec));
+    if(s === 'live' && t >= ist(w.c.start)) $('.when', w.el).innerHTML = '<span class="dot"></span>Live now · touch to watch';
+  });
+}
+render(); setInterval(render, 15000);
+/* the watching window: the jharokha widened to the picture. Its doors stand ajar with light breathing through until the
+   stream really plays, then swing open onto it; when the stream ends they close again. YouTube's own player controls tell
+   us what the stream is doing; if they cannot load, the picture is shown in the opened window as before. */
+var TH = $('#theatre'), thV = $('.th-video', TH), thMsg = $('.th-over .th-msg', TH), thSound = $('.th-sound', TH), thWhen = $('.th-when', TH), thT = $('#th-t');
+var player = null, apiP = null, fallT = 0, muteT = 0, endT = 0;
+function ytApi(){
+  if(apiP) return apiP;
+  apiP = new Promise(function(res, rej){
+    if(window.YT && YT.Player) return res();
+    var t = setTimeout(rej, 7000), prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = function(){ clearTimeout(t); if(prev) try{ prev(); }catch(_){} res(); };
+    var sc = document.createElement('script'); sc.src = 'https://www.youtube.com/iframe_api'; sc.async = true; sc.onerror = function(){ clearTimeout(t); rej(); };
+    document.head.appendChild(sc);
+  });
+  apiP.catch(function(){ apiP = null; });
+  return apiP;
+}
+function vidOf(src){ var m = String(src || '').match(/embed\/([\w-]{11})/); return m ? m[1] : ''; }
+function say(big, small){ $('b', thMsg).textContent = big || ''; $('span', thMsg).textContent = small || ''; thMsg.classList.toggle('on', !!(big || small)); }
+function doors(st){ TH.classList.toggle('ajar', st === 'ajar' || st === 'wait'); TH.classList.toggle('wait', st === 'wait'); TH.classList.toggle('open', st === 'open'); }
+function liveLine(c){ return '<span class="dot"></span>Live now · ' + c.when; }
+function playing(c){
+  clearTimeout(fallT); TH.classList.add('playing'); say(''); doors('open');
+  thWhen.innerHTML = W[openW] && W[openW].state === 'after' ? 'Watching again' : liveLine(c);
+}
+function plain(src){            // YouTube's controls did not load: the picture in the opened window, as before
+  clearTimeout(fallT); if(!openW) return;
+  thV.querySelector('.th-player').innerHTML = '<iframe src="' + src + (src.indexOf('?') > 0 ? '&' : '?') + 'autoplay=1&playsinline=1" title="The stream" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+  TH.classList.add('shown'); say(''); doors('open'); thSound.hidden = true;
+}
+function open(k){
+  if(openW) return; var w = W[k]; if(!w || !(w.state === 'live' || (w.state === 'after' && w.c.rec))) return;
+  openW = k; var c = w.c, again = w.state === 'after';
+  var src = again ? c.rec : c.src, id = vidOf(src), before = !again && !c.test && now() < ist(c.start);
+  TH.dataset.w = k; thT.textContent = c.title; TH.className = 'theatre'; thSound.hidden = true; say('');
+  thV.querySelector('.th-player').outerHTML = '<div class="th-player"></div>';
+  thWhen.innerHTML = again ? 'The recording' : (before || !src) ? (before ? 'Starting at ' : '') + c.when : liveLine(c);
+  TH.hidden = false; void TH.offsetWidth; TH.classList.add('in');
+  try{ history.pushState({live:k}, ''); }catch(_){}
+  setTimeout(function(){ var b = $('.th-close', TH); if(b) b.focus({preventScroll:true}); }, 900);
+  if(!src){ setTimeout(function(){ if(openW === k){ doors('wait'); say('The stream will appear here', 'Its link is added on the day'); } }, 500); return; }
+  setTimeout(function(){ if(openW !== k) return;
+    if(before){ doors('wait'); var y = $('.yours', w.el).textContent; say('Starting at ' + c.when.replace(' in Patna', ''), 'in Patna' + (y ? ' · ' + y : '') + ' · the doors open by themselves'); }
+    else doors('ajar');
+  }, 450);
+  ytApi().then(function(){
+    if(openW !== k) return;
+    player = new YT.Player(thV.querySelector('.th-player'), {
+      host: 'https://www.youtube-nocookie.com', videoId: id, width: '100%', height: '100%',
+      playerVars: {autoplay: 1, mute: 1, playsinline: 1, rel: 0, modestbranding: 1, origin: location.origin},
+      events: {
+        onReady: function(e){ if(openW !== k) return; try{ e.target.mute(); e.target.playVideo(); }catch(_){} thSound.hidden = false;
+          clearInterval(muteT); muteT = setInterval(function(){ try{ if(player && !player.isMuted()) thSound.hidden = true; }catch(_){} }, 1000); },
+        onStateChange: function(e){ if(openW !== k) return;
+          if(e.data === 1) playing(c);
+          else if(e.data === 0){ TH.classList.remove('playing'); thSound.hidden = true; doors('ajar'); clearTimeout(endT);
+            endT = setTimeout(function(){ if(openW === k){ doors('closed'); say('Thank you for watching'); thWhen.textContent = c.title + ' has ended'; } }, 900); } },
+        onError: function(){ if(openW === k) plain(src); }
+      }
+    });
+    // a stream that is already on but never reports playing (rare): show the picture anyway
+    if(!before) fallT = setTimeout(function(){ if(openW === k && !TH.classList.contains('playing')) plain(src); }, 9000);
+  }, function(){ if(openW !== k) return; if(before) say('Starting at ' + c.when, 'Come back at that time'); else plain(src); });
+}
+thSound.addEventListener('click', function(){ try{ player.unMute(); player.setVolume(100); }catch(_){} thSound.hidden = true; });
+function close(fromHistory){
+  if(!openW) return; var k = openW; openW = null;
+  clearTimeout(fallT); clearTimeout(endT); clearInterval(muteT);
+  doors('closed'); TH.classList.remove('playing', 'shown'); thSound.hidden = true; say('');
+  setTimeout(function(){ try{ if(player) player.destroy(); }catch(_){} player = null; thV.querySelector('.th-player') && (thV.querySelector('.th-player').outerHTML = '<div class="th-player"></div>'); TH.classList.remove('in'); }, 650);
+  setTimeout(function(){ if(!openW){ TH.hidden = true; } var h = $('#w-' + k + ' .hit'); if(h) h.focus({preventScroll:true}); }, 1350);
+  if(fromHistory !== true){ try{ if(history.state && history.state.live) history.back(); }catch(_){} }
+}
+window.addEventListener('popstate', function(){ if(openW) close(true); });
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && openW) close(); });
+$('.th-crown', TH).addEventListener('click', close); $('.th-close', TH).addEventListener('click', close);
+})();
+</script>
+<script>if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('../sw.js',{scope:'../'}).catch(function(){})</script>
+</body>
+</html>
