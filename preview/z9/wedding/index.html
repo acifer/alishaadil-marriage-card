@@ -529,8 +529,8 @@ html.zooming #tbk{opacity:0!important;pointer-events:none!important;transition-d
             <div class="flap">
               <div class="fout"><svg viewBox="0 0 558 244.8" aria-hidden="true">
                 <g transform="matrix(-1 0 0 -1 637.2 244.8)" clip-path="url(#dieC)"><g clip-path="url(#fT)"><use href="#eo-layer-Ground"/><use href="#eo-layer-Pattern"/><use href="#eo-layer-Artwork"/></g></g>
-                <g class="seal" transform="translate(279 204.8)"><g class="seal-in">
-                  <use class="s-whole" href="#sealG"/>
+                <defs><linearGradient id="waveG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#F6DFA4" stop-opacity="0"/><stop offset=".5" stop-color="#F6DFA4" stop-opacity=".95"/><stop offset="1" stop-color="#F6DFA4" stop-opacity="0"/></linearGradient><radialGradient id="glowG"><stop offset=".62" stop-color="#E6C47F" stop-opacity="0"/><stop offset=".78" stop-color="#E6C47F" stop-opacity=".55"/><stop offset="1" stop-color="#E6C47F" stop-opacity="0"/></radialGradient></defs><g class="seal" transform="translate(279 204.8)"><circle class="s-glow" r="66" fill="url(#glowG)" style="opacity:0;pointer-events:none"/><g class="seal-in">
+                  <use class="s-whole" href="#sealG"/><g class="s-wave" clip-path="url(#sealShapeC)" style="pointer-events:none"><g transform="rotate(-24)"><rect class="s-band" x="-170" y="-80" width="80" height="160" fill="url(#waveG)" style="opacity:0;mix-blend-mode:screen"/></g></g>
                   <g class="s-top" style="display:none"><g clip-path="url(#sealTopC)"><use href="#sealG"/><use href="#sealEdge"/></g></g>
                   <g class="s-crack" fill="none" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#sealShapeC)">
                     <path class="ck" d="M-53 -3L-46 1L-41 0L-35 6L-29 8L-24 14L-17 16L-12 22L-6 23L-1 29L5 26L10 27L15 21L21 19L26 13L32 12L37 6L44 5L53 -2" transform="translate(.4 .9)" stroke="rgb(222,140,98)" stroke-opacity=".55" stroke-width=".7" pathLength="1" stroke-dasharray="1 2" stroke-dashoffset="1"/>
@@ -825,12 +825,12 @@ async function turn(){
     clear(lift); clear(eshadow);
   }
   phase='back'; envBtn.dataset.cur='Break'; envBtn.setAttribute('aria-label','Break the seal and open the envelope');
-  hint('Break the seal'); live('The back of the envelope, closed with a wax seal bearing their monogram.');
+  hint('Break the seal'); sealGuide.start(); live('The back of the envelope, closed with a wax seal bearing their monogram.');
 }
 /* ---------- the wax seal ---------- */
 async function turnBack(){
   if(phase!=='back') return;
-  phase='turning'; hint();
+  sealGuide.stop(); phase='turning'; hint();
   foley.sfx&&foley.sfx(RM?'tap':'turn');
   if(RM){
     await done(A(lift,[{opacity:1},{opacity:0}],{duration:350})); wrap.classList.remove('turned');
@@ -847,7 +847,7 @@ async function turnBack(){
   toFront();
 }
 window.__AATB={go:turnBack,get phase(){return phase}};
-const sealHit=$('#env .seal');
+const sealHit=$('#env .s-whole');   // the wax itself, not the glow around it
 function onSeal(x,y){
   const r=sealHit.getBoundingClientRect(), R=Math.max(r.width/2*1.08,22);
   return Math.hypot(x-(r.left+r.width/2),y-(r.top+r.height/2))<=R;
@@ -858,6 +858,28 @@ async function nudgeSeal(){
   const a=A(sealIn,[{scale:'1'},{scale:'1.05',offset:.35},{scale:'.985',offset:.7},{scale:'1'}],{duration:620,easing:EASE});
   await done(a); a.cancel(); nudging=false;
 }
+const sealGuide=(()=>{
+  const band=$('#env .s-band'), glow=$('#env .s-glow');
+  const LV=[null,{a:.26,every:5200,dur:2300},{a:.42,every:3800,dur:2000,glow:.55},{a:.48,every:3400,dur:1900,glow:.8,lift:1}];
+  let lvl=0, on=false, loop=0, timers=[];
+  const kill=()=>[band,glow].forEach(e=>e&&e.getAnimations().forEach(a=>a.cancel()));
+  function pulse(){
+    const L=LV[lvl]; if(!L||!on) return;
+    if(RM){ if(glow) glow.style.opacity=L.glow||.45; return; }
+    if(band) band.animate([{transform:'translateX(0px)',opacity:0},{opacity:L.a,offset:.35},{opacity:L.a,offset:.65},{transform:'translateX(250px)',opacity:0}],{duration:L.dur,easing:'cubic-bezier(.45,0,.2,1)'});
+    if(L.glow&&glow) glow.animate([{opacity:0},{opacity:L.glow,offset:.45},{opacity:0}],{duration:L.dur+500,easing:'ease-in-out'});
+    if(L.lift&&!nudging) sealIn.animate([{scale:'1',translate:'0px 0px'},{scale:'1.045',translate:'0px -1.4px',offset:.45},{scale:'1',translate:'0px 0px'}],{duration:L.dur,easing:'cubic-bezier(.45,0,.2,1)'});
+  }
+  function again(){ clearTimeout(loop); if(on&&lvl) loop=setTimeout(()=>{pulse();again()},LV[lvl].every); }
+  function to(n){ n=Math.min(3,n); if(!on||n<=lvl) return; lvl=n; pulse(); again(); }
+  const api={
+    start(){ api.stop(); on=true; lvl=0; timers=[setTimeout(()=>to(1),2500),setTimeout(()=>to(2),9000),setTimeout(()=>to(3),16000)]; },
+    miss(){ if(!on) return; if(!RM) nudgeSeal(); to(Math.max(lvl+1,2)); },
+    stop(){ on=false; lvl=0; timers.forEach(clearTimeout); timers=[]; clearTimeout(loop); kill(); if(glow) glow.style.opacity=0; }
+  };
+  window.__AASG={get level(){return lvl}, get on(){return on}};
+  return api;
+})();
 const sWhole=$('#env .s-whole'), sTop=$('#env .s-top'), sBot=$('#env .s-bot'), sCrack=$('#env .s-crack'), crumbsG=$('#env .crumbs');
 const CK=[[-53,-3],[-46,1],[-41,0],[-35,6],[-29,8],[-24,14],[-17,16],[-12,22],[-6,23],[-1,29],[5,26],[10,27],[15,21],[21,19],[26,13],[32,12],[37,6],[44,5],[53,-2]];
 const SVGN='http://www.w3.org/2000/svg';
@@ -908,7 +930,7 @@ async function breakSeal(){
 }
 const openPose=()=>{const u=U(),s=Math.min(1,.9*innerHeight/(658.8*u));return `translateY(${122.4*u*s}px) scale(${s})`};
 async function openEnv(){
-  phase='opening'; hint();
+  phase='opening'; sealGuide.stop(); hint();
   await breakSeal();
   if(RM){ flap.style.transform='rotateX(180deg)'; flap.classList.add('behind'); wrap.style.transform=openPose(); }
   else{
@@ -958,7 +980,7 @@ const __envH=e=>{
   else if(phase==='front') turn();
   else if(phase==='back'){
     // pointer clicks must land on the wax; keyboard activation (detail 0) always opens
-    if(e.detail&&!onSeal(e.clientX,e.clientY)){ nudgeSeal(); return; }
+    if(e.detail&&!onSeal(e.clientX,e.clientY)){ sealGuide.miss(); return; }
     openEnv();
   }
   else if(phase==='open') drawOut();
