@@ -756,8 +756,9 @@ async function intro(){
   const LIFT=(()=>{const q=new URLSearchParams(location.search).get('lift'); const v=q===null?.5:parseFloat(q); return Math.max(.2,Math.min(1.5,isFinite(v)?v:.5))*1000})();
   let kash=null, kb=null;
   [...vine.querySelectorAll('path')].forEach(e=>{ if(e.getAttribute('fill')==='none') return; let b=null; try{b=e.getBBox()}catch(_){} if(b&&(!kb||b.width>kb.width)){kb=b;kash=e} });
-  // the kashida's tail: the small mark just past its tip is written with it, not faded in on its own
+  // the designer's own nuqta, drawn into the vine just past the kashida's tip: the one nuqta, set after the stroke
   const tail=kb?[...vine.querySelectorAll('path')].filter(e=>{ if(e===kash||e.getAttribute('fill')==='none') return false; let b=null; try{b=e.getBBox()}catch(_){} return b&&b.x>=kb.x+kb.width*.85&&b.x<=kb.x+kb.width*1.25&&b.width<kb.width*.2 }):[];
+  const dot=tail[0]||null;
   const kd=kb?1000+Math.max(0,Math.min(1,(kb.x-10)/540))*1700:2000;
   const K0=kd+300, K1=K0+1200, NQ=K1+LIFT, LOGO=NQ+600+LIFT, BR=LOGO-3000;
   window.__AANQ=(NQ+600)/1000; window.__AABR=BR;
@@ -766,20 +767,18 @@ async function intro(){
     const vo=$('.vine-ov'); let df=vo.querySelector('defs'); if(!df){ df=document.createElementNS(NS,'defs'); vo.prepend(df); }
     const bx=kb.x, by=kb.y, bw=kb.width, bh=kb.height;
     df.insertAdjacentHTML('beforeend',`<linearGradient id="kPenG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#fff"/><stop offset=".56" stop-color="#000"/><stop offset="1" stop-color="#000"/></linearGradient><mask id="kPen" maskUnits="userSpaceOnUse" x="${bx-bw}" y="${by-bh*3}" width="${bw*3.5}" height="${bh*7}"><rect id="kPenR" x="${bx-1.35*bw}" y="${by-bh*2}" width="${2.4*bw}" height="${bh*5}" fill="url(#kPenG)"/></mask>`);
-    kash.setAttribute('mask','url(#kPen)'); tail.forEach(e=>e.setAttribute('mask','url(#kPen)'));
+    kash.setAttribute('mask','url(#kPen)');
     const kr=$('#kPenR'), ka=a(kr,[{transform:'translateX(0px)'},{transform:`translateX(${(1.32*bw).toFixed(2)}px)`}],{delay:K0,duration:1200,easing:'cubic-bezier(.45,.05,.55,.95)'});
-    const unmask=()=>[kash,...tail].forEach(e=>e.removeAttribute('mask')); ka.finished.then(unmask,unmask);
-    // the nuqta is set just above where the kashida ends (in the overlay's own units, whatever the zoom)
-    try{ const M=vo.getScreenCTM().inverse().multiply(kash.getScreenCTM()), P=new DOMPoint(bx+bw*.9, by-bh*.45).matrixTransform(M);
-         if(isFinite(P.x)&&isFinite(P.y)){ nq.setAttribute('x',(P.x-6).toFixed(1)); nq.setAttribute('y',(P.y-6).toFixed(1));
-           // it falls straight down onto its own centre (the designer's fall, scaled about the dot itself)
-           nq.style.transformBox='view-box'; nq.style.transformOrigin=`${P.x.toFixed(1)}px ${P.y.toFixed(1)}px`; } }catch(_){}
+    const unmask=()=>kash.removeAttribute('mask'); ka.finished.then(unmask,unmask);
+    // the nuqta falls onto its own place with the designer's fall (16 units, in the overlay's measure)
+    if(dot){ let k=1; try{ const M=vo.getScreenCTM().inverse().multiply(dot.getScreenCTM()); k=Math.hypot(M.a,M.b)||1; }catch(_){}
+      window.__AANQF=(16/k).toFixed(1); dot.style.transformBox='fill-box'; dot.style.transformOrigin='50% 50%'; }
   }
   const score=foley.sfx&&foley.sfx('intro');
   $('#skip').classList.add('show');
   a(ebody,[{transform:zoom},{transform:'none'}],{delay:6900+BR,duration:2700,easing:INK});
-  a(nq,[{opacity:0,translate:'0px -16px',scale:'1.8'},{opacity:1,translate:'0px 0px',scale:'1',offset:.6},{opacity:1,translate:'0px 0px',scale:'1'}],{delay:NQ,duration:1000});
-  a(nq,[{opacity:1},{opacity:0}],{delay:4300+BR,duration:1400,fill:'forwards'});
+  a(dot||nq,[{opacity:0,translate:dot?`0px -${window.__AANQF}px`:'0px -16px',scale:'1.8'},{opacity:1,translate:'0px 0px',scale:'1',offset:.6},{opacity:1,translate:'0px 0px',scale:'1'}],{delay:dot?NQ:300,duration:1000});
+  if(!dot) a(nq,[{opacity:1},{opacity:0}],{delay:4300,duration:1400,fill:'forwards'});
   a(vine,[{opacity:1},{opacity:1,offset:(LOGO+750-900)/(LOGO+2500-900),easing:INK},{opacity:0}],{delay:900,duration:LOGO+2500-900,easing:'linear'});
   const parts=[...vine.querySelectorAll('path,circle,ellipse')].map(e=>{let x=0;try{x=e.getBBox().x}catch(_){}return {e,x}});
   parts.forEach(({e,x})=>{
