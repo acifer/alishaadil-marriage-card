@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai">
-<meta name="referrer" content="no-referrer">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="theme-color" content="#1B2F6E">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <title>Watch live · Alisha &amp; Aadil</title>
@@ -86,6 +86,53 @@ main{max-width:520px;margin:0 auto;min-height:100vh;min-height:100svh;padding:ma
 .win.closing .video,.win.closing .base{opacity:0;transition:opacity .35s}
 .veil{position:fixed;inset:0;background:var(--lapis);opacity:0;pointer-events:none;z-index:15;transition:opacity .7s var(--ink)}
 .stage.has-open~.veil,.veil.on{opacity:.94;pointer-events:auto}
+/* the watching window: the jharokha widened to the picture; its doors open onto the stream */
+.theatre{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  padding:max(10px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));
+  background:var(--lapis);opacity:0;transition:opacity .7s var(--ink);--door:#14245A;--inside:#0B1433;--l1:#FFEBC2;--l2:#E7C98E}
+.theatre[data-w="r"]{--door:#4A1220;--inside:#1E0710;--l1:#FFE0D2;--l2:#E3A98F}
+.theatre.in{opacity:1}
+.th-arch{position:relative;width:min(calc(100vw - 16px),760px,calc((100svh - 96px) * 408 / 336));aspect-ratio:408/336;perspective:1100px}
+.th-back,.th-frame,.tdoor{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.th-frame,.tdoor,.th-back{pointer-events:none}
+.th-frame path{fill:none;stroke:var(--gold);stroke-width:2.2;stroke-linecap:round}
+.th-frame .sill{stroke-width:.8;opacity:.5}
+.th-frame .star path{fill:var(--lapis);stroke:var(--gold);stroke-width:9}
+.th-title{font:400 25px 'Cormorant Garamond',Georgia,serif;fill:var(--ivory)}
+.th-nuqta{fill:var(--gold);transition:fill .6s}
+.theatre.playing .th-nuqta{fill:#E25A3C}
+.th-light{opacity:.35;transition:opacity 1.2s var(--ink)}
+.theatre.ajar .th-light,.theatre.wait .th-light{opacity:1;animation:breathe 4.2s ease-in-out infinite}
+.th-video{position:absolute;overflow:hidden}
+.th-player,.th-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.th-player{opacity:0;transition:opacity 1s ease}
+.theatre.playing .th-player,.theatre.shown .th-player{opacity:1}
+.th-over{position:absolute;pointer-events:none}
+.th-msg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:0 24%;pointer-events:none;opacity:0;transition:opacity .8s;
+  text-shadow:0 0 12px var(--inside),0 0 24px var(--inside)}
+.theatre:not(.ajar):not(.open) .th-msg{padding:0 14%;background:radial-gradient(48% 34% at 50% 50%,color-mix(in srgb,var(--inside) 88%,transparent),transparent 100%)}
+.th-msg b{font:400 clamp(19px,4.4vw,30px)/1.15 'Cormorant Garamond',Georgia,serif;color:var(--ivory)}
+.th-msg span{font:400 clamp(11px,2.4vw,14px)/1.35 Jost,sans-serif;color:var(--quiet)}
+.th-msg.on{opacity:1}
+.th-sound{position:absolute;left:50%;bottom:7%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:9px 16px 9px 13px;border-radius:999px;
+  background:rgba(14,26,68,.74);border:1px solid var(--gold);color:var(--ivory);font:500 10px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;z-index:2;white-space:nowrap;
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.th-sound svg{width:14px;height:14px}.th-sound svg path{fill:var(--gold)}.th-sound svg .w{fill:none;stroke:var(--gold);stroke-width:1.3;stroke-linecap:round}
+.tdoor{transform-style:preserve-3d;backface-visibility:hidden;transition:transform 1.6s cubic-bezier(.3,0,.12,1)}
+.tdoor svg{display:block;width:100%;height:100%}
+.tdoor.l{transform-origin:10.784% 50%}.tdoor.r{transform-origin:89.216% 50%}
+.tdoor .shade{opacity:0;transition:opacity 1.6s}
+.theatre.ajar .tdoor.l{transform:rotateY(-64deg)}.theatre.ajar .tdoor.r{transform:rotateY(64deg)}
+.theatre.open .tdoor.l{transform:rotateY(-102deg)}.theatre.open .tdoor.r{transform:rotateY(102deg)}
+.theatre.ajar .tdoor .shade{opacity:.2}.theatre.open .tdoor .shade{opacity:.45}
+.th-crown{position:absolute;left:42%;width:16%;top:-1%;aspect-ratio:1;border-radius:50%}
+.th-cap{text-align:center;display:flex;flex-direction:column;align-items:center;gap:2px}
+.th-when{margin:0;font:500 10.5px/1.4 Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);min-height:1.4em}
+.th-close{font:500 11px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--quiet);padding:12px 16px;min-height:44px}
+.th-close:hover{color:var(--gold)}
+.th-close:focus-visible{outline:1px solid var(--gold);outline-offset:-4px;border-radius:2px}
+@media (orientation:landscape) and (max-height:500px){.theatre{gap:2px}.th-cap{flex-direction:row;gap:14px}.th-arch{width:min(calc(100vw - 16px),calc((100vh - 62px) * 408 / 336),calc((100svh - 62px) * 408 / 336))}}
+@media (prefers-reduced-motion:reduce){.tdoor{transition:none}.theatre{transition:none}}
 @keyframes draw{to{stroke-dashoffset:0}}
 @keyframes fade{to{opacity:1}}
 @keyframes breathe{0%,100%{opacity:.4}50%{opacity:.95}}
@@ -143,6 +190,26 @@ main{max-width:520px;margin:0 auto;min-height:100vh;min-height:100svh;padding:ma
 </section></div>
   </div>
   <div class="veil" id="veil"></div>
+  <div class="theatre" id="theatre" role="dialog" aria-modal="true" aria-labelledby="th-t" hidden>
+  <div class="th-arch">
+    <svg viewBox="-44 -64 408 336" class="th-back" aria-hidden="true" focusable="false"><defs>
+      <radialGradient id="th-g" cx=".5" cy=".55" r=".62"><stop offset="0" stop-color="var(--l1)" stop-opacity=".75"/><stop offset=".55" stop-color="var(--l2)" stop-opacity=".25"/><stop offset="1" stop-color="var(--inside)" stop-opacity="0"/></radialGradient>
+      <clipPath id="th-ai"><path d="M0 258L0 78C0 65 21.3 56.9 49.8 56.9C53.3 37.4 85.3 27.6 117.3 30.9C128 13 149.3 4.9 160 0C170.7 4.9 192 13 202.7 30.9C234.7 27.6 266.7 37.4 270.2 56.9C298.7 56.9 320 65 320 78L320 258Z"/></clipPath></defs>
+      <path d="M0 258L0 78C0 65 21.3 56.9 49.8 56.9C53.3 37.4 85.3 27.6 117.3 30.9C128 13 149.3 4.9 160 0C170.7 4.9 192 13 202.7 30.9C234.7 27.6 266.7 37.4 270.2 56.9C298.7 56.9 320 65 320 78L320 258Z" style="fill:var(--inside)"/>
+      <rect class="th-light" x="0" y="0" width="320" height="258" fill="url(#th-g)" clip-path="url(#th-ai)"/></svg>
+    <div class="th-video" style="left:10.784%;top:42.262%;width:78.431%;height:53.571%"><div class="th-player" id="th-player"></div>
+      <button type="button" class="th-sound" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6h3l4-3v10l-4-3H2z"/><path class="w" d="M11 5.5c1 .7 1.5 1.6 1.5 2.5s-.5 1.8-1.5 2.5"/></svg>Tap for sound</button></div>
+    <div class="tdoor l"><svg viewBox="-44 -64 408 336" aria-hidden="true" focusable="false"><defs><clipPath id="tai-l"><path d="M0 258L0 78C0 65 21.3 56.9 49.8 56.9C53.3 37.4 85.3 27.6 117.3 30.9C128 13 149.3 4.9 160 0C170.7 4.9 192 13 202.7 30.9C234.7 27.6 266.7 37.4 270.2 56.9C298.7 56.9 320 65 320 78L320 258Z"/></clipPath><clipPath id="th-l"><rect x="-2" y="78" width="162" height="184"/></clipPath></defs><g clip-path="url(#tai-l)"><g clip-path="url(#th-l)"><rect x="-10" y="-20" width="340" height="288" style="fill:var(--door)" fill-opacity=".86"/><rect x="-10" y="-20" width="340" height="288" fill="url(#jaali)" opacity=".85"/><path d="M159 78V258" stroke="var(--gold)" stroke-width="2.2"/><rect class="shade" x="-10" y="-20" width="340" height="288" fill="#000"/></g></g></svg></div><div class="tdoor r"><svg viewBox="-44 -64 408 336" aria-hidden="true" focusable="false"><defs><clipPath id="tai-r"><path d="M0 258L0 78C0 65 21.3 56.9 49.8 56.9C53.3 37.4 85.3 27.6 117.3 30.9C128 13 149.3 4.9 160 0C170.7 4.9 192 13 202.7 30.9C234.7 27.6 266.7 37.4 270.2 56.9C298.7 56.9 320 65 320 78L320 258Z"/></clipPath><clipPath id="th-r"><rect x="160" y="78" width="162" height="184"/></clipPath></defs><g clip-path="url(#tai-r)"><g clip-path="url(#th-r)"><rect x="-10" y="-20" width="340" height="288" style="fill:var(--door)" fill-opacity=".86"/><rect x="-10" y="-20" width="340" height="288" fill="url(#jaali)" opacity=".85"/><path d="M161 78V258" stroke="var(--gold)" stroke-width="2.2"/><rect class="shade" x="-10" y="-20" width="340" height="288" fill="#000"/></g></g></svg></div>
+    <div class="th-over" style="left:10.784%;top:42.262%;width:78.431%;height:53.571%"><div class="th-msg" aria-live="polite"><b></b><span></span></div></div>
+    <svg viewBox="-44 -64 408 336" class="th-frame" aria-hidden="true" focusable="false">
+      <path d="M-12 260L-12 72C-12 50 10 34 40 30C60 10 110 -6 160 -14C210 -6 260 10 280 30C310 34 332 50 332 72L332 260"/><path d="M0 258L0 78C0 65 21.3 56.9 49.8 56.9C53.3 37.4 85.3 27.6 117.3 30.9C128 13 149.3 4.9 160 0C170.7 4.9 192 13 202.7 30.9C234.7 27.6 266.7 37.4 270.2 56.9C298.7 56.9 320 65 320 78L320 258"/><path class="sill" d="M0 78H320"/>
+      <text x="160" y="51" text-anchor="middle" class="th-title" id="th-t"></text>
+      <path class="th-nuqta" transform="translate(160 66)" d="M-3.6 2.8L-1.8 -2.3L3.6 -2.8L1.8 2.3Z"/>
+      <g class="star" transform="translate(160 -36) scale(.15)"><path d="M0 -50L14.6 -35.3L35.4 -35.4L35.3 -14.6L50 0L35.3 14.6L35.4 35.4L14.6 35.3L0 50L-14.6 35.3L-35.4 35.4L-35.3 14.6L-50 0L-35.3 -14.6L-35.4 -35.4L-14.6 -35.3Z"/></g></svg>
+    <button type="button" class="th-crown" aria-label="Close the window"></button>
+  </div>
+  <div class="th-cap"><p class="th-when"></p><button type="button" class="th-close">Close</button></div>
+</div>
   <p class="foot">To be told when we go live, <a href="https://www.youtube.com/@ciferlish?sub_confirmation=1" target="_blank" rel="noopener">subscribe on YouTube</a> and tap 🔔</p>
 </main>
 <script>
@@ -155,7 +222,7 @@ var at = new URLSearchParams(location.search).get('at'), T0 = Date.now();
 /* testing: ?test=<any YouTube link> plays that link in both windows, open now (for trying a stream before the day) */
 var TEST = new URLSearchParams(location.search).get('test');
 if(TEST){ var tm = String(TEST).match(/(?:v=|youtu\.be\/|\/live\/|\/embed\/|\/shorts\/)([\w-]{11})/), te = tm ? 'https://www.youtube-nocookie.com/embed/' + tm[1] + '?rel=0&modestbranding=1' : '';
-  C.windows.forEach(function(c){ if(te) c.src = te; c.from = '2000-01-01T00:00'; c.start = '2000-01-01T00:00'; c.until = '2100-01-01T00:00'; }); }
+  C.windows.forEach(function(c){ if(te) c.src = te; c.from = '2000-01-01T00:00'; c.until = '2100-01-01T00:00'; c.test = 1; }); }
 function now(){ return at ? ist(at) + (Date.now() - T0) : Date.now(); }
 var stage = $('#stage'), veil = $('#veil'), openW = null;
 function yours(t){
@@ -169,8 +236,8 @@ C.windows.forEach(function(c){
   var el = document.getElementById('w-' + c.id); W[c.id] = {c:c, el:el, state:''};
   $('.yours', el).textContent = yours(ist(c.start));
   $('.hit', el).addEventListener('click', function(){ open(c.id); });
-  $('.crown', el).addEventListener('click', close);
-  $('.close', el).addEventListener('click', close);
+  $('.crown', el).addEventListener('click', function(){ close(); });
+  $('.close', el).addEventListener('click', function(){ close(); });
   el.classList.add('drawing');
 });
 function state(c, t){ return t < ist(c.from) ? 'before' : t < ist(c.until) ? 'live' : 'after'; }
@@ -188,35 +255,82 @@ function render(){
   });
 }
 render(); setInterval(render, 15000);
-/* open: the window comes forward to the width of the screen, the doors swing back, the picture settles in the arch */
+/* the watching window: the jharokha widened to the picture. Its doors stand ajar with light breathing through until the
+   stream really plays, then swing open onto it; when the stream ends they close again. YouTube's own player controls tell
+   us what the stream is doing; if they cannot load, the picture is shown in the opened window as before. */
+var TH = $('#theatre'), thV = $('.th-video', TH), thMsg = $('.th-over .th-msg', TH), thSound = $('.th-sound', TH), thWhen = $('.th-when', TH), thT = $('#th-t');
+var player = null, apiP = null, fallT = 0, muteT = 0, endT = 0;
+function ytApi(){
+  if(apiP) return apiP;
+  apiP = new Promise(function(res, rej){
+    if(window.YT && YT.Player) return res();
+    var t = setTimeout(rej, 7000), prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = function(){ clearTimeout(t); if(prev) try{ prev(); }catch(_){} res(); };
+    var sc = document.createElement('script'); sc.src = 'https://www.youtube.com/iframe_api'; sc.async = true; sc.onerror = function(){ clearTimeout(t); rej(); };
+    document.head.appendChild(sc);
+  });
+  apiP.catch(function(){ apiP = null; });
+  return apiP;
+}
+function vidOf(src){ var m = String(src || '').match(/embed\/([\w-]{11})/); return m ? m[1] : ''; }
+function say(big, small){ $('b', thMsg).textContent = big || ''; $('span', thMsg).textContent = small || ''; thMsg.classList.toggle('on', !!(big || small)); }
+function doors(st){ TH.classList.toggle('ajar', st === 'ajar' || st === 'wait'); TH.classList.toggle('wait', st === 'wait'); TH.classList.toggle('open', st === 'open'); }
+function liveLine(c){ return '<span class="dot"></span>Live now · ' + c.when; }
+function playing(c){
+  clearTimeout(fallT); TH.classList.add('playing'); say(''); doors('open');
+  thWhen.innerHTML = W[openW] && W[openW].state === 'after' ? 'Watching again' : liveLine(c);
+}
+function plain(src){            // YouTube's controls did not load: the picture in the opened window, as before
+  clearTimeout(fallT); if(!openW) return;
+  thV.querySelector('.th-player').innerHTML = '<iframe src="' + src + (src.indexOf('?') > 0 ? '&' : '?') + 'autoplay=1&playsinline=1" title="The stream" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+  TH.classList.add('shown'); say(''); doors('open'); thSound.hidden = true;
+}
 function open(k){
   if(openW) return; var w = W[k]; if(!w || !(w.state === 'live' || (w.state === 'after' && w.c.rec))) return;
-  openW = k; var el = w.el, r = el.getBoundingClientRect();
-  var vw = Math.min(innerWidth - 24, 520), ww = Math.min(vw, (innerHeight - 30) * 212 / 326 * 1.0);
-  el.style.left = r.left + 'px'; el.style.top = r.top + 'px'; el.style.width = r.width + 'px';
-  el.classList.add('lift'); stage.classList.add('has-open'); void el.offsetWidth;
-  el.style.left = ((innerWidth - ww) / 2) + 'px'; el.style.top = Math.max(12, (innerHeight - ww * 326 / 212) / 2) + 'px'; el.style.width = ww + 'px';
-  el.classList.add('open');
-  var src = (w.state === 'after' && w.c.rec) ? w.c.rec : w.c.src, v = $('.video', el);
-  v.innerHTML = src ? '<iframe src="' + src + (src.indexOf('?') > 0 ? '&' : '?') + 'autoplay=1&playsinline=1" title="' + w.c.title + ' live" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>'
-                    : 'The stream will appear here.';
+  openW = k; var c = w.c, again = w.state === 'after';
+  var src = again ? c.rec : c.src, id = vidOf(src), before = !again && !c.test && now() < ist(c.start);
+  TH.dataset.w = k; thT.textContent = c.title; TH.className = 'theatre'; thSound.hidden = true; say('');
+  thV.querySelector('.th-player').outerHTML = '<div class="th-player"></div>';
+  thWhen.innerHTML = again ? 'The recording' : (before || !src) ? (before ? 'Starting at ' : '') + c.when : liveLine(c);
+  TH.hidden = false; void TH.offsetWidth; TH.classList.add('in');
   try{ history.pushState({live:k}, ''); }catch(_){}
-  setTimeout(function(){ var b = $('.close', el); if(b) b.focus({preventScroll:true}); }, 2200);
+  setTimeout(function(){ var b = $('.th-close', TH); if(b) b.focus({preventScroll:true}); }, 900);
+  if(!src){ setTimeout(function(){ if(openW === k){ doors('wait'); say('The stream will appear here', 'Its link is added on the day'); } }, 500); return; }
+  setTimeout(function(){ if(openW !== k) return;
+    if(before){ doors('wait'); var y = $('.yours', w.el).textContent; say('Starting at ' + c.when.replace(' in Patna', ''), 'in Patna' + (y ? ' · ' + y : '') + ' · the doors open by themselves'); }
+    else doors('ajar');
+  }, 450);
+  ytApi().then(function(){
+    if(openW !== k) return;
+    player = new YT.Player(thV.querySelector('.th-player'), {
+      host: 'https://www.youtube-nocookie.com', videoId: id, width: '100%', height: '100%',
+      playerVars: {autoplay: 1, mute: 1, playsinline: 1, rel: 0, modestbranding: 1, origin: location.origin},
+      events: {
+        onReady: function(e){ if(openW !== k) return; try{ e.target.mute(); e.target.playVideo(); }catch(_){} thSound.hidden = false;
+          clearInterval(muteT); muteT = setInterval(function(){ try{ if(player && !player.isMuted()) thSound.hidden = true; }catch(_){} }, 1000); },
+        onStateChange: function(e){ if(openW !== k) return;
+          if(e.data === 1) playing(c);
+          else if(e.data === 0){ TH.classList.remove('playing'); thSound.hidden = true; doors('ajar'); clearTimeout(endT);
+            endT = setTimeout(function(){ if(openW === k){ doors('closed'); say('Thank you for watching'); thWhen.textContent = c.title + ' has ended'; } }, 900); } },
+        onError: function(){ if(openW === k) plain(src); }
+      }
+    });
+    // a stream that is already on but never reports playing (rare): show the picture anyway
+    if(!before) fallT = setTimeout(function(){ if(openW === k && !TH.classList.contains('playing')) plain(src); }, 9000);
+  }, function(){ if(openW !== k) return; if(before) say('Starting at ' + c.when, 'Come back at that time'); else plain(src); });
 }
+thSound.addEventListener('click', function(){ try{ player.unMute(); player.setVolume(100); }catch(_){} thSound.hidden = true; });
 function close(fromHistory){
-  if(!openW) return; var w = W[openW], el = w.el, k = openW;
-  el.classList.add('closing'); el.classList.remove('open');
-  setTimeout(function(){ $('.video', el).innerHTML = ''; }, 400);
-  setTimeout(function(){
-    var home = document.getElementById('slot-' + k).getBoundingClientRect();
-    el.style.left = home.left + 'px'; el.style.top = home.top + 'px'; el.style.width = home.width + 'px';
-  }, 1300);
-  setTimeout(function(){ stage.classList.remove('has-open'); el.classList.remove('lift', 'closing'); el.style.left = el.style.top = el.style.width = ''; openW = null; $('.hit', el).focus({preventScroll:true}); }, 2250);
+  if(!openW) return; var k = openW; openW = null;
+  clearTimeout(fallT); clearTimeout(endT); clearInterval(muteT);
+  doors('closed'); TH.classList.remove('playing', 'shown'); thSound.hidden = true; say('');
+  setTimeout(function(){ try{ if(player) player.destroy(); }catch(_){} player = null; thV.querySelector('.th-player') && (thV.querySelector('.th-player').outerHTML = '<div class="th-player"></div>'); TH.classList.remove('in'); }, 650);
+  setTimeout(function(){ if(!openW){ TH.hidden = true; } var h = $('#w-' + k + ' .hit'); if(h) h.focus({preventScroll:true}); }, 1350);
   if(fromHistory !== true){ try{ if(history.state && history.state.live) history.back(); }catch(_){} }
 }
 window.addEventListener('popstate', function(){ if(openW) close(true); });
 document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && openW) close(); });
-veil.addEventListener('click', function(){ if(openW) close(); });
+$('.th-crown', TH).addEventListener('click', close); $('.th-close', TH).addEventListener('click', close);
 })();
 </script>
 <script>if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('../sw.js',{scope:'../'}).catch(function(){})</script>
