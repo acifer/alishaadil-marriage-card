@@ -653,9 +653,16 @@ function maskReveal(els,maskId,o){
   const p=document.getElementById(maskId).querySelector('.mkm');
   els.forEach(e=>e.setAttribute('mask',`url(#${maskId})`));
   const a=A(p,[{strokeDasharray:'1 2',strokeDashoffset:1},{strokeDasharray:'1 2',strokeDashoffset:0}],Object.assign({duration:2400,easing:INK},o));
+  repaintWhile(els,a);   // Safari: redraw the masked mark while only its mask moves (patch_maskfix.py)
   const end=()=>{els.forEach(e=>e.removeAttribute('mask'));a.cancel()};
   a.finished.then(end,end);
   return a;
+}
+function repaintWhile(els,a){
+  let on=true, k=0;
+  const stop=()=>{ if(!on) return; on=false; els.forEach(e=>e.style.opacity=''); };
+  (function f(){ if(!on) return; if(a.playState==='running'){ k^=1; els.forEach(e=>e.style.opacity=k?'0.999':''); } requestAnimationFrame(f); })();
+  a.finished.then(stop,stop);
 }
 const drawIn=(p,o)=>A(p,[{strokeDasharray:'1 2',strokeDashoffset:1},{strokeDasharray:'1 2',strokeDashoffset:0}],o);
 let sheenT=-1e9;
